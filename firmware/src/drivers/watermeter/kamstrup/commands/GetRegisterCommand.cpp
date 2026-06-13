@@ -19,9 +19,6 @@ static constexpr uint8_t MAX_MANTISSA_RANGE = 4;
 GetRegisterCommand::GetRegisterCommand(std::shared_ptr<IApplicationLayer> app, uint16_t registerId)
     : app_(app), register_id_(registerId) 
 {
-    if (app_) {
-        app_->registerHandler(CID, [this](const std::vector<uint8_t>& p){ this->onResponse(p); });
-    }
 }
 
 void GetRegisterCommand::execute() 
@@ -74,7 +71,6 @@ void GetRegisterCommand::onResponse(const std::vector<uint8_t>& payload)
         return;
     }
 
-    uint8_t cmd_idx = has_prefix ? 1 : 0;
     uint8_t unit_idx = has_prefix ? UNIT_IDX_WITH_PREFIX : UNIT_IDX_NO_PREFIX;
 
     uint8_t unit_byte = payload[unit_idx];

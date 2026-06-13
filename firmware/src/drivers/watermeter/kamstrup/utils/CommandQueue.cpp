@@ -9,7 +9,8 @@ namespace drivers::watermeter::kamstrup::transport {
 constexpr uint32_t COMMAND_TIMEOUT_US = 1600000; // 1.6 seconds per MULTICAL spec
 constexpr uint32_t RETRY_DELAY_US = 1600000;     // 1.6 seconds after timeout before next request
 
-CommandQueue::CommandQueue()
+CommandQueue::CommandQueue(std::shared_ptr<IApplicationLayer> appLayer)
+    : appLayer_(appLayer)
 {
     auto timerFactory = std::make_shared<drivers::timer::TimerFactory>();
 
@@ -50,12 +51,22 @@ void CommandQueue::sendNext()
     currentCmd_ = queue_.front();
     currentSeq_ = ++seq_;
     timeoutSeq_ = currentSeq_;
+
+    uint8_t cid = currentCmd_->getCid();
+    if (appLayer_) {
+        appLayer_->registerHandler(cid, [this, seq = currentSeq_](const std::vector<uint8_t>& payload) {
+            if (seq == currentSeq_) {
+                currentCmd_->onResponse(payload);
+            }
+        });
+    }
+
     currentCmd_->registerListener([this, seq = currentSeq_](const CommandResult&) {
         if (seq == currentSeq_) {
             this->onCommandDone();
         }
     });
-    logInfo("CommandQueue: sending CID 0x%02X", currentCmd_->getCid());
+    logInfo("CommandQueue: sending CID 0x%02X", cid);
     currentCmd_->execute();
     timeoutTimer_->start(COMMAND_TIMEOUT_US, drivers::timer::TimerMode::SINGLE_SHOT);
 }

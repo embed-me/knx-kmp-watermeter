@@ -2,6 +2,7 @@
 #define _COMMAND_QUEUE_HPP_
 
 #include "../commands/ICommand.hpp"
+#include "../transport/layers/IApplicationLayer.hpp"
 #include "src/drivers/timer/TimerFactory.hpp"
 #include "src/drivers/timer/ITimer.hpp"
 
@@ -14,7 +15,7 @@ namespace drivers::watermeter::kamstrup::transport {
 
 class CommandQueue {
 public:
-    CommandQueue();
+    CommandQueue(std::shared_ptr<IApplicationLayer> appLayer);
     ~CommandQueue() = default;
 
     void enqueue(std::shared_ptr<ICommand> cmd);
@@ -25,6 +26,7 @@ private:
     void onTimeout();
     void onRetryDelayExpired();
 
+    std::shared_ptr<IApplicationLayer> appLayer_;
     std::queue<std::shared_ptr<ICommand>> queue_;
     std::shared_ptr<ICommand> currentCmd_;
     bool busy_ = false;

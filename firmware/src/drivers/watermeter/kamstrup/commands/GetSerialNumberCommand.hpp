@@ -20,10 +20,9 @@ public:
     void execute() override;
     void registerListener(std::function<void(const CommandResult&)> cb) override;
     void onResult(const CommandResult& res) override;
+    void onResponse(const std::vector<uint8_t>& payload) override;
 
 private:
-    void onResponse(const std::vector<uint8_t>& payload);
-
     std::shared_ptr<IApplicationLayer> app_;
     std::vector<std::function<void(const CommandResult&)>> listeners_;
 };

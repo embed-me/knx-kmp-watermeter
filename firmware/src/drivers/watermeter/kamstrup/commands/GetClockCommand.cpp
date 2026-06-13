@@ -9,9 +9,6 @@ namespace drivers::watermeter::kamstrup::transport {
 GetClockCommand::GetClockCommand(std::shared_ptr<IApplicationLayer> app)
     : app_(app) 
 {
-    if (app_) {
-        app_->registerHandler(CID, [this](const std::vector<uint8_t>& p){ this->onResponse(p); });
-    }
 }
 
 void GetClockCommand::execute() 

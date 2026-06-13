@@ -30,6 +30,7 @@ public:
     virtual void execute() = 0;
     virtual void registerListener(std::function<void(const CommandResult&)> cb) = 0;
     virtual void onResult(const CommandResult& res) = 0;
+    virtual void onResponse(const std::vector<uint8_t>& payload) = 0;
 };
 
 }

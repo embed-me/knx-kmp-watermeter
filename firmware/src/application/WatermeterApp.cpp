@@ -102,7 +102,7 @@ void WatermeterApp::initCommands()
 
 void WatermeterApp::initQueue()
 {
-    kmpQueue_ = std::make_shared<drivers::watermeter::kamstrup::transport::CommandQueue>();
+    kmpQueue_ = std::make_shared<drivers::watermeter::kamstrup::transport::CommandQueue>(kmpApplication_);
 }
 
 void WatermeterApp::initTimers()
