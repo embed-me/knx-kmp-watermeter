@@ -28,17 +28,22 @@ void GetSerialNumberCommand::registerListener(std::function<void(const CommandRe
     listeners_.push_back(cb);
 }
 
+void GetSerialNumberCommand::onResult(const CommandResult& res)
+{
+    for (auto &l : listeners_) {
+        l(res);
+    }
+}
+
 void GetSerialNumberCommand::onResponse(const std::vector<uint8_t>& payload) 
 {
     CommandResult res;
     if (payload.empty()) {
-        res.success = false;
-        logWarning("GetSerialNumberCommand: empty payload");
+        res.result = CommandResult::Result::EMPTY;
     } else {
         bool printable = std::all_of(payload.begin(), payload.end(), [](uint8_t b){ return b >= 0x20 && b <= 0x7e; });
         if (printable) {
             res.value_str = std::string(payload.begin(), payload.end());
-            res.success = true;
         } else {
             char buf[3];
             std::string out;
@@ -47,13 +52,11 @@ void GetSerialNumberCommand::onResponse(const std::vector<uint8_t>& payload)
                 out += buf;
             }
             res.value_str = out;
-            res.success = true;
         }
+        res.result = CommandResult::Result::OK;
     }
 
-    for (auto &l : listeners_) {
-        l(res);
-    }
+    onResult(res);
 }
 
 } // namespace

@@ -19,8 +19,8 @@
 namespace application {
 
 struct WatermeterConfig {
-    uint32_t pingIntervalUs = 30000000;  // 30 seconds
-    uint32_t dataIntervalUs = 60000000;  // 60 seconds
+    uint32_t pingIntervalUs = 10000000;  // 10 seconds
+    uint32_t dataIntervalUs = 20000000;  // 20 seconds
 };
 
 class WatermeterApp {

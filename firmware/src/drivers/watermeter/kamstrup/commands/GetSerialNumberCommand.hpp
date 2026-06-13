@@ -19,6 +19,7 @@ public:
     uint8_t getCid() const override { return CID; }
     void execute() override;
     void registerListener(std::function<void(const CommandResult&)> cb) override;
+    void onResult(const CommandResult& res) override;
 
 private:
     void onResponse(const std::vector<uint8_t>& payload);

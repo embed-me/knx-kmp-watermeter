@@ -15,7 +15,7 @@ else:
 openocd_path = openocd_path.replace("\\", "/")
 
 # Build the firmware path directly to avoid $SOURCE backslash mangling
-firmware_path = env.subst("${BUILD_DIR}/${PIOENV}/firmware.bin").replace("\\", "/")
+firmware_path = env.subst("${BUILD_DIR}/firmware.bin").replace("\\", "/")
 
 # Upload command string must quote arguments containing spaces
 # so the shell passes them as single tokens to OpenOCD.

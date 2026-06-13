@@ -26,6 +26,7 @@ private:
     void onRetryDelayExpired();
 
     std::queue<std::shared_ptr<ICommand>> queue_;
+    std::shared_ptr<ICommand> currentCmd_;
     bool busy_ = false;
     bool waitingRetry_ = false;
     uint32_t seq_ = 0;

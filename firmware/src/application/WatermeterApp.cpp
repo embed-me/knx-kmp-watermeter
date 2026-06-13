@@ -71,10 +71,14 @@ void WatermeterApp::initTransport(std::shared_ptr<drivers::uart::IUartDriver> ua
 
 void WatermeterApp::initCommands()
 {
+    using Result = drivers::watermeter::kamstrup::transport::CommandResult::Result;
+
     pingCmd_ = std::make_shared<drivers::watermeter::kamstrup::transport::GetSerialNumberCommand>(kmpApplication_);
     pingCmd_->registerListener([](const drivers::watermeter::kamstrup::transport::CommandResult& res){
-        if (res.success) {
+        if (res.result == Result::OK) {
             logInfo("Ping successful: %s", res.value_str.c_str());
+        } else if (res.result == Result::TIMEOUT) {
+            logError("Ping timeout");
         } else {
             logError("Ping failed");
         }
@@ -83,8 +87,11 @@ void WatermeterApp::initCommands()
     for (const auto& reg : REGISTER_DEFS) {
         auto cmd = std::make_shared<drivers::watermeter::kamstrup::transport::GetRegisterCommand>(kmpApplication_, reg.id);
         cmd->registerListener([name = reg.name](const drivers::watermeter::kamstrup::transport::CommandResult& res){
-            if (res.success) {
-                logInfo("%s: %s %s", name, res.value_str.c_str(), drivers::watermeter::kamstrup::transport::unitToString(res.unit));
+            if (res.result == Result::OK) {
+                const char *value = res.value_str.c_str();
+                logInfo("%s: %s %s", name, value, drivers::watermeter::kamstrup::transport::unitToString(res.unit));
+            } else if (res.result == Result::TIMEOUT) {
+                logError("Failed to get %s: timeout", name);
             } else {
                 logError("Failed to get %s", name);
             }

@@ -8,7 +8,15 @@
 namespace drivers::watermeter::kamstrup::transport {
 
 struct CommandResult {
-    bool success{false};
+    enum class Result : uint8_t {
+        OK = 0,
+        TIMEOUT = 1,
+        CORRUPT = 2,
+        EMPTY = 3,
+        ERROR = 4
+    };
+
+    Result result{Result::ERROR};
     KmpUnit unit{KmpUnit::UNSPECIFIED};
     double value{0.0};
     std::string value_str; // for strings like serial number
@@ -21,6 +29,7 @@ public:
     virtual uint8_t getCid() const = 0;
     virtual void execute() = 0;
     virtual void registerListener(std::function<void(const CommandResult&)> cb) = 0;
+    virtual void onResult(const CommandResult& res) = 0;
 };
 
 }

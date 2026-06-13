@@ -47,16 +47,16 @@ void CommandQueue::sendNext()
         return;
     }
     busy_ = true;
+    currentCmd_ = queue_.front();
     currentSeq_ = ++seq_;
     timeoutSeq_ = currentSeq_;
-    auto cmd = queue_.front();
-    cmd->registerListener([this, seq = currentSeq_](const CommandResult&) {
+    currentCmd_->registerListener([this, seq = currentSeq_](const CommandResult&) {
         if (seq == currentSeq_) {
             this->onCommandDone();
         }
     });
-    logInfo("CommandQueue: sending CID 0x%02X", cmd->getCid());
-    cmd->execute();
+    logInfo("CommandQueue: sending CID 0x%02X", currentCmd_->getCid());
+    currentCmd_->execute();
     timeoutTimer_->start(COMMAND_TIMEOUT_US, drivers::timer::TimerMode::SINGLE_SHOT);
 }
 
@@ -69,6 +69,7 @@ void CommandQueue::onCommandDone()
     if (!queue_.empty()) {
         queue_.pop();
     }
+    currentCmd_.reset();
     busy_ = false;
     if (!queue_.empty()) {
         sendNext();
@@ -83,14 +84,24 @@ void CommandQueue::onTimeout()
     if (timeoutSeq_ != currentSeq_) {
         return; // stale timeout for a previous command
     }
-    logWarning("CommandQueue: timeout, waiting %.1fs before next request", RETRY_DELAY_US / 1000000.0f);
     timeoutTimer_->stop();
-    if (!queue_.empty()) {
-        queue_.pop(); // discard failed command
+
+    // Invalidates the queue's internal listener (seq check) so onCommandDone won't fire
+    ++currentSeq_;
+
+    CommandResult timeoutResult;
+    timeoutResult.result = CommandResult::Result::TIMEOUT;
+    if (currentCmd_) {
+        currentCmd_->onResult(timeoutResult);
     }
+
+    if (!queue_.empty()) {
+        queue_.pop();
+    }
+    currentCmd_.reset();
     busy_ = false;
     waitingRetry_ = true;
-    retryTimer_->stop(); // ensure alarm_id is cleared so it can be restarted
+    retryTimer_->stop();
     retryTimer_->start(RETRY_DELAY_US, drivers::timer::TimerMode::SINGLE_SHOT);
 }
 
