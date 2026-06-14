@@ -1,7 +1,7 @@
 #ifndef _WATERMETER_APP_HPP_
 #define _WATERMETER_APP_HPP_
 
-#include "../drivers/uart/IUartDriver.hpp"
+#include "IApplication.hpp"
 #include "../drivers/watermeter/kamstrup/transport/layers/physical/PhysicalLayer.hpp"
 #include "../drivers/watermeter/kamstrup/transport/layers/data_link/DataLinkLayer.hpp"
 #include "../drivers/watermeter/kamstrup/transport/layers/application/ApplicationLayer.hpp"
@@ -18,22 +18,22 @@
 
 namespace application {
 
-struct WatermeterConfig {
-    uint32_t pingIntervalUs = 10000000;  // 10 seconds
-    uint32_t dataIntervalUs = 20000000;  // 20 seconds
-};
-
-class WatermeterApp {
+class WatermeterApp : public IApplication {
 public:
     WatermeterApp();
-    ~WatermeterApp() = default;
+    ~WatermeterApp() override = default;
 
-    void init(std::shared_ptr<drivers::uart::IUartDriver> uart, const WatermeterConfig& config);
-    void process();
+    void init(
+        std::shared_ptr<drivers::uart::IUartDriver> uart,
+        const drivers::uart::UartConfig& uartConfig,
+        drivers::knx::KnxConfig& knxConfig
+    ) override;
+    void process() override;
 
 private:
     void initTransport(std::shared_ptr<drivers::uart::IUartDriver> uart);
-    void initCommands();
+    void initKeepAliveCommand();
+    void initRegisterCommands();
     void initQueue();
     void initTimers();
 
@@ -41,15 +41,15 @@ private:
     std::shared_ptr<drivers::watermeter::kamstrup::transport::IDataLinkLayer> kmpDataLink_;
     std::shared_ptr<drivers::watermeter::kamstrup::transport::IApplicationLayer> kmpApplication_;
 
-    std::shared_ptr<drivers::watermeter::kamstrup::transport::GetSerialNumberCommand> pingCmd_;
+    std::shared_ptr<drivers::watermeter::kamstrup::transport::GetSerialNumberCommand> keepAliveCmd_;
     std::vector<std::shared_ptr<drivers::watermeter::kamstrup::transport::GetRegisterCommand>> registerCmds_;
 
-    std::shared_ptr<drivers::watermeter::kamstrup::transport::CommandQueue> kmpQueue_;
-    std::shared_ptr<drivers::timer::ITimer> pingTimer_;
+    std::shared_ptr<drivers::watermeter::kamstrup::transport::CommandQueue> commandQueue_;
+    std::shared_ptr<drivers::timer::ITimer> keepAliveTimer_;
     std::shared_ptr<drivers::timer::ITimer> dataTimer_;
 
     std::shared_ptr<drivers::uart::IUartDriver> kmpUart_;
-    WatermeterConfig config_;
+    drivers::knx::KnxConfig* knxConfig_ = nullptr;
 };
 
 }

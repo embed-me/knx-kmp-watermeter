@@ -19,10 +19,11 @@ public:
     uint8_t getCid() const override { return CID; }
     void execute() override;
     void registerListener(std::function<void(const CommandResult&)> cb) override;
-    void onResult(const CommandResult& res) override;
-    void onResponse(const std::vector<uint8_t>& payload) override;
+    void onExecuteResult(ExecuteResult result, const std::vector<uint8_t>& payload) override;
 
 private:
+    void notifyListeners(const CommandResult& res);
+
     std::shared_ptr<IApplicationLayer> app_;
     std::vector<std::function<void(const CommandResult&)>> listeners_;
 };

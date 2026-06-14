@@ -4,8 +4,11 @@
 #include "../utils/KmpUnits.hpp"
 #include <functional>
 #include <string>
+#include <cstdint>
 
 namespace drivers::watermeter::kamstrup::transport {
+
+enum class ExecuteResult : uint8_t;
 
 struct CommandResult {
     enum class Result : uint8_t {
@@ -29,8 +32,7 @@ public:
     virtual uint8_t getCid() const = 0;
     virtual void execute() = 0;
     virtual void registerListener(std::function<void(const CommandResult&)> cb) = 0;
-    virtual void onResult(const CommandResult& res) = 0;
-    virtual void onResponse(const std::vector<uint8_t>& payload) = 0;
+    virtual void onExecuteResult(ExecuteResult result, const std::vector<uint8_t>& payload) = 0;
 };
 
 }

@@ -13,6 +13,11 @@
 
 namespace drivers::watermeter::kamstrup::transport {
 
+enum class ExecuteResult : uint8_t {
+    SUCCESS = 0,
+    TIMEOUT = 1
+};
+
 class CommandQueue {
 public:
     CommandQueue(std::shared_ptr<IApplicationLayer> appLayer);

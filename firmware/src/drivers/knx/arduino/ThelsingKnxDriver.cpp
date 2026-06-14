@@ -72,7 +72,7 @@ std::string drivers::knx::ThelsingKnxDriver::getApplicationVersion()
 {
     char buffer[16];
 
-    struct ApplicationVersion version = config.getApplicationVersion();
+    struct KnxApplicationVersion version = config.getApplicationVersion();
     
     std::snprintf(buffer, sizeof(buffer), "%d.%d", version.major, version.minor);
     return std::string(buffer);

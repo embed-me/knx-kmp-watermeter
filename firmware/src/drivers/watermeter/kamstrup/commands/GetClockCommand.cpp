@@ -1,4 +1,5 @@
 #include "GetClockCommand.hpp"
+#include "../utils/CommandQueue.hpp"
 #include "src/drivers/logger/Logger.hpp"
 #include <ctime>
 
@@ -25,15 +26,22 @@ void GetClockCommand::registerListener(std::function<void(const CommandResult&)>
     listeners_.push_back(cb);
 }
 
-void GetClockCommand::onResult(const CommandResult& res)
+void GetClockCommand::notifyListeners(const CommandResult& res)
 {
     for (auto &l : listeners_) {
         l(res);
     }
 }
 
-void GetClockCommand::onResponse(const std::vector<uint8_t>& payload) 
+void GetClockCommand::onExecuteResult(ExecuteResult result, const std::vector<uint8_t>& payload) 
 {
+    if (result == ExecuteResult::TIMEOUT) {
+        CommandResult res;
+        res.result = CommandResult::Result::TIMEOUT;
+        notifyListeners(res);
+        return;
+    }
+
     CommandResult res;
     bool parsed = false;
     if (payload.size() >= 6) {
@@ -85,7 +93,7 @@ void GetClockCommand::onResponse(const std::vector<uint8_t>& payload)
     }
 
     res.result = parsed ? CommandResult::Result::OK : CommandResult::Result::EMPTY;
-    onResult(res);
+    notifyListeners(res);
 }
 
 } // namespace

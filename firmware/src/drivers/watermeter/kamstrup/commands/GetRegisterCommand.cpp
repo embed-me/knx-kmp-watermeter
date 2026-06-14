@@ -1,4 +1,5 @@
 #include "GetRegisterCommand.hpp"
+#include "../utils/CommandQueue.hpp"
 #include "src/drivers/logger/Logger.hpp"
 #include <cmath>
 
@@ -6,15 +7,74 @@ using namespace drivers::logger;
 
 namespace drivers::watermeter::kamstrup::transport {
 
-static constexpr uint8_t KMP_READ_REQUEST_PREFIX = 0x01;
-static constexpr uint8_t EXPONENT_MASK = 0x3F;
-static constexpr uint8_t EXPONENT_SIGN_BIT = 0x40;
-static constexpr uint8_t EXPONENT_NEGATE_BIT = 0x80;
-static constexpr uint8_t MIN_RESPONSE_SIZE = 4;
-static constexpr uint8_t MIN_RESPONSE_WITH_PREFIX_SIZE = 5;
-static constexpr uint8_t UNIT_IDX_WITH_PREFIX = 3;
-static constexpr uint8_t UNIT_IDX_NO_PREFIX = 2;
-static constexpr uint8_t MAX_MANTISSA_RANGE = 4;
+struct SiExFields {
+    bool SI;      // sign of value (0=positive, 1=negative)
+    bool SE;      // sign of exponent (0=positive, 1=negative)
+    uint8_t exponent; // exponent value 0-63
+};
+
+static SiExFields decodeSiEx(uint8_t raw)
+{
+    return {
+        .SI = static_cast<bool>((raw >> 7) & 1),
+        .SE = static_cast<bool>((raw >> 6) & 1),
+        .exponent = static_cast<uint8_t>(raw & 0x3F)
+    };
+}
+
+static double computeFloatingValue(uint64_t integer, const SiExFields& siEx)
+{
+    double sign = (siEx.SI) ? -1.0 : 1.0;
+    int exp = (siEx.SE) ? -(int)siEx.exponent : (int)siEx.exponent;
+    return sign * static_cast<double>(integer) * std::pow(10.0, exp);
+}
+
+static bool tryParseRegister(const uint8_t*& pos, const uint8_t* end, CommandResult& res)
+{
+    constexpr uint8_t REGISTER_ID_SIZE = 2;
+    constexpr uint8_t REGISTER_FORMAT_SIZE = 3;
+    constexpr uint8_t MAX_NOB = 8;
+
+    if ((pos + REGISTER_ID_SIZE + REGISTER_FORMAT_SIZE) > end) {
+        logWarning("GetRegisterCommand: register response malformed or truncated");
+        return false;
+    }
+
+    uint16_t rid = (static_cast<uint16_t>(pos[0]) << 8) | pos[1];
+    pos += 2;
+
+    uint8_t unit = *pos++;
+    uint8_t NoB = *pos++;
+
+    if (NoB == 0 || NoB > MAX_NOB) {
+        logWarning("GetRegisterCommand: register response has unsupported byte length %d", NoB);
+        return false;
+    }
+
+    if (pos + NoB > end) {
+        logWarning("GetRegisterCommand: register response truncated value");
+        return false;
+    }
+
+    SiExFields siEx = decodeSiEx(*pos++);
+
+    uint64_t integer = 0;
+    for (uint8_t i = 0; i < NoB; ++i) {
+        integer = (integer << 8) | *pos++;
+    }
+
+    res.register_id = rid;
+    res.value = computeFloatingValue(integer, siEx);
+    res.unit = static_cast<KmpUnit>(unit);
+    res.result = CommandResult::Result::OK;
+
+    logTrace("GetRegisterCommand: decoded register 0x%04X = %g %s",
+             rid, res.value, unitToString(res.unit).c_str());
+
+    return true;
+}
+
+// --
 
 GetRegisterCommand::GetRegisterCommand(std::shared_ptr<IApplicationLayer> app, uint16_t registerId)
     : app_(app), register_id_(registerId) 
@@ -28,7 +88,7 @@ void GetRegisterCommand::execute()
         return;
     }
     std::vector<uint8_t> payload;
-    payload.push_back(KMP_READ_REQUEST_PREFIX);
+    payload.push_back(0x01); // only single register requests supported
     payload.push_back(static_cast<uint8_t>((register_id_ >> 8) & 0xFF));
     payload.push_back(static_cast<uint8_t>(register_id_ & 0xFF));
     app_->sendRequest(CID, payload);
@@ -39,83 +99,33 @@ void GetRegisterCommand::registerListener(std::function<void(const CommandResult
     listeners_.push_back(cb);
 }
 
-void GetRegisterCommand::onResult(const CommandResult& res)
+void GetRegisterCommand::notifyListeners(const CommandResult& res)
 {
     for (auto &l : listeners_) {
         l(res);
     }
 }
 
-double GetRegisterCommand::pow10_int(int8_t exp) 
-{
-    return std::pow(10.0, static_cast<double>(exp));
-}
-
-void GetRegisterCommand::onResponse(const std::vector<uint8_t>& payload) 
+void GetRegisterCommand::onExecuteResult(ExecuteResult result, const std::vector<uint8_t>& payload) 
 {
     CommandResult res;
-
-    if (payload.empty()) {
-        res.result = CommandResult::Result::EMPTY;
-        onResult(res);
-        return;
-    }
-
-    bool has_prefix = (payload[0] == KMP_READ_REQUEST_PREFIX);
-    uint8_t min_size = has_prefix ? MIN_RESPONSE_WITH_PREFIX_SIZE : MIN_RESPONSE_SIZE;
-
-    if (payload.size() < min_size) {
-        res.result = CommandResult::Result::CORRUPT;
-        logWarning("GetRegisterCommand: payload too small (%u bytes)", (uint16_t)payload.size());
-        onResult(res);
-        return;
-    }
-
-    uint8_t unit_idx = has_prefix ? UNIT_IDX_WITH_PREFIX : UNIT_IDX_NO_PREFIX;
-
-    uint8_t unit_byte = payload[unit_idx];
-    uint8_t mantissa_range = payload[unit_idx + 1];
-    uint8_t exponent_b = payload[unit_idx + 2];
-
-    if (mantissa_range > MAX_MANTISSA_RANGE) {
-        res.result = CommandResult::Result::CORRUPT;
-        logError("GetRegisterCommand: invalid mantissa range %d", mantissa_range);
-        onResult(res);
-        return;
-    }
-
-    if (unit_idx + 3 + mantissa_range > payload.size()) {
-        res.result = CommandResult::Result::CORRUPT;
-        logError("GetRegisterCommand: payload too short for mantissa");
-        onResult(res);
-        return;
-    }
-
-    int8_t exp_val = static_cast<int8_t>(exponent_b & EXPONENT_MASK);
-    if (exponent_b & EXPONENT_SIGN_BIT) {
-        exp_val = -exp_val;
-    }
-
-    uint64_t mantissa = 0;
-    for (uint8_t i = 0; i < mantissa_range; ++i) {
-        mantissa = (mantissa << 8) | payload[unit_idx + 3 + i];
-    }
-
-    double value = static_cast<double>(mantissa) * pow10_int(exp_val);
-    if (exponent_b & EXPONENT_NEGATE_BIT) {
-        value = -value;
-    }
-
-    res.result = CommandResult::Result::OK;
-    res.value = value;
-    res.unit = static_cast<KmpUnit>(unit_byte);
     res.register_id = register_id_;
 
-    logTrace("GetRegisterCommand: decoded register 0x%04X = %f %s",
-             register_id_, value, unitToString(res.unit).c_str());
+    if (result == ExecuteResult::SUCCESS) {
+        const uint8_t* pos = payload.data();
+        const uint8_t* end = pos + payload.size();
 
-    onResult(res);
+        bool success = tryParseRegister(pos, end, res);
+        if (!success) {
+            res.result = CommandResult::Result::CORRUPT;
+        }
+    } else if (result == ExecuteResult::TIMEOUT) {
+        res.result = CommandResult::Result::TIMEOUT;
+    } else {
+        res.result = CommandResult::Result::ERROR;
+    }
+
+    notifyListeners(res);
 }
 
-}
-
+} // namespace

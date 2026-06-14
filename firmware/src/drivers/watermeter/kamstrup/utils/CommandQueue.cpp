@@ -56,7 +56,7 @@ void CommandQueue::sendNext()
     if (appLayer_) {
         appLayer_->registerHandler(cid, [this, seq = currentSeq_](const std::vector<uint8_t>& payload) {
             if (seq == currentSeq_) {
-                currentCmd_->onResponse(payload);
+                currentCmd_->onExecuteResult(ExecuteResult::SUCCESS, payload);
             }
         });
     }
@@ -100,10 +100,8 @@ void CommandQueue::onTimeout()
     // Invalidates the queue's internal listener (seq check) so onCommandDone won't fire
     ++currentSeq_;
 
-    CommandResult timeoutResult;
-    timeoutResult.result = CommandResult::Result::TIMEOUT;
     if (currentCmd_) {
-        currentCmd_->onResult(timeoutResult);
+        currentCmd_->onExecuteResult(ExecuteResult::TIMEOUT, {});
     }
 
     if (!queue_.empty()) {

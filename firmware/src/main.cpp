@@ -91,14 +91,21 @@ void setup() {
     gpio->setConfig(knxProgButton);
     gpio->setupInterruptHandler(knxProgButton, buttonInterrupt);
 
-    application::WatermeterConfig watermeterCfg;
-    watermeterCfg.pingIntervalUs = 10000000;
-    watermeterCfg.dataIntervalUs = 60000000;
+    bool stackConfigured = knx->init();
+
+    auto& knxConfig = knx->getKnxConfig();
+
+    drivers::uart::UartConfig kmpUartCfg = {
+        .baud = 1200,
+        .dataBits = 8,
+        .parity = 0,
+        .stopBits = 2,
+        .txPin = 20,
+        .rxPin = 21
+    };
 
     watermeterApp = std::make_shared<application::WatermeterApp>();
-    watermeterApp->init(kmpUart, watermeterCfg);
-
-    bool stackConfigured = knx->init();
+    watermeterApp->init(kmpUart, kmpUartCfg, knxConfig);
     knx->setProgmodeChangeCallback([](bool val) {
         gpio->writeValue(knxProgLed, val);
     });

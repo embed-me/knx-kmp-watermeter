@@ -35,6 +35,10 @@ private:
     // Receive buffer for assembling frames
     std::vector<uint8_t> rx_buffer_;
 
+    // Track whether we are inside a framed response (between START_TO_HOST and STOP).
+    // ACK/NAK bytes are only interpreted outside a frame; inside, they are valid data.
+    bool inside_frame_ = false;
+
     const uint8_t START_TO_METER = 0x80;
     const uint8_t START_TO_HOST = 0x40;
     const uint8_t STOP = 0x0D;

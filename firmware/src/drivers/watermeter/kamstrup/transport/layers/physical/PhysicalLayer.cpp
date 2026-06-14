@@ -46,16 +46,20 @@ void PhysicalLayer::sendFrame(const std::vector<uint8_t>& data)
 void PhysicalLayer::onUartData(const std::vector<uint8_t>& chunk) 
 {
     for (auto b : chunk) {
-        if (b == ACK) {
+        if (!inside_frame_ && b == ACK) {
             notifyAckListeners(AckType::Ack);
             continue;
         }
-        if (b == NAK) {
+        if (!inside_frame_ && b == NAK) {
             notifyAckListeners(AckType::Nak);
             continue;
         }
         rx_buffer_.push_back(b);
+        if (b == START_TO_HOST) {
+            inside_frame_ = true;
+        }
         if (b == STOP) {
+            inside_frame_ = false;
             processCompleteFrame();
         }
     }

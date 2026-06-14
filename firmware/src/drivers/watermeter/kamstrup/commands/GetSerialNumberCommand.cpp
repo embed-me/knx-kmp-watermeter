@@ -1,4 +1,5 @@
 #include "GetSerialNumberCommand.hpp"
+#include "../utils/CommandQueue.hpp"
 #include "src/drivers/logger/Logger.hpp"
 #include <algorithm>
 
@@ -25,15 +26,22 @@ void GetSerialNumberCommand::registerListener(std::function<void(const CommandRe
     listeners_.push_back(cb);
 }
 
-void GetSerialNumberCommand::onResult(const CommandResult& res)
+void GetSerialNumberCommand::notifyListeners(const CommandResult& res)
 {
     for (auto &l : listeners_) {
         l(res);
     }
 }
 
-void GetSerialNumberCommand::onResponse(const std::vector<uint8_t>& payload) 
+void GetSerialNumberCommand::onExecuteResult(ExecuteResult result, const std::vector<uint8_t>& payload) 
 {
+    if (result == ExecuteResult::TIMEOUT) {
+        CommandResult res;
+        res.result = CommandResult::Result::TIMEOUT;
+        notifyListeners(res);
+        return;
+    }
+
     CommandResult res;
     if (payload.empty()) {
         res.result = CommandResult::Result::EMPTY;
@@ -53,7 +61,7 @@ void GetSerialNumberCommand::onResponse(const std::vector<uint8_t>& payload)
         res.result = CommandResult::Result::OK;
     }
 
-    onResult(res);
+    notifyListeners(res);
 }
 
 } // namespace
