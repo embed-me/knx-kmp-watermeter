@@ -64,7 +64,7 @@ void WatermeterApp::initKeepAliveCommand()
     keepAliveCmd_->registerListener([go = linked.groupObject, dpt = linked.dpt](const kmp::CommandResult& res){
         bool isOk = res.result == kmp::CommandResult::Result::OK;
         if (go) {
-            go->value(KNXValue(isOk), dpt);
+            go->valueCompare(KNXValue(isOk), dpt);
         }
         logInfo("KeepAlive: %s", isOk ? "OK" : "FAILED");
     });
