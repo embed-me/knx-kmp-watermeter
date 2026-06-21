@@ -84,7 +84,7 @@ void WatermeterApp::initRegisterCommands()
             if (go && (res.result == kmp::CommandResult::Result::OK)) {
                 go->value(KNXValue(res.value), dpt);
                 logInfo("%s: %g %s", name, res.value,
-                        kmp::unitToString(res.unit));
+                        kmp::unitToString(res.unit).c_str());
             } else {
                 logWarning("Failed to get %s: with error %d", name, res.result);
             }

@@ -36,11 +36,11 @@ struct drivers::gpio::GpioConfig knxProgLed = {
 
 /* Drivers */
 std::shared_ptr<drivers::IDriverFactory> driverFactory = std::make_shared<drivers::ArduinoDriverFactory>();
-#ifdef KNX_UP_BUZZER_DISABLE_LOGGING
+//#ifdef KNX_KMP_WATERMETER_DISABLE_LOGGING
     std::shared_ptr<drivers::logger::ILogger> logger = nullptr;
-#else
-    std::shared_ptr<drivers::logger::ILogger> logger = driverFactory->getLoggerDriver();
-#endif
+// #else
+//     std::shared_ptr<drivers::logger::ILogger> logger = driverFactory->getLoggerDriver();
+// #endif
 std::shared_ptr<drivers::gpio::IGpioDriver> gpio = driverFactory->getGpioDriver();
 std::shared_ptr<drivers::knx::IKnxDriver> knx = driverFactory->getKnxDriver();
 std::shared_ptr<drivers::watchdog::IWatchdogDriver> watchdog = driverFactory->getWatchdogDriver();
@@ -82,10 +82,10 @@ std::shared_ptr<application::WatermeterApp> watermeterApp = nullptr;
 
 /* Core 0 */
 void setup() {
-    drivers::logger::Logger::setLogger(logger);
-    logger->init(drivers::logger::LOGLEVEL::LOGLEVEL_TRACE, false);
+    //drivers::logger::Logger::setLogger(logger);
+    //logger->init(drivers::logger::LOGLEVEL::LOGLEVEL_TRACE, false);
 
-    //watchdog->enable(WDT_TIMEOUT_MS);
+    watchdog->enable(WDT_TIMEOUT_MS);
 
     gpio->setConfig(knxProgLed);
     gpio->setConfig(knxProgButton);
@@ -115,7 +115,7 @@ void setup() {
 }
 
 void loop() {
-    //watchdog->feed();
+    watchdog->feed();
     watermeterApp->process();
     scheduler->process();
 }

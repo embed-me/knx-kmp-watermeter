@@ -1,0 +1,3043 @@
+{
+  "$type": "Kaenx.Creator.Models.MainModel, Kaenx.Creator.Share",
+  "ProjectName": "kmp-watermeter",
+  "Guid": "20eb29d5-7c14-4a5b-837a-e5716d23fb65",
+  "FileName": "kmp-watermeter",
+  "Info": {
+    "$type": "Kaenx.Creator.Models.Info, Kaenx.Creator.Share",
+    "Name": "KMP Watermeter Hardware",
+    "SerialNumber": "0",
+    "Version": 0,
+    "BusCurrent": 40,
+    "HasIndividualAddress": true,
+    "HasApplicationProgram": true,
+    "HasApplicationProgram2": false,
+    "IsPowerSupply": false,
+    "IsCoppler": false,
+    "IsIpEnabled": false,
+    "Text": [
+      {
+        "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+        "Language": {
+          "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+          "Text": "Deutsch",
+          "CultureCode": "de-DE"
+        },
+        "Text": "KMP-001 KMP Watermeter Schnittstelle",
+        "Preview": "KMP-001 KMP Watermeter Schnittstelle"
+      },
+      {
+        "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+        "Language": {
+          "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+          "Text": "Englisch",
+          "CultureCode": "en-US"
+        },
+        "Text": "KMP-001 KMP Watermeter Interface",
+        "Preview": "KMP-001 KMP Watermeter Interface"
+      }
+    ],
+    "Description": [
+      {
+        "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+        "Language": {
+          "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+          "Text": "Deutsch",
+          "CultureCode": "de-DE"
+        },
+        "Text": "KMP Watermeter Hardware",
+        "Preview": "KMP Watermeter Hardware"
+      },
+      {
+        "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+        "Language": {
+          "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+          "Text": "Englisch",
+          "CultureCode": "en-US"
+        },
+        "Text": "KMP Watermeter Hardware",
+        "Preview": "KMP Watermeter Hardware"
+      }
+    ],
+    "OrderNumber": "TA-00002.1",
+    "IsRailMounted": false,
+    "AppNumber": 0,
+    "MaskId": "MV-07B0"
+  },
+  "Application": {
+    "$type": "Kaenx.Creator.Models.AppVersion, Kaenx.Creator.Share",
+    "ParameterTypes": [
+      {
+        "$type": "Kaenx.Creator.Models.ParameterType, Kaenx.Creator.Share",
+        "UId": 2,
+        "Name": "Boolean",
+        "Type": 8,
+        "IsSizeManual": false,
+        "TranslateEnums": true,
+        "SizeInBit": 1,
+        "OtherValue": true,
+        "ExportInHeader": false,
+        "UIHint": "CheckBox",
+        "BaggageUId": -1,
+        "Min": "0",
+        "Max": "1",
+        "Increment": "1",
+        "DisplayOffset": "0",
+        "DisplayFactor": "1",
+        "Enums": []
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ParameterType, Kaenx.Creator.Share",
+        "UId": 1,
+        "Name": "Poll Interval",
+        "Type": 8,
+        "IsSizeManual": false,
+        "TranslateEnums": true,
+        "SizeInBit": 16,
+        "OtherValue": true,
+        "ExportInHeader": false,
+        "UIHint": "None",
+        "BaggageUId": -1,
+        "Min": "10",
+        "Max": "65535",
+        "Increment": "1",
+        "DisplayOffset": "0",
+        "DisplayFactor": "1",
+        "Enums": []
+      }
+    ],
+    "Parameters": [
+      {
+        "$type": "Kaenx.Creator.Models.Parameter, Kaenx.Creator.Share",
+        "UId": 4,
+        "Id": 50,
+        "Name": "Keep-Alive Interval",
+        "SavePath": 1,
+        "MemoryId": 1,
+        "UnionId": 0,
+        "ParameterType": 1,
+        "Value": "120",
+        "IsInUnion": false,
+        "IsUnionDefault": false,
+        "Offset": 0,
+        "OffsetBit": 0,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Keep-Alive Interval",
+            "Preview": "Keep-Alive Interval"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Keep-Alive Interval",
+            "Preview": "Keep-Alive Interval"
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Sekunden",
+            "Preview": "Sekunden"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "seconds",
+            "Preview": "seconds"
+          }
+        ],
+        "TranslationText": false,
+        "TranslationSuffix": true,
+        "Access": 2
+      },
+      {
+        "$type": "Kaenx.Creator.Models.Parameter, Kaenx.Creator.Share",
+        "UId": 5,
+        "Id": 51,
+        "Name": "Polling Interval",
+        "SavePath": 1,
+        "MemoryId": 1,
+        "UnionId": 0,
+        "ParameterType": 1,
+        "Value": "600",
+        "IsInUnion": false,
+        "IsUnionDefault": false,
+        "Offset": 2,
+        "OffsetBit": 0,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Abfrageintervall",
+            "Preview": "Abfrageintervall"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Polling Interval",
+            "Preview": "Polling Interval"
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Sekunden",
+            "Preview": "Sekunden"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "seconds",
+            "Preview": "seconds"
+          }
+        ],
+        "TranslationText": false,
+        "TranslationSuffix": true,
+        "Access": 2
+      },
+      {
+        "$type": "Kaenx.Creator.Models.Parameter, Kaenx.Creator.Share",
+        "UId": 1,
+        "Id": 52,
+        "Name": "Volume",
+        "SavePath": 1,
+        "MemoryId": 1,
+        "UnionId": 0,
+        "ParameterType": 2,
+        "Value": "1",
+        "IsInUnion": false,
+        "IsUnionDefault": false,
+        "Offset": 4,
+        "OffsetBit": 0,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Volumen",
+            "Preview": "Volumen"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Volume",
+            "Preview": "Volume"
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationText": false,
+        "TranslationSuffix": false,
+        "Access": 2
+      },
+      {
+        "$type": "Kaenx.Creator.Models.Parameter, Kaenx.Creator.Share",
+        "UId": 2,
+        "Id": 53,
+        "Name": "Flow",
+        "SavePath": 1,
+        "MemoryId": 1,
+        "UnionId": 0,
+        "ParameterType": 2,
+        "Value": "1",
+        "IsInUnion": false,
+        "IsUnionDefault": false,
+        "Offset": 4,
+        "OffsetBit": 1,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Durchfluss",
+            "Preview": "Durchfluss"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Flow",
+            "Preview": "Flow"
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationText": false,
+        "TranslationSuffix": false,
+        "Access": 2
+      },
+      {
+        "$type": "Kaenx.Creator.Models.Parameter, Kaenx.Creator.Share",
+        "UId": 3,
+        "Id": 54,
+        "Name": "Temperature",
+        "SavePath": 1,
+        "MemoryId": 1,
+        "UnionId": 0,
+        "ParameterType": 2,
+        "Value": "1",
+        "IsInUnion": false,
+        "IsUnionDefault": false,
+        "Offset": 4,
+        "OffsetBit": 2,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Temperatur",
+            "Preview": "Temperatur"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Temperature",
+            "Preview": "Temperature"
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationText": false,
+        "TranslationSuffix": false,
+        "Access": 2
+      },
+      {
+        "$type": "Kaenx.Creator.Models.Parameter, Kaenx.Creator.Share",
+        "UId": 6,
+        "Id": 55,
+        "Name": "Battery Life",
+        "SavePath": 1,
+        "MemoryId": 1,
+        "UnionId": 0,
+        "ParameterType": 2,
+        "Value": "1",
+        "IsInUnion": false,
+        "IsUnionDefault": false,
+        "Offset": 4,
+        "OffsetBit": 3,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Battery Life",
+            "Preview": "Battery Life"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Battery Life",
+            "Preview": "Battery Life"
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationText": false,
+        "TranslationSuffix": false,
+        "Access": 2
+      }
+    ],
+    "ParameterRefs": [
+      {
+        "$type": "Kaenx.Creator.Models.ParameterRef, Kaenx.Creator.Share",
+        "UId": 1,
+        "Id": 50,
+        "DisplayOrder": -1,
+        "Name": "Volume",
+        "IsAutoGenerated": true,
+        "Parameter": 1,
+        "OverwriteValue": false,
+        "OverwriteAccess": false,
+        "Access": 2,
+        "Value": "",
+        "TranslationText": false,
+        "TranslationSuffix": false,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "OverwriteText": false,
+        "OverwriteSuffix": false
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ParameterRef, Kaenx.Creator.Share",
+        "UId": 2,
+        "Id": 51,
+        "DisplayOrder": -1,
+        "Name": "Flow",
+        "IsAutoGenerated": true,
+        "Parameter": 2,
+        "OverwriteValue": false,
+        "OverwriteAccess": false,
+        "Access": 2,
+        "Value": "",
+        "TranslationText": false,
+        "TranslationSuffix": false,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "OverwriteText": false,
+        "OverwriteSuffix": false
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ParameterRef, Kaenx.Creator.Share",
+        "UId": 3,
+        "Id": 52,
+        "DisplayOrder": -1,
+        "Name": "Temperature",
+        "IsAutoGenerated": true,
+        "Parameter": 3,
+        "OverwriteValue": false,
+        "OverwriteAccess": false,
+        "Access": 2,
+        "Value": "",
+        "TranslationText": false,
+        "TranslationSuffix": false,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "OverwriteText": false,
+        "OverwriteSuffix": false
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ParameterRef, Kaenx.Creator.Share",
+        "UId": 4,
+        "Id": 53,
+        "DisplayOrder": -1,
+        "Name": "Keep-Alive Interval",
+        "IsAutoGenerated": true,
+        "Parameter": 4,
+        "OverwriteValue": false,
+        "OverwriteAccess": false,
+        "Access": 2,
+        "Value": "",
+        "TranslationText": false,
+        "TranslationSuffix": false,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "OverwriteText": false,
+        "OverwriteSuffix": false
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ParameterRef, Kaenx.Creator.Share",
+        "UId": 5,
+        "Id": 54,
+        "DisplayOrder": -1,
+        "Name": "Polling Interval",
+        "IsAutoGenerated": true,
+        "Parameter": 5,
+        "OverwriteValue": false,
+        "OverwriteAccess": false,
+        "Access": 2,
+        "Value": "",
+        "TranslationText": false,
+        "TranslationSuffix": false,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "OverwriteText": false,
+        "OverwriteSuffix": false
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ParameterRef, Kaenx.Creator.Share",
+        "UId": 6,
+        "Id": 55,
+        "DisplayOrder": -1,
+        "Name": "Battery Life",
+        "IsAutoGenerated": true,
+        "Parameter": 6,
+        "OverwriteValue": false,
+        "OverwriteAccess": false,
+        "Access": 2,
+        "Value": "",
+        "TranslationText": false,
+        "TranslationSuffix": false,
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "Suffix": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "OverwriteText": false,
+        "OverwriteSuffix": false
+      }
+    ],
+    "ComObjects": [
+      {
+        "$type": "Kaenx.Creator.Models.ComObject, Kaenx.Creator.Share",
+        "UId": 5,
+        "Id": 1,
+        "Name": "Linked",
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Verbunden",
+            "Preview": "Verbunden"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Linked",
+            "Preview": "Linked"
+          }
+        ],
+        "TranslationText": false,
+        "FunctionText": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Verbunden",
+            "Preview": "Verbunden"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Linked",
+            "Preview": "Linked"
+          }
+        ],
+        "TranslationFunctionText": false,
+        "Number": 1,
+        "FlagRead": true,
+        "FlagWrite": false,
+        "FlagTrans": true,
+        "FlagComm": true,
+        "FlagUpdate": false,
+        "FlagOnInit": false,
+        "TypeValue": null,
+        "HasDpt": true,
+        "HasDpts": true,
+        "ObjectSize": 1,
+        "SubTypeNumber": "11",
+        "SubType": {
+          "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+          "Name": "1.011 state",
+          "Number": "11",
+          "ParentNumber": "1"
+        },
+        "TypeNumber": "1",
+        "Type": {
+          "$type": "Kaenx.Creator.Models.DataPointType, Kaenx.Creator.Share",
+          "Name": "1.xxx 1-bit",
+          "Number": "1",
+          "Size": 1,
+          "SubTypes": [
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.001 switch",
+              "Number": "1",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.002 boolean",
+              "Number": "2",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.003 enable",
+              "Number": "3",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.004 ramp",
+              "Number": "4",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.005 alarm",
+              "Number": "5",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.006 binary value",
+              "Number": "6",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.007 step",
+              "Number": "7",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.008 up/down",
+              "Number": "8",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.009 open/close",
+              "Number": "9",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.010 start/stop",
+              "Number": "10",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.011 state",
+              "Number": "11",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.012 invert",
+              "Number": "12",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.013 dim send style",
+              "Number": "13",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.014 input source",
+              "Number": "14",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.015 reset",
+              "Number": "15",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.016 acknowledge",
+              "Number": "16",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.017 trigger",
+              "Number": "17",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.018 occupancy",
+              "Number": "18",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.019 window/door",
+              "Number": "19",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.021 logical function",
+              "Number": "21",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.022 scene",
+              "Number": "22",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.023 shutter/blinds mode",
+              "Number": "23",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.024 day/night",
+              "Number": "24",
+              "ParentNumber": "1"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "1.100 cooling/heating",
+              "Number": "100",
+              "ParentNumber": "1"
+            }
+          ]
+        },
+        "UseTextParameter": false,
+        "ParameterRef": -1
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ComObject, Kaenx.Creator.Share",
+        "UId": 1,
+        "Id": 2,
+        "Name": "Flow",
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Durchfluss",
+            "Preview": "Durchfluss"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Flow",
+            "Preview": "Flow"
+          }
+        ],
+        "TranslationText": false,
+        "FunctionText": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Durchfluss",
+            "Preview": "Durchfluss"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Flow",
+            "Preview": "Flow"
+          }
+        ],
+        "TranslationFunctionText": false,
+        "Number": 2,
+        "FlagRead": true,
+        "FlagWrite": false,
+        "FlagTrans": true,
+        "FlagComm": true,
+        "FlagUpdate": false,
+        "FlagOnInit": false,
+        "TypeValue": null,
+        "HasDpt": true,
+        "HasDpts": true,
+        "ObjectSize": 16,
+        "SubTypeNumber": "25",
+        "SubType": {
+          "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+          "Name": "9.025 volume flow (l/h)",
+          "Number": "25",
+          "ParentNumber": "9"
+        },
+        "TypeNumber": "9",
+        "Type": {
+          "$type": "Kaenx.Creator.Models.DataPointType, Kaenx.Creator.Share",
+          "Name": "9.xxx 2-byte float value",
+          "Number": "9",
+          "Size": 16,
+          "SubTypes": [
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.001 temperature (°C)",
+              "Number": "1",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.002 temperature difference (K)",
+              "Number": "2",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.003 kelvin/hour (K/h)",
+              "Number": "3",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.004 lux (Lux)",
+              "Number": "4",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.005 speed (m/s)",
+              "Number": "5",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.006 pressure (Pa)",
+              "Number": "6",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.007 humidity (%)",
+              "Number": "7",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.008 parts/million (ppm)",
+              "Number": "8",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.009 air flow (m³/h)",
+              "Number": "9",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.010 time (s)",
+              "Number": "10",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.011 time (ms)",
+              "Number": "11",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.020 voltage (mV)",
+              "Number": "20",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.021 current (mA)",
+              "Number": "21",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.022 power density (W/m²)",
+              "Number": "22",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.023 kelvin/percent (K/%)",
+              "Number": "23",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.024 power (kW)",
+              "Number": "24",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.025 volume flow (l/h)",
+              "Number": "25",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.026 rain amount (l/m²)",
+              "Number": "26",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.027 temperature (°F)",
+              "Number": "27",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.028 wind speed (km/h)",
+              "Number": "28",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.029 absolute humidity (g/m³)",
+              "Number": "29",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.030 concentration (µg/m³)",
+              "Number": "30",
+              "ParentNumber": "9"
+            }
+          ]
+        },
+        "UseTextParameter": false,
+        "ParameterRef": -1
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ComObject, Kaenx.Creator.Share",
+        "UId": 2,
+        "Id": 3,
+        "Name": "Volume",
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Volumen",
+            "Preview": "Volumen"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Volume",
+            "Preview": "Volume"
+          }
+        ],
+        "TranslationText": false,
+        "FunctionText": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Volumen",
+            "Preview": "Volumen"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Volume",
+            "Preview": "Volume"
+          }
+        ],
+        "TranslationFunctionText": false,
+        "Number": 3,
+        "FlagRead": true,
+        "FlagWrite": false,
+        "FlagTrans": true,
+        "FlagComm": true,
+        "FlagUpdate": false,
+        "FlagOnInit": false,
+        "TypeValue": null,
+        "HasDpt": true,
+        "HasDpts": true,
+        "ObjectSize": 32,
+        "SubTypeNumber": "76",
+        "SubType": {
+          "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+          "Name": "14.076 volume (m³)",
+          "Number": "76",
+          "ParentNumber": "14"
+        },
+        "TypeNumber": "14",
+        "Type": {
+          "$type": "Kaenx.Creator.Models.DataPointType, Kaenx.Creator.Share",
+          "Name": "14.xxx 4-byte float value",
+          "Number": "14",
+          "Size": 32,
+          "SubTypes": [
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.000 acceleration (m/s²)",
+              "Number": "0",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.001 angular acceleration (rad/s²)",
+              "Number": "1",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.002 activation energy (J/mol)",
+              "Number": "2",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.003 radioactive activity (1/s)",
+              "Number": "3",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.004 amount of substance (mol)",
+              "Number": "4",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.005 amplitude",
+              "Number": "5",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.006 angle (radiant)",
+              "Number": "6",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.007 angle (degree)",
+              "Number": "7",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.008 angular momentum (Js)",
+              "Number": "8",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.009 angular velocity (rad/s)",
+              "Number": "9",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.010 area (m*m)",
+              "Number": "10",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.011 capacitance (F)",
+              "Number": "11",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.012 flux density (C/m²)",
+              "Number": "12",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.013 charge density (C/m³)",
+              "Number": "13",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.014 compressibility (m²/N)",
+              "Number": "14",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.015 conductance (S)",
+              "Number": "15",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.016 conductivity  (S/m)",
+              "Number": "16",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.017 density (kg/m³)",
+              "Number": "17",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.018 electric charge (C)",
+              "Number": "18",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.019 electric current (A)",
+              "Number": "19",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.020 electric current density (A/m²)",
+              "Number": "20",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.021 electric dipole moment (Cm)",
+              "Number": "21",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.022 electric displacement (C/m²)",
+              "Number": "22",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.023 electric field strength (V/m)",
+              "Number": "23",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.024 electric flux (C)",
+              "Number": "24",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.025 electric flux density (C/m²)",
+              "Number": "25",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.026 electric polarization (C/m²)",
+              "Number": "26",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.027 electric potential (V)",
+              "Number": "27",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.028 electric potential difference (V)",
+              "Number": "28",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.029 electromagnetic moment (Am²)",
+              "Number": "29",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.030 electromotive force (V)",
+              "Number": "30",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.031 energy (J)",
+              "Number": "31",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.032 force (N)",
+              "Number": "32",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.033 frequency (Hz)",
+              "Number": "33",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.034 angular frequency (rad/s)",
+              "Number": "34",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.035 heat capacity (J/K)",
+              "Number": "35",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.036 heat flow rate (W)",
+              "Number": "36",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.037 heat quantity",
+              "Number": "37",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.038 impedance (Ω)",
+              "Number": "38",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.039 length (m)",
+              "Number": "39",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.040 light quantity (J)",
+              "Number": "40",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.041 luminance (cd/m²)",
+              "Number": "41",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.042 luminous flux (lm)",
+              "Number": "42",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.043 luminous intensity (cd)",
+              "Number": "43",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.044 magnetic field strength (A/m)",
+              "Number": "44",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.045 magnetic flux (Wb)",
+              "Number": "45",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.046 magnetic flux density (T)",
+              "Number": "46",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.047 magnetic moment (Am²)",
+              "Number": "47",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.048 magnetic polarization (T)",
+              "Number": "48",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.049 magnetization (A/m)",
+              "Number": "49",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.050 magnetomotive force (A)",
+              "Number": "50",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.051 mass (kg)",
+              "Number": "51",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.052 mass flux (kg/s)",
+              "Number": "52",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.053 momentum (N/s)",
+              "Number": "53",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.054 phase angle (rad)",
+              "Number": "54",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.055 phase angle (°)",
+              "Number": "55",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.056 power (W)",
+              "Number": "56",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.057 power factor (cos Φ)",
+              "Number": "57",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.058 pressure (Pa)",
+              "Number": "58",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.059 reactance (Ω)",
+              "Number": "59",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.060 resistance (Ω)",
+              "Number": "60",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.061 resistivity (Ωm)",
+              "Number": "61",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.062 self inductance (H)",
+              "Number": "62",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.063 solid angle (sr)",
+              "Number": "63",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.064 sound intensity (W/m²)",
+              "Number": "64",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.065 speed (m/s)",
+              "Number": "65",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.066 stress (Pa)",
+              "Number": "66",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.067 surface tension (N/m)",
+              "Number": "67",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.068 temperature (°C)",
+              "Number": "68",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.069 temperature absolute (K)",
+              "Number": "69",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.070 temperature difference (K)",
+              "Number": "70",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.071 thermal capacity (J/K)",
+              "Number": "71",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.072 thermal conductivity (W/mK)",
+              "Number": "72",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.073 thermoelectric power (V/K)",
+              "Number": "73",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.074 time (s)",
+              "Number": "74",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.075 torque (Nm)",
+              "Number": "75",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.076 volume (m³)",
+              "Number": "76",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.077 volume flux (m³/s)",
+              "Number": "77",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.078 weight (N)",
+              "Number": "78",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.079 work (J)",
+              "Number": "79",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.1200 volume flux for meters (m³/h)",
+              "Number": "1200",
+              "ParentNumber": "14"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "14.1201 volume flux for meters (1/ls)",
+              "Number": "1201",
+              "ParentNumber": "14"
+            }
+          ]
+        },
+        "UseTextParameter": false,
+        "ParameterRef": -1
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ComObject, Kaenx.Creator.Share",
+        "UId": 3,
+        "Id": 4,
+        "Name": "Temperature",
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Temperatur",
+            "Preview": "Temperatur"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Temperature",
+            "Preview": "Temperature"
+          }
+        ],
+        "TranslationText": false,
+        "FunctionText": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Temperatur",
+            "Preview": "Temperatur"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Temperature",
+            "Preview": "Temperature"
+          }
+        ],
+        "TranslationFunctionText": false,
+        "Number": 4,
+        "FlagRead": true,
+        "FlagWrite": false,
+        "FlagTrans": true,
+        "FlagComm": true,
+        "FlagUpdate": false,
+        "FlagOnInit": false,
+        "TypeValue": null,
+        "HasDpt": true,
+        "HasDpts": true,
+        "ObjectSize": 16,
+        "SubTypeNumber": "1",
+        "SubType": {
+          "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+          "Name": "9.001 temperature (°C)",
+          "Number": "1",
+          "ParentNumber": "9"
+        },
+        "TypeNumber": "9",
+        "Type": {
+          "$type": "Kaenx.Creator.Models.DataPointType, Kaenx.Creator.Share",
+          "Name": "9.xxx 2-byte float value",
+          "Number": "9",
+          "Size": 16,
+          "SubTypes": [
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.001 temperature (°C)",
+              "Number": "1",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.002 temperature difference (K)",
+              "Number": "2",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.003 kelvin/hour (K/h)",
+              "Number": "3",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.004 lux (Lux)",
+              "Number": "4",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.005 speed (m/s)",
+              "Number": "5",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.006 pressure (Pa)",
+              "Number": "6",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.007 humidity (%)",
+              "Number": "7",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.008 parts/million (ppm)",
+              "Number": "8",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.009 air flow (m³/h)",
+              "Number": "9",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.010 time (s)",
+              "Number": "10",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.011 time (ms)",
+              "Number": "11",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.020 voltage (mV)",
+              "Number": "20",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.021 current (mA)",
+              "Number": "21",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.022 power density (W/m²)",
+              "Number": "22",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.023 kelvin/percent (K/%)",
+              "Number": "23",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.024 power (kW)",
+              "Number": "24",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.025 volume flow (l/h)",
+              "Number": "25",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.026 rain amount (l/m²)",
+              "Number": "26",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.027 temperature (°F)",
+              "Number": "27",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.028 wind speed (km/h)",
+              "Number": "28",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.029 absolute humidity (g/m³)",
+              "Number": "29",
+              "ParentNumber": "9"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "9.030 concentration (µg/m³)",
+              "Number": "30",
+              "ParentNumber": "9"
+            }
+          ]
+        },
+        "UseTextParameter": false,
+        "ParameterRef": -1
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ComObject, Kaenx.Creator.Share",
+        "UId": 4,
+        "Id": 5,
+        "Name": "Battery Life",
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Verbleibende Batterielaufzeit",
+            "Preview": "Verbleibende Batterielaufzeit"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Remaining Battery Life",
+            "Preview": "Remaining Battery Life"
+          }
+        ],
+        "TranslationText": false,
+        "FunctionText": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "Verbleibende Batterielaufzeit",
+            "Preview": "Verbleibende Batterielaufzeit"
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "Remaining Battery Life",
+            "Preview": "Remaining Battery Life"
+          }
+        ],
+        "TranslationFunctionText": false,
+        "Number": 5,
+        "FlagRead": true,
+        "FlagWrite": false,
+        "FlagTrans": true,
+        "FlagComm": true,
+        "FlagUpdate": false,
+        "FlagOnInit": false,
+        "TypeValue": null,
+        "HasDpt": true,
+        "HasDpts": true,
+        "ObjectSize": 16,
+        "SubTypeNumber": "1",
+        "SubType": {
+          "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+          "Name": "7.001 pulses",
+          "Number": "1",
+          "ParentNumber": "7"
+        },
+        "TypeNumber": "7",
+        "Type": {
+          "$type": "Kaenx.Creator.Models.DataPointType, Kaenx.Creator.Share",
+          "Name": "7.xxx 2-byte unsigned value",
+          "Number": "7",
+          "Size": 16,
+          "SubTypes": [
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.001 pulses",
+              "Number": "1",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.002 time (ms)",
+              "Number": "2",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.003 time (10 ms)",
+              "Number": "3",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.004 time (100 ms)",
+              "Number": "4",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.005 time (s)",
+              "Number": "5",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.006 time (min)",
+              "Number": "6",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.007 time (h)",
+              "Number": "7",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.010 property data type",
+              "Number": "10",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.011 length (mm)",
+              "Number": "11",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.012 current (mA)",
+              "Number": "12",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.013 brightness (lux)",
+              "Number": "13",
+              "ParentNumber": "7"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.DataPointSubType, Kaenx.Creator.Share",
+              "Name": "7.600 absolute colour temperature (K)",
+              "Number": "600",
+              "ParentNumber": "7"
+            }
+          ]
+        },
+        "UseTextParameter": false,
+        "ParameterRef": -1
+      }
+    ],
+    "ComObjectRefs": [
+      {
+        "$type": "Kaenx.Creator.Models.ComObjectRef, Kaenx.Creator.Share",
+        "IsAutoGenerated": true,
+        "UId": 1,
+        "Id": 0,
+        "Name": "Flow",
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationText": false,
+        "OverwriteText": false,
+        "FunctionText": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationFunctionText": false,
+        "OverwriteFunctionText": false,
+        "OverwriteDpt": false,
+        "OverwriteDpst": false,
+        "SubTypeNumber": null,
+        "SubType": null,
+        "TypeNumber": null,
+        "Type": null,
+        "OverwriteOS": false,
+        "ObjectSize": 1,
+        "ComObject": 1,
+        "FlagRead": false,
+        "OverwriteFR": false,
+        "FlagWrite": false,
+        "OverwriteFW": false,
+        "FlagTrans": false,
+        "OverwriteFT": false,
+        "FlagComm": true,
+        "OverwriteFC": false,
+        "FlagUpdate": false,
+        "OverwriteFU": false,
+        "FlagOnInit": false,
+        "OverwriteFOI": false,
+        "UseTextParameter": false,
+        "ParameterRef": 0
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ComObjectRef, Kaenx.Creator.Share",
+        "IsAutoGenerated": true,
+        "UId": 2,
+        "Id": 1,
+        "Name": "Volume",
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationText": false,
+        "OverwriteText": false,
+        "FunctionText": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationFunctionText": false,
+        "OverwriteFunctionText": false,
+        "OverwriteDpt": false,
+        "OverwriteDpst": false,
+        "SubTypeNumber": null,
+        "SubType": null,
+        "TypeNumber": null,
+        "Type": null,
+        "OverwriteOS": false,
+        "ObjectSize": 1,
+        "ComObject": 2,
+        "FlagRead": false,
+        "OverwriteFR": false,
+        "FlagWrite": false,
+        "OverwriteFW": false,
+        "FlagTrans": false,
+        "OverwriteFT": false,
+        "FlagComm": true,
+        "OverwriteFC": false,
+        "FlagUpdate": false,
+        "OverwriteFU": false,
+        "FlagOnInit": false,
+        "OverwriteFOI": false,
+        "UseTextParameter": false,
+        "ParameterRef": 0
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ComObjectRef, Kaenx.Creator.Share",
+        "IsAutoGenerated": true,
+        "UId": 3,
+        "Id": 2,
+        "Name": "Temperature",
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationText": false,
+        "OverwriteText": false,
+        "FunctionText": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationFunctionText": false,
+        "OverwriteFunctionText": false,
+        "OverwriteDpt": false,
+        "OverwriteDpst": false,
+        "SubTypeNumber": null,
+        "SubType": null,
+        "TypeNumber": null,
+        "Type": null,
+        "OverwriteOS": false,
+        "ObjectSize": 1,
+        "ComObject": 3,
+        "FlagRead": false,
+        "OverwriteFR": false,
+        "FlagWrite": false,
+        "OverwriteFW": false,
+        "FlagTrans": false,
+        "OverwriteFT": false,
+        "FlagComm": true,
+        "OverwriteFC": false,
+        "FlagUpdate": false,
+        "OverwriteFU": false,
+        "FlagOnInit": false,
+        "OverwriteFOI": false,
+        "UseTextParameter": false,
+        "ParameterRef": 0
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ComObjectRef, Kaenx.Creator.Share",
+        "IsAutoGenerated": true,
+        "UId": 4,
+        "Id": 3,
+        "Name": "Battery Life",
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationText": false,
+        "OverwriteText": false,
+        "FunctionText": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationFunctionText": false,
+        "OverwriteFunctionText": false,
+        "OverwriteDpt": false,
+        "OverwriteDpst": false,
+        "SubTypeNumber": null,
+        "SubType": null,
+        "TypeNumber": null,
+        "Type": null,
+        "OverwriteOS": false,
+        "ObjectSize": 1,
+        "ComObject": 4,
+        "FlagRead": false,
+        "OverwriteFR": false,
+        "FlagWrite": false,
+        "OverwriteFW": false,
+        "FlagTrans": false,
+        "OverwriteFT": false,
+        "FlagComm": true,
+        "OverwriteFC": false,
+        "FlagUpdate": false,
+        "OverwriteFU": false,
+        "FlagOnInit": false,
+        "OverwriteFOI": false,
+        "UseTextParameter": false,
+        "ParameterRef": 0
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ComObjectRef, Kaenx.Creator.Share",
+        "IsAutoGenerated": true,
+        "UId": 5,
+        "Id": 4,
+        "Name": "Linked",
+        "Text": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationText": false,
+        "OverwriteText": false,
+        "FunctionText": [
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Deutsch",
+              "CultureCode": "de-DE"
+            },
+            "Text": "",
+            "Preview": ""
+          },
+          {
+            "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+            "Language": {
+              "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+              "Text": "Englisch",
+              "CultureCode": "en-US"
+            },
+            "Text": "",
+            "Preview": ""
+          }
+        ],
+        "TranslationFunctionText": false,
+        "OverwriteFunctionText": false,
+        "OverwriteDpt": false,
+        "OverwriteDpst": false,
+        "SubTypeNumber": null,
+        "SubType": null,
+        "TypeNumber": null,
+        "Type": null,
+        "OverwriteOS": false,
+        "ObjectSize": 1,
+        "ComObject": 5,
+        "FlagRead": false,
+        "OverwriteFR": false,
+        "FlagWrite": false,
+        "OverwriteFW": false,
+        "FlagTrans": false,
+        "OverwriteFT": false,
+        "FlagComm": true,
+        "OverwriteFC": false,
+        "FlagUpdate": false,
+        "OverwriteFU": false,
+        "FlagOnInit": false,
+        "OverwriteFOI": false,
+        "UseTextParameter": false,
+        "ParameterRef": 0
+      }
+    ],
+    "Memories": [
+      {
+        "$type": "Kaenx.Creator.Models.Memory, Kaenx.Creator.Share",
+        "StartAddress": 0,
+        "UId": 1,
+        "Name": "Parameter",
+        "Address": 0,
+        "Size": 5,
+        "Offset": 0,
+        "IsAutoPara": true,
+        "IsAutoOrder": true,
+        "IsAutoSize": true,
+        "IsAutoLoad": true,
+        "Type": 1
+      }
+    ],
+    "Modules": [],
+    "Messages": [],
+    "Unions": [],
+    "Languages": [
+      {
+        "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+        "Text": "Deutsch",
+        "CultureCode": "de-DE"
+      },
+      {
+        "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+        "Text": "Englisch",
+        "CultureCode": "en-US"
+      }
+    ],
+    "Helptexts": [],
+    "Allocators": [],
+    "OpenKnxModules": [],
+    "Dynamics": [
+      {
+        "$type": "Kaenx.Creator.Models.Dynamic.DynamicMain, Kaenx.Creator.Share",
+        "IsExpanded": true,
+        "Name": "Root Knoten",
+        "Items": [
+          {
+            "$type": "Kaenx.Creator.Models.Dynamic.DynChannelIndependent, Kaenx.Creator.Share",
+            "IsExpanded": true,
+            "Name": "",
+            "Items": [
+              {
+                "$type": "Kaenx.Creator.Models.Dynamic.DynParaBlock, Kaenx.Creator.Share",
+                "IsExpanded": false,
+                "Id": 1,
+                "Name": "Global",
+                "Text": [
+                  {
+                    "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+                    "Language": {
+                      "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+                      "Text": "Deutsch",
+                      "CultureCode": "de-DE"
+                    },
+                    "Text": "Globale Einstellungen",
+                    "Preview": "Globale Einstellungen"
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+                    "Language": {
+                      "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+                      "Text": "Englisch",
+                      "CultureCode": "en-US"
+                    },
+                    "Text": "General Settings",
+                    "Preview": "General Settings"
+                  }
+                ],
+                "TranslationText": false,
+                "UseParameterRef": false,
+                "ParameterRef": 0,
+                "UseTextParameter": false,
+                "TextRef": 0,
+                "Layout": 0,
+                "IsInline": false,
+                "UseIcon": false,
+                "IconId": -1,
+                "Access": 2,
+                "ShowInComObjectTree": false,
+                "Items": [
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynParameter, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "ParameterRef": 4,
+                    "HasHelptext": false,
+                    "HelptextId": 0,
+                    "UseIcon": false,
+                    "IconId": -1,
+                    "Cell": null,
+                    "Items": null,
+                    "HelpText": null
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynParameter, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "ParameterRef": 5,
+                    "HasHelptext": false,
+                    "HelptextId": 0,
+                    "UseIcon": false,
+                    "IconId": -1,
+                    "Cell": null,
+                    "Items": null,
+                    "HelpText": null
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynParameter, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "ParameterRef": 2,
+                    "HasHelptext": false,
+                    "HelptextId": 0,
+                    "UseIcon": false,
+                    "IconId": -1,
+                    "Cell": null,
+                    "Items": null,
+                    "HelpText": null
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynParameter, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "ParameterRef": 1,
+                    "HasHelptext": false,
+                    "HelptextId": 0,
+                    "UseIcon": false,
+                    "IconId": -1,
+                    "Cell": null,
+                    "Items": null,
+                    "HelpText": null
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynParameter, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "ParameterRef": 3,
+                    "HasHelptext": false,
+                    "HelptextId": 0,
+                    "UseIcon": false,
+                    "IconId": -1,
+                    "Cell": null,
+                    "Items": null,
+                    "HelpText": null
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynParameter, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "ParameterRef": 6,
+                    "HasHelptext": false,
+                    "HelptextId": 0,
+                    "UseIcon": false,
+                    "IconId": -1,
+                    "Cell": null,
+                    "Items": null,
+                    "HelpText": null
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynChooseBlock, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "IsGlobal": false,
+                    "ParameterRef": 1,
+                    "Items": [
+                      {
+                        "$type": "Kaenx.Creator.Models.Dynamic.DynWhenBlock, Kaenx.Creator.Share",
+                        "IsExpanded": false,
+                        "Name": "",
+                        "IsDefault": false,
+                        "Condition": "=1",
+                        "Items": [
+                          {
+                            "$type": "Kaenx.Creator.Models.Dynamic.DynComObject, Kaenx.Creator.Share",
+                            "IsExpanded": false,
+                            "Name": "",
+                            "ComObjectRef": 2,
+                            "Items": null
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynChooseBlock, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "IsGlobal": false,
+                    "ParameterRef": 2,
+                    "Items": [
+                      {
+                        "$type": "Kaenx.Creator.Models.Dynamic.DynWhenBlock, Kaenx.Creator.Share",
+                        "IsExpanded": false,
+                        "Name": "",
+                        "IsDefault": false,
+                        "Condition": "=1",
+                        "Items": [
+                          {
+                            "$type": "Kaenx.Creator.Models.Dynamic.DynComObject, Kaenx.Creator.Share",
+                            "IsExpanded": false,
+                            "Name": "",
+                            "ComObjectRef": 1,
+                            "Items": null
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynChooseBlock, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "IsGlobal": false,
+                    "ParameterRef": 3,
+                    "Items": [
+                      {
+                        "$type": "Kaenx.Creator.Models.Dynamic.DynWhenBlock, Kaenx.Creator.Share",
+                        "IsExpanded": false,
+                        "Name": "",
+                        "IsDefault": false,
+                        "Condition": "=1",
+                        "Items": [
+                          {
+                            "$type": "Kaenx.Creator.Models.Dynamic.DynComObject, Kaenx.Creator.Share",
+                            "IsExpanded": false,
+                            "Name": "",
+                            "ComObjectRef": 3,
+                            "Items": null
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynChooseBlock, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "IsGlobal": false,
+                    "ParameterRef": 6,
+                    "Items": [
+                      {
+                        "$type": "Kaenx.Creator.Models.Dynamic.DynWhenBlock, Kaenx.Creator.Share",
+                        "IsExpanded": false,
+                        "Name": "",
+                        "IsDefault": false,
+                        "Condition": "=1",
+                        "Items": [
+                          {
+                            "$type": "Kaenx.Creator.Models.Dynamic.DynComObject, Kaenx.Creator.Share",
+                            "IsExpanded": false,
+                            "Name": "",
+                            "ComObjectRef": 4,
+                            "Items": null
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$type": "Kaenx.Creator.Models.Dynamic.DynComObject, Kaenx.Creator.Share",
+                    "IsExpanded": false,
+                    "Name": "",
+                    "ComObjectRef": 5,
+                    "Items": null
+                  }
+                ],
+                "Rows": [],
+                "Columns": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "NamespaceVersion": 23,
+    "DefaultLanguage": "de-DE",
+    "DefaultLanguageIndex": 0,
+    "Name": "KMP-Watermeter",
+    "ReplacesVersions": "",
+    "Script": "",
+    "NameText": "V 0.7 KMP-Watermeter",
+    "Text": [
+      {
+        "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+        "Language": {
+          "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+          "Text": "Deutsch",
+          "CultureCode": "de-DE"
+        },
+        "Text": "KMP Wassermeter Lese Applikation",
+        "Preview": "KMP Wassermeter Lese Applikation"
+      },
+      {
+        "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+        "Language": {
+          "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+          "Text": "Englisch",
+          "CultureCode": "en-US"
+        },
+        "Text": "KMP Watermeter Reader Application",
+        "Preview": "KMP Watermeter Reader Application"
+      }
+    ],
+    "Number": 7,
+    "AddressTableMaxCount": 65535,
+    "AddressTableOffset": 0,
+    "AddressMemoryId": -1,
+    "AssociationTableMaxCount": 65535,
+    "AssociationTableOffset": 0,
+    "AssociationMemoryId": -1,
+    "ComObjectTableOffset": 0,
+    "ComObjectMemoryId": -1,
+    "IsParameterRefAuto": true,
+    "IsComObjectRefAuto": true,
+    "IsUnionActive": false,
+    "IsModulesActive": false,
+    "IsMessagesActive": false,
+    "IsMemSizeAuto": true,
+    "IsHelpActive": false,
+    "IsBusInterfaceActive": false,
+    "HasBusInterfaceRouter": false,
+    "BusInterfaceCounter": 4,
+    "Procedure": "<LoadProcedures>\r\n  <LoadProcedure MergeId=\"2\">\r\n    <LdCtrlRelSegment LsmIdx=\"4\" Size=\"5\" Mode=\"0\" Fill=\"0\" />\r\n  </LoadProcedure>\r\n  <LoadProcedure MergeId=\"4\">\r\n    <LdCtrlWriteRelMem ObjIdx=\"4\" Offset=\"0\" Size=\"5\" Verify=\"true\" />\r\n  </LoadProcedure>\r\n</LoadProcedures>",
+    "IsPreETS4": false,
+    "LastParameterId": 55,
+    "LastParameterRefId": 55,
+    "LastDynModuleId": 0,
+    "LastDynSeparatorId": 0,
+    "HighestComNumber": 5
+  },
+  "Catalog": [
+    {
+      "$type": "Kaenx.Creator.Models.CatalogItem, Kaenx.Creator.Share",
+      "Name": "Hauptkategorie (wird nicht exportiert)",
+      "Number": null,
+      "IsSection": true,
+      "Text": [],
+      "Items": [
+        {
+          "$type": "Kaenx.Creator.Models.CatalogItem, Kaenx.Creator.Share",
+          "Name": "Devices",
+          "Number": "Device",
+          "IsSection": true,
+          "Text": [
+            {
+              "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+              "Language": {
+                "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+                "Text": "Deutsch",
+                "CultureCode": "de-DE"
+              },
+              "Text": "Geräte",
+              "Preview": "Geräte"
+            },
+            {
+              "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+              "Language": {
+                "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+                "Text": "Englisch",
+                "CultureCode": "en-US"
+              },
+              "Text": "Devices",
+              "Preview": "Devices"
+            }
+          ],
+          "Items": [
+            {
+              "$type": "Kaenx.Creator.Models.CatalogItem, Kaenx.Creator.Share",
+              "Name": "KMP-001 KMP Watermeter Interface",
+              "Number": "1",
+              "IsSection": false,
+              "Text": [
+                {
+                  "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+                  "Language": {
+                    "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+                    "Text": "Deutsch",
+                    "CultureCode": "de-DE"
+                  },
+                  "Text": "",
+                  "Preview": ""
+                },
+                {
+                  "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
+                  "Language": {
+                    "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+                    "Text": "Englisch",
+                    "CultureCode": "en-US"
+                  },
+                  "Text": "",
+                  "Preview": ""
+                }
+              ],
+              "Items": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Languages": [
+    {
+      "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+      "Text": "Deutsch",
+      "CultureCode": "de-DE"
+    },
+    {
+      "$type": "Kaenx.Creator.Models.Language, Kaenx.Creator.Share",
+      "Text": "Englisch",
+      "CultureCode": "en-US"
+    }
+  ],
+  "Baggages": [],
+  "Icons": [],
+  "ImportVersion": 10,
+  "ManufacturerId": 175,
+  "IsOpenKnx": true
+}
