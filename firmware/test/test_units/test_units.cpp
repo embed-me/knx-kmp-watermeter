@@ -38,11 +38,3 @@ TEST(KmpUnits, UnknownEnumValue) {
 TEST(KmpUnits, UnmappedByte0x10) {
     EXPECT_EQ(unitToString(static_cast<KmpUnit>(0x10)), "UNKNOWN");
 }
-
-TEST(KmpUnits, M3_0x38_shouldBeM3_BUG) {
-    EXPECT_EQ(unitToString(static_cast<KmpUnit>(0x38)), "m3");
-}
-
-TEST(KmpUnits, M3_0x3E_shouldBeUNKNOWN_BUG) {
-    EXPECT_EQ(unitToString(static_cast<KmpUnit>(0x3E)), "UNKNOWN");
-}

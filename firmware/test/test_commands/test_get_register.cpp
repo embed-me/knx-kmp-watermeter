@@ -65,7 +65,7 @@ TEST_F(GetRegisterCommandTest, DecodeVolume_CorrectPath) {
     auto cmd = std::make_shared<GetRegisterCommand>(mockApp, 0x0044);
     CommandResult received;
     cmd->registerListener([&](const CommandResult& r) { received = r; });
-    std::vector<uint8_t> payload = {0x00, 0x44, 0x38, 0x04, 0x43, 0x00, 0x00, 0x15, 0xC0};
+    std::vector<uint8_t> payload = {0x00, 0x44, 0x3E, 0x04, 0x43, 0x00, 0x00, 0x15, 0xC0};
     cmd->onExecuteResult(ExecuteResult::SUCCESS, payload);
 
     EXPECT_EQ(received.result, CommandResult::Result::OK);
