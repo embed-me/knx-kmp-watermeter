@@ -1,5 +1,7 @@
 # 🛠️ UP Buzzer - Firmware
 
+![Pipeline](https://github.com/embed-me/knx-up-buzzer/actions/workflows/pipeline.yml/badge.svg)
+
 To ensure the application functions correctly, the product database must be imported into **ETS**, the physical address must be set, and the application must be written to the device.
 
 

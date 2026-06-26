@@ -1,0 +1,73 @@
+name: Pipeline
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'firmware/src/**'
+      - 'firmware/test/**'
+      - 'firmware/platformio.ini'
+      - '.github/workflows/pipeline.yml'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Install cppcheck
+        run: sudo apt-get update && sudo apt-get install -y cppcheck
+
+      - name: Build (download platform & libraries)
+        working-directory: firmware
+        run: pio run -e release
+
+      - name: Run cppcheck on project sources
+        working-directory: firmware
+        run: |
+          cppcheck --enable=all \
+            --error-exitcode=1 \
+            -i.pio \
+            -isrc/.pio \
+            -DKNX_NO_AUTOMATIC_GLOBAL_INSTANCE \
+            -DMASK_VERSION=0x07B0 \
+            -DKNX_FLASH_SIZE=0x8000 \
+            -DUSE_TP_RX_QUEUE \
+            -DPIO_FRAMEWORK_ARDUINO_ENABLE_RTTI \
+            --suppress=missingInclude \
+            --suppress=unmatchedSuppression \
+            src/application/ \
+            src/drivers/ \
+            src/utils/ \
+            src/main.cpp
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Create c++ symlink
+        run: sudo ln -sf $(which g++) /usr/bin/c++
+
+      - name: Run tests
+        working-directory: firmware
+        run: pio test -e test
