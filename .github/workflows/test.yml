@@ -1,0 +1,34 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'firmware/src/**'
+      - 'firmware/test/**'
+      - 'firmware/platformio.ini'
+      - '.github/workflows/test.yml'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Create c++ symlink
+        run: sudo ln -sf $(which g++) /usr/bin/c++
+
+      - name: Run tests
+        working-directory: firmware
+        run: pio test -e test
