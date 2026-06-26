@@ -1,5 +1,4 @@
 #include "SimpleScheduler.hpp"
-#include <Arduino.h>
 #include "src/drivers/logger/Logger.hpp"
 
 using namespace utils;
@@ -7,20 +6,21 @@ using namespace drivers::logger;
 
 SimpleScheduler::SimpleScheduler()
 {
+    critical_section_init(&_cs);
 }
 
 void SimpleScheduler::process()
 {
     bool empty;
     do {
-        noInterrupts();
+        critical_section_enter_blocking(&_cs);
         empty = queue.empty();
         std::function<void(void*)> work;
         if (!empty) {
             work = queue.front();
             queue.pop();
         }
-        interrupts();
+        critical_section_exit(&_cs);
 
         if (!empty && work) {
             work(nullptr);
@@ -35,12 +35,12 @@ void SimpleScheduler::process()
 
 void SimpleScheduler::schedule(std::function<void(void*)> work)
 {
-    noInterrupts();
+    critical_section_enter_blocking(&_cs);
     bool isSpaceInQueue = (queue.size() < MAX_QUEUE_SIZE);
     if (work && isSpaceInQueue) {
         queue.push(work);
     } else if (work) {
         dropped_count++;
     }
-    interrupts();
+    critical_section_exit(&_cs);
 }

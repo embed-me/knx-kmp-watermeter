@@ -54,6 +54,11 @@ void PhysicalLayer::onUartData(const std::vector<uint8_t>& chunk)
             notifyAckListeners(AckType::Nak);
             continue;
         }
+        if (rx_buffer_.size() >= MAX_RX_BUFFER) {
+            rx_buffer_.clear();
+            inside_frame_ = false;
+            logWarning("PhysicalLayer: rx buffer overflow, resetting");
+        }
         rx_buffer_.push_back(b);
         if (b == START_TO_HOST) {
             inside_frame_ = true;

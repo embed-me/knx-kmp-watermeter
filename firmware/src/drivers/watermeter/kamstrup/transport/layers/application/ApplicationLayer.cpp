@@ -29,7 +29,7 @@ void ApplicationLayer::sendRequest(uint8_t cid, const std::vector<uint8_t>& payl
 
 void ApplicationLayer::registerHandler(uint8_t cid, std::function<void(const std::vector<uint8_t>&)> handler) 
 {
-    handlers_[cid].push_back(handler);
+    handlers_[cid] = std::move(handler);
 }
 
 void ApplicationLayer::onDataLinkReceive(const std::vector<uint8_t>& appFrame) 
@@ -47,8 +47,10 @@ void ApplicationLayer::onDataLinkReceive(const std::vector<uint8_t>& appFrame)
 
     auto it = handlers_.find(cid);
     if (it != handlers_.end()) {
-        for (auto &h : it->second) {
-            h(payload);
+        auto handler = std::move(it->second);
+        handlers_.erase(it);
+        if (handler) {
+            handler(payload);
         }
     } else {
         logInfo("ApplicationLayer: no handler for CID 0x%02X", cid);

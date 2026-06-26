@@ -4,7 +4,6 @@
 #include "../IApplicationLayer.hpp"
 #include "../IDataLinkLayer.hpp"
 
-#include <vector>
 #include <functional>
 #include <memory>
 #include <unordered_map>
@@ -27,7 +26,7 @@ private:
     void notifyAckListeners(AckType type);
 
     std::shared_ptr<IDataLinkLayer> dataLinkLayer;
-    std::unordered_map<uint8_t, std::vector<std::function<void(const std::vector<uint8_t>&)>>> handlers_;
+    std::unordered_map<uint8_t, std::function<void(const std::vector<uint8_t>&)>> handlers_;
     std::vector<std::function<void(AckType)>> ackListeners_;
 };
 

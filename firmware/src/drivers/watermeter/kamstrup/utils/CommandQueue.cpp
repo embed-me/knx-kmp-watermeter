@@ -57,15 +57,10 @@ void CommandQueue::sendNext()
         appLayer_->registerHandler(cid, [this, seq = currentSeq_](const std::vector<uint8_t>& payload) {
             if (seq == currentSeq_) {
                 currentCmd_->onExecuteResult(ExecuteResult::SUCCESS, payload);
+                this->onCommandDone();
             }
         });
     }
-
-    currentCmd_->registerListener([this, seq = currentSeq_](const CommandResult&) {
-        if (seq == currentSeq_) {
-            this->onCommandDone();
-        }
-    });
     logInfo("CommandQueue: sending CID 0x%02X", cid);
     currentCmd_->execute();
     timeoutTimer_->start(COMMAND_TIMEOUT_US, drivers::timer::TimerMode::SINGLE_SHOT);

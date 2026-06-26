@@ -39,6 +39,8 @@ private:
     // ACK/NAK bytes are only interpreted outside a frame; inside, they are valid data.
     bool inside_frame_ = false;
 
+    static constexpr size_t MAX_RX_BUFFER = 1024;
+
     const uint8_t START_TO_METER = 0x80;
     const uint8_t START_TO_HOST = 0x40;
     const uint8_t STOP = 0x0D;

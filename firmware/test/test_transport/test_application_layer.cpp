@@ -61,14 +61,16 @@ TEST_F(ApplicationLayerTest, AckReceived_NotifiesListener) {
     EXPECT_EQ(received, AckType::Ack);
 }
 
-TEST_F(ApplicationLayerTest, MultipleHandlersForSameCid_AllCalled) {
-    int count = 0;
-    app->registerHandler(0x10, [&](const std::vector<uint8_t>&) { count++; });
-    app->registerHandler(0x10, [&](const std::vector<uint8_t>&) { count++; });
+TEST_F(ApplicationLayerTest, MultipleHandlersForSameCid_LastCalled) {
+    bool called1 = false;
+    bool called2 = false;
+    app->registerHandler(0x10, [&](const std::vector<uint8_t>&) { called1 = true; });
+    app->registerHandler(0x10, [&](const std::vector<uint8_t>&) { called2 = true; });
 
     mockDl->simulateReceive({0x10, 0x00});
 
-    EXPECT_EQ(count, 2);
+    EXPECT_FALSE(called1);
+    EXPECT_TRUE(called2);
 }
 
 TEST_F(ApplicationLayerTest, SendRequestWithNullDataLink_NoCrash) {
