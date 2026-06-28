@@ -13,15 +13,7 @@ KNX TP1 interface for Kamstrup water/heat meters via KMP protocol. Reads meter d
 | `housing/`   | 3D-printable enclosure                           |
 | `software/`  | KNX ETS product database                         |
 
-## Quick Start
-
-```bash
-# Firmware
-cd firmware
-pip install platformio
-pio run -e release       # build
-pio test -e test         # test
-```
+## Firmware
 
 See [firmware/Readme.md](firmware/Readme.md) for static analysis and flashing instructions.
 

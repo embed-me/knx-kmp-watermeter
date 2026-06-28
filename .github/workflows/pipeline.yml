@@ -29,28 +29,13 @@ jobs:
       - name: Install cppcheck
         run: sudo apt-get update && sudo apt-get install -y cppcheck
 
-      - name: Build (download platform & libraries)
-        working-directory: firmware
-        run: pio run -e release
+      # - name: Build (download platform & libraries)
+      #   working-directory: firmware
+      #   run: pio run -e release
 
       - name: Run cppcheck on project sources
         working-directory: firmware
-        run: |
-          cppcheck --enable=all \
-            --error-exitcode=1 \
-            -i.pio \
-            -isrc/.pio \
-            -DKNX_NO_AUTOMATIC_GLOBAL_INSTANCE \
-            -DMASK_VERSION=0x07B0 \
-            -DKNX_FLASH_SIZE=0x8000 \
-            -DUSE_TP_RX_QUEUE \
-            -DPIO_FRAMEWORK_ARDUINO_ENABLE_RTTI \
-            --suppress=missingInclude \
-            --suppress=unmatchedSuppression \
-            src/application/ \
-            src/drivers/ \
-            src/utils/ \
-            src/main.cpp
+        run: pio check -e check
 
   test:
     runs-on: ubuntu-latest
