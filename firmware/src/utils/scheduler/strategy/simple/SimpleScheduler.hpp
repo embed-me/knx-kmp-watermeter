@@ -2,7 +2,6 @@
 #define _SIMPLE_SCHEDULER_HPP_
 
 #include "../ISchedulerStrategy.hpp"
-#include <pico/critical_section.h>
 
 #include <queue>
 #include <functional>
@@ -20,10 +19,9 @@ public:
     virtual void schedule(std::function<void(void*)> work) override;
 
 private:
-    static const uint16_t MAX_QUEUE_SIZE = 500;
+    static const uint8_t MAX_QUEUE_SIZE = 100;
+    static const uint8_t MAX_PER_CYCLE_LIMIT = 10;
     std::queue<std::function<void(void*)>> queue;
-    uint32_t dropped_count = 0;
-    critical_section_t _cs;
 };
 
 }

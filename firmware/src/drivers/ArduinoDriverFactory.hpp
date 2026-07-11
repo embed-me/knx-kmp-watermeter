@@ -27,6 +27,10 @@ public:
     virtual std::shared_ptr<knx::IKnxDriver> getKnxDriver() override;
     virtual std::shared_ptr<watchdog::IWatchdogDriver> getWatchdogDriver() override;
     virtual std::shared_ptr<uart::IUartDriver> getUartDriver() override;
+    virtual std::shared_ptr<motion::IMotionDriver> getMotionDriver() override;
+    virtual std::shared_ptr<watermeter::wakeup::IWatermeterWakeupDriver> getWatermeterWakeupDriver(
+        std::shared_ptr<motion::IMotionDriver> motion,
+        const motion::MotionConfig& cfg) override;
 private:
 };
 

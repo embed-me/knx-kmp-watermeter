@@ -6,11 +6,10 @@ using namespace drivers::logger;
 
 namespace drivers::watermeter::kamstrup::transport {
 
-constexpr uint32_t COMMAND_TIMEOUT_US = 1600000; // 1.6 seconds per MULTICAL spec
-constexpr uint32_t RETRY_DELAY_US = 1600000;     // 1.6 seconds after timeout before next request
-
-CommandQueue::CommandQueue(std::shared_ptr<IApplicationLayer> appLayer)
+CommandQueue::CommandQueue(std::shared_ptr<IApplicationLayer> appLayer,
+                           const CommandQueueConfig& cfg)
     : appLayer_(appLayer)
+    , config_(cfg)
 {
     auto timerFactory = std::make_shared<drivers::timer::TimerFactory>();
 
@@ -22,11 +21,11 @@ CommandQueue::CommandQueue(std::shared_ptr<IApplicationLayer> appLayer)
         });
     }, this);
 
-    retryTimer_ = timerFactory->getTimer();
-    retryTimer_->setupInterruptHandler([](void* arg) {
+    settleTimer_ = timerFactory->getTimer();
+    settleTimer_->setupInterruptHandler([](void* arg) {
         auto* self = static_cast<CommandQueue*>(arg);
         utils::Scheduler::schedule([self](void*) {
-            self->onRetryDelayExpired();
+            self->onSettled();
         });
     }, this);
 }
@@ -37,14 +36,19 @@ void CommandQueue::enqueue(std::shared_ptr<ICommand> cmd)
         return;
     }
     queue_.push(cmd);
-    if (!busy_ && !waitingRetry_) {
-        sendNext();
+    if (!busy_) {
+        if (wakeupDriver_ && !wakeupDriver_->isAwake()) {
+            wakeupDriver_->wakeup();
+            settleTimer_->start(config_.settleDelayUs, drivers::timer::TimerMode::SINGLE_SHOT);
+        } else {
+            sendNext();
+        }
     }
 }
 
 void CommandQueue::sendNext()
 {
-    if (queue_.empty() || busy_ || waitingRetry_) {
+    if (queue_.empty() || busy_) {
         return;
     }
     busy_ = true;
@@ -63,7 +67,7 @@ void CommandQueue::sendNext()
     }
     logInfo("CommandQueue: sending CID 0x%02X", cid);
     currentCmd_->execute();
-    timeoutTimer_->start(COMMAND_TIMEOUT_US, drivers::timer::TimerMode::SINGLE_SHOT);
+    timeoutTimer_->start(config_.commandTimeoutUs, drivers::timer::TimerMode::SINGLE_SHOT);
 }
 
 void CommandQueue::onCommandDone()
@@ -79,6 +83,10 @@ void CommandQueue::onCommandDone()
     busy_ = false;
     if (!queue_.empty()) {
         sendNext();
+    } else {
+        if (wakeupDriver_ && wakeupDriver_->isAwake()) {
+            wakeupDriver_->sleep();
+        }
     }
 }
 
@@ -88,11 +96,10 @@ void CommandQueue::onTimeout()
         return;
     }
     if (timeoutSeq_ != currentSeq_) {
-        return; // stale timeout for a previous command
+        return;
     }
     timeoutTimer_->stop();
 
-    // Invalidates the queue's internal listener (seq check) so onCommandDone won't fire
     ++currentSeq_;
 
     if (currentCmd_) {
@@ -104,18 +111,24 @@ void CommandQueue::onTimeout()
     }
     currentCmd_.reset();
     busy_ = false;
-    waitingRetry_ = true;
-    retryTimer_->stop();
-    retryTimer_->start(RETRY_DELAY_US, drivers::timer::TimerMode::SINGLE_SHOT);
-}
 
-void CommandQueue::onRetryDelayExpired()
-{
-    waitingRetry_ = false;
-    retryTimer_->stop(); // clear alarm_id so it can be restarted
     if (!queue_.empty()) {
         sendNext();
+    } else {
+        if (wakeupDriver_ && wakeupDriver_->isAwake()) {
+            wakeupDriver_->sleep();
+        }
     }
+}
+
+void CommandQueue::setWakeupDriver(std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> driver)
+{
+    wakeupDriver_ = driver;
+}
+
+void CommandQueue::onSettled()
+{
+    sendNext();
 }
 
 } // namespace drivers::watermeter::kamstrup::transport

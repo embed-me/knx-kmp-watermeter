@@ -17,6 +17,7 @@ public:
     virtual void setProgmodeChangeCallback(std::function<void(bool)> callback) = 0;
     virtual void register_cb(int ko_number, std::function<void(GroupObject&)>) = 0;
     virtual void toggleProgMode() = 0;
+    virtual void loop() = 0;
 };
 
 }

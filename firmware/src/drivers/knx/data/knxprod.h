@@ -9,7 +9,7 @@
 //--------------------Allgemein---------------------------
 #define MAIN_OpenKnxId 0xAF
 #define MAIN_ApplicationNumber 0x00
-#define MAIN_ApplicationVersion 0x07
+#define MAIN_ApplicationVersion 0x0A
 #define MAIN_OrderNumber "TA-00002.1"
 #define MAIN_ParameterSize 5
 #define MAIN_MaxKoNumber 5

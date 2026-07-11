@@ -95,7 +95,8 @@ void WatermeterApp::initRegisterCommands()
 
 void WatermeterApp::initQueue()
 {
-    commandQueue_ = std::make_shared<kmp::CommandQueue>(kmpApplication_);
+    kmp::CommandQueueConfig cfg;
+    commandQueue_ = std::make_shared<kmp::CommandQueue>(kmpApplication_, cfg);
 }
 
 void WatermeterApp::initTimers()
@@ -104,16 +105,18 @@ void WatermeterApp::initTimers()
 
     auto timerFactory = std::make_shared<drivers::timer::TimerFactory>();
 
-    keepAliveTimer_ = timerFactory->getTimer();
-    keepAliveTimer_->setupInterruptHandler([](void* arg){
-        auto* self = static_cast<WatermeterApp*>(arg);
-        utils::Scheduler::schedule([self](void*) {
-            if (self->keepAliveCmd_ && self->commandQueue_) {
-                self->commandQueue_->enqueue(self->keepAliveCmd_);
-            }
-        });
-    }, this);
-    keepAliveTimer_->start(knxWaterCfg.keepAliveIntervalSec * USEC_PER_SEC, drivers::timer::TimerMode::RECURRING);
+    if (knxWaterCfg.keepAliveIntervalSec) {
+        keepAliveTimer_ = timerFactory->getTimer();
+        keepAliveTimer_->setupInterruptHandler([](void* arg){
+            auto* self = static_cast<WatermeterApp*>(arg);
+            utils::Scheduler::schedule([self](void*) {
+                if (self->keepAliveCmd_ && self->commandQueue_) {
+                    self->commandQueue_->enqueue(self->keepAliveCmd_);
+                }
+            });
+        }, this);
+        keepAliveTimer_->start(knxWaterCfg.keepAliveIntervalSec * USEC_PER_SEC, drivers::timer::TimerMode::RECURRING);
+    }
 
     dataTimer_ = timerFactory->getTimer();
     dataTimer_->setupInterruptHandler([](void* arg){
@@ -127,6 +130,14 @@ void WatermeterApp::initTimers()
         });
     }, this);
     dataTimer_->start(knxWaterCfg.dataIntervalSec * USEC_PER_SEC, drivers::timer::TimerMode::RECURRING);
+}
+
+void WatermeterApp::setWakeupDriver(std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> driver)
+{
+    wakeupDriver_ = driver;
+    if (commandQueue_) {
+        commandQueue_->setWakeupDriver(driver);
+    }
 }
 
 } // namespace application

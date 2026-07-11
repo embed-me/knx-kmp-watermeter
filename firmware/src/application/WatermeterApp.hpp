@@ -8,6 +8,7 @@
 #include "../drivers/watermeter/kamstrup/commands/GetSerialNumberCommand.hpp"
 #include "../drivers/watermeter/kamstrup/commands/GetRegisterCommand.hpp"
 #include "../drivers/watermeter/kamstrup/utils/CommandQueue.hpp"
+#include "../drivers/watermeter/wakeup/IWatermeterWakeupDriver.hpp"
 
 #include "../drivers/timer/TimerFactory.hpp"
 #include "../drivers/timer/ITimer.hpp"
@@ -30,6 +31,8 @@ public:
     ) override;
     void process() override;
 
+    void setWakeupDriver(std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> driver);
+
 private:
     void initTransport(std::shared_ptr<drivers::uart::IUartDriver> uart);
     void initKeepAliveCommand();
@@ -50,6 +53,8 @@ private:
 
     std::shared_ptr<drivers::uart::IUartDriver> kmpUart_;
     drivers::knx::KnxConfig* knxConfig_ = nullptr;
+
+    std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver_;
 };
 
 }

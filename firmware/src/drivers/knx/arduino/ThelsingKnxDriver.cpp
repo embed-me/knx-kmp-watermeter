@@ -9,14 +9,11 @@ using namespace drivers::logger;
 
 ThelsingKnxDriver* ThelsingKnxDriver::instance = nullptr;
 
-ThelsingKnxDriver::ThelsingKnxDriver(std::shared_ptr<drivers::ITimerDriverFactory> timerFactory) : 
+ThelsingKnxDriver::ThelsingKnxDriver() : 
     stack(KnxFacade<RP2040ArduinoPlatform, Bau07B0>()), 
-    config(KnxConfig(stack)),
-    timer(timerFactory->getTimer())
+    config(KnxConfig(stack))
 {
     instance = this;
-
-    timer->setupInterruptHandler(loop, this);
 }
 
 void ThelsingKnxDriver::progLedOnCallback()
@@ -38,8 +35,6 @@ void ThelsingKnxDriver::progLedOffCallback()
 bool ThelsingKnxDriver::init()
 {
     bool stackConfigured = true;
-
-    timer->start(1000, drivers::timer::TimerMode::RECURRING);
 
     stack.setProgLedOnCallback(progLedOnCallback);
     stack.setProgLedOffCallback(progLedOffCallback);
@@ -99,13 +94,8 @@ void ThelsingKnxDriver::toggleProgMode()
     
 }
 
-void ThelsingKnxDriver::loop(void *arg)
+void ThelsingKnxDriver::loop()
 {
-    auto inst = static_cast<ThelsingKnxDriver*>(arg);
-    
-    utils::Scheduler::schedule([inst](void*) {
-        if (inst) {
-            inst->stack.loop();
-        }
-    });
+    stack.loop();
 }
+

@@ -1,7 +1,7 @@
 {
   "$type": "Kaenx.Creator.Models.MainModel, Kaenx.Creator.Share",
   "ProjectName": "kmp-watermeter",
-  "Guid": "20eb29d5-7c14-4a5b-837a-e5716d23fb65",
+  "Guid": "054E7375-9718-4C49-A4C0-00DAE8D7E71A",
   "FileName": "kmp-watermeter",
   "Info": {
     "$type": "Kaenx.Creator.Models.Info, Kaenx.Creator.Share",
@@ -104,6 +104,25 @@
         "DisplayOffset": "0",
         "DisplayFactor": "1",
         "Enums": []
+      },
+      {
+        "$type": "Kaenx.Creator.Models.ParameterType, Kaenx.Creator.Share",
+        "UId": 3,
+        "Name": "Keep Alive Interval",
+        "Type": 8,
+        "IsSizeManual": false,
+        "TranslateEnums": true,
+        "SizeInBit": 16,
+        "OtherValue": true,
+        "ExportInHeader": false,
+        "UIHint": "None",
+        "BaggageUId": -1,
+        "Min": "0",
+        "Max": "65535",
+        "Increment": "1",
+        "DisplayOffset": "0",
+        "DisplayFactor": "1",
+        "Enums": []
       }
     ],
     "Parameters": [
@@ -115,7 +134,7 @@
         "SavePath": 1,
         "MemoryId": 1,
         "UnionId": 0,
-        "ParameterType": 1,
+        "ParameterType": 3,
         "Value": "120",
         "IsInUnion": false,
         "IsUnionDefault": false,
@@ -2297,7 +2316,7 @@
         "OverwriteFW": false,
         "FlagTrans": false,
         "OverwriteFT": false,
-        "FlagComm": true,
+        "FlagComm": false,
         "OverwriteFC": false,
         "FlagUpdate": false,
         "OverwriteFU": false,
@@ -2375,7 +2394,7 @@
         "OverwriteFW": false,
         "FlagTrans": false,
         "OverwriteFT": false,
-        "FlagComm": true,
+        "FlagComm": false,
         "OverwriteFC": false,
         "FlagUpdate": false,
         "OverwriteFU": false,
@@ -2453,7 +2472,7 @@
         "OverwriteFW": false,
         "FlagTrans": false,
         "OverwriteFT": false,
-        "FlagComm": true,
+        "FlagComm": false,
         "OverwriteFC": false,
         "FlagUpdate": false,
         "OverwriteFU": false,
@@ -2531,7 +2550,7 @@
         "OverwriteFW": false,
         "FlagTrans": false,
         "OverwriteFT": false,
-        "FlagComm": true,
+        "FlagComm": false,
         "OverwriteFC": false,
         "FlagUpdate": false,
         "OverwriteFU": false,
@@ -2609,7 +2628,7 @@
         "OverwriteFW": false,
         "FlagTrans": false,
         "OverwriteFT": false,
-        "FlagComm": true,
+        "FlagComm": false,
         "OverwriteFC": false,
         "FlagUpdate": false,
         "OverwriteFU": false,
@@ -2903,7 +2922,7 @@
     "Name": "KMP-Watermeter",
     "ReplacesVersions": "",
     "Script": "",
-    "NameText": "V 0.7 KMP-Watermeter",
+    "NameText": "V 0.10 KMP-Watermeter",
     "Text": [
       {
         "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
@@ -2926,7 +2945,7 @@
         "Preview": "KMP Watermeter Reader Application"
       }
     ],
-    "Number": 7,
+    "Number": 10,
     "AddressTableMaxCount": 65535,
     "AddressTableOffset": 0,
     "AddressMemoryId": -1,

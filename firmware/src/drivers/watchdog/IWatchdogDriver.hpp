@@ -11,6 +11,7 @@ public:
 
     virtual void feed() = 0;
     virtual void enable(uint32_t timeout_ms) = 0;
+    virtual bool wasRebootedByWatchdog() = 0;
 };
 
 }

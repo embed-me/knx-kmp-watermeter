@@ -18,3 +18,8 @@ void ArduinoWatchdogDriver::enable(uint32_t timeout_ms)
     bool isPausedOnDebug = true;
     watchdog_enable(timeout_ms, isPausedOnDebug);
 }
+
+bool ArduinoWatchdogDriver::wasRebootedByWatchdog()
+{
+    return watchdog_caused_reboot();
+}

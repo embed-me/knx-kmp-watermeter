@@ -4,6 +4,8 @@
 #include "ITimerDriverFactory.hpp"
 #include "IGpioDriverFactory.hpp"
 #include "IKnxDriverFactory.hpp"
+#include "IMotionDriverFactory.hpp"
+#include "IWatermeterWakeupDriverFactory.hpp"
 #include "logger/ILogger.hpp"
 #include "watchdog/IWatchdogDriver.hpp"
 #include "uart/IUartDriver.hpp"
@@ -12,7 +14,9 @@ namespace drivers {
 
 class IDriverFactory : public ITimerDriverFactory,
                        public IGpioDriverFactory,
-                       public IKnxDriverFactory
+                       public IKnxDriverFactory,
+                       public IMotionDriverFactory,
+                       public IWatermeterWakeupDriverFactory
 {
 public:
     ~IDriverFactory() = default;

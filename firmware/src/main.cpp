@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "drivers/ArduinoDriverFactory.hpp"
+#include "drivers/motion/MotionConfig.hpp"
 
 #include "drivers/logger/Logger.hpp"
 #include "drivers/logger/ILogger.hpp"
@@ -34,13 +35,30 @@ struct drivers::gpio::GpioConfig knxProgLed = {
     .pull = drivers::gpio::GPIO_PULL::PULL_NONE
 };
 
-/* Drivers */
-std::shared_ptr<drivers::IDriverFactory> driverFactory = std::make_shared<drivers::ArduinoDriverFactory>();
-//#ifdef KNX_KMP_WATERMETER_DISABLE_LOGGING
+struct drivers::uart::UartConfig kmpUartCfg = {
+    .baud = 1200,
+    .dataBits = 8,
+    .parity = 0,
+    .stopBits = 2,
+    .txPin = 20,
+    .rxPin = 21
+};
+
+drivers::motion::MotionConfig wakeupMotionCfg = { 
+    .pin = 13,
+    .minPulseWidth = 500,
+    .maxPulseWidth = 2500,
+    .wakeupAngle = 90, 
+    .sleepAngle = 50
+};
+
+std::shared_ptr<drivers::IDriverFactory> driverFactory =
+    std::make_shared<drivers::ArduinoDriverFactory>();
+#ifdef KNX_KMP_WATERMETER_DISABLE_LOGGING
     std::shared_ptr<drivers::logger::ILogger> logger = nullptr;
-// #else
-//     std::shared_ptr<drivers::logger::ILogger> logger = driverFactory->getLoggerDriver();
-// #endif
+#else
+    std::shared_ptr<drivers::logger::ILogger> logger = driverFactory->getLoggerDriver();
+#endif
 std::shared_ptr<drivers::gpio::IGpioDriver> gpio = driverFactory->getGpioDriver();
 std::shared_ptr<drivers::knx::IKnxDriver> knx = driverFactory->getKnxDriver();
 std::shared_ptr<drivers::watchdog::IWatchdogDriver> watchdog = driverFactory->getWatchdogDriver();
@@ -82,42 +100,47 @@ std::shared_ptr<application::WatermeterApp> watermeterApp = nullptr;
 
 /* Core 0 */
 void setup() {
-    //drivers::logger::Logger::setLogger(logger);
-    //logger->init(drivers::logger::LOGLEVEL::LOGLEVEL_TRACE, false);
+    drivers::logger::Logger::setLogger(logger);
+    drivers::logger::Logger::getLogger()->init(drivers::logger::LOGLEVEL::LOGLEVEL_TRACE, true);
+
+    if (watchdog->wasRebootedByWatchdog()) {
+        logWarning("System rebooted by watchdog");
+    }
 
     watchdog->enable(WDT_TIMEOUT_MS);
 
     gpio->setConfig(knxProgLed);
     gpio->setConfig(knxProgButton);
     gpio->setupInterruptHandler(knxProgButton, buttonInterrupt);
-
-    bool stackConfigured = knx->init();
-
-    auto& knxConfig = knx->getKnxConfig();
-
-    drivers::uart::UartConfig kmpUartCfg = {
-        .baud = 1200,
-        .dataBits = 8,
-        .parity = 0,
-        .stopBits = 2,
-        .txPin = 20,
-        .rxPin = 21
-    };
-
-    watermeterApp = std::make_shared<application::WatermeterApp>();
-    watermeterApp->init(kmpUart, kmpUartCfg, knxConfig);
     knx->setProgmodeChangeCallback([](bool val) {
         gpio->writeValue(knxProgLed, val);
     });
 
-    std::string version = knx->getApplicationVersion();
-    logInfo("Application Version: " + version);
+    bool stackConfigured = knx->init();
+
+    if (stackConfigured) {
+        std::string version = knx->getApplicationVersion();
+        logInfo("Application Version: " + version);
+
+        auto& knxConfig = knx->getKnxConfig();
+        watermeterApp = std::make_shared<application::WatermeterApp>();
+        watermeterApp->init(kmpUart, kmpUartCfg, knxConfig);
+
+        auto motion = driverFactory->getMotionDriver();
+        motion->setConfig(wakeupMotionCfg);
+        
+        auto wakeupDriver = driverFactory->getWatermeterWakeupDriver(motion, wakeupMotionCfg);
+        watermeterApp->setWakeupDriver(wakeupDriver);
+    } else {
+        logWarning("KNX Stack initialization failed");
+    }
 }
 
 void loop() {
     watchdog->feed();
     watermeterApp->process();
     scheduler->process();
+    knx->loop();
 }
 
 /* Core 1 */

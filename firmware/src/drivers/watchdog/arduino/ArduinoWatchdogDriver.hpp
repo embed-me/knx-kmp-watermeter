@@ -15,6 +15,7 @@ public:
 
     virtual void feed() override;
     virtual void enable(uint32_t timeout_ms) override;
+    virtual bool wasRebootedByWatchdog() override;
 };
 
 }
