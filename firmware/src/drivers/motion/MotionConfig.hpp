@@ -11,6 +11,7 @@ struct MotionConfig {
     uint16_t maxPulseWidth;
     uint8_t wakeupAngle;
     uint8_t sleepAngle;
+    uint32_t settleDelayUs;
 };
 
 }

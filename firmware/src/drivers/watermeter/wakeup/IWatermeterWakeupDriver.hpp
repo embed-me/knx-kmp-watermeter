@@ -1,15 +1,18 @@
 #ifndef _I_WATERMETER_WAKEUP_DRIVER_HPP_
 #define _I_WATERMETER_WAKEUP_DRIVER_HPP_
 
+#include <functional>
+#include <cstdint>
+
 namespace drivers::watermeter::wakeup {
 
 class IWatermeterWakeupDriver {
 public:
     virtual ~IWatermeterWakeupDriver() = default;
 
-    virtual void wakeup() = 0;
+    virtual void wakeup(std::function<void()> onReady) = 0;
     virtual void sleep() = 0;
-    virtual bool isAwake() const = 0;
+    virtual uint32_t getSettleDelayUs() const = 0;
 };
 
 }

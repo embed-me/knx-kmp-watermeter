@@ -6,8 +6,7 @@
 namespace drivers::watermeter::kamstrup::transport {
 
 struct CommandQueueConfig {
-    uint32_t commandTimeoutUs = 1600000;
-    uint32_t settleDelayUs = 5000000;
+    uint32_t commandTimeoutUs;
 };
 
 }

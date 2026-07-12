@@ -5,7 +5,7 @@
 
 #include <memory>
 
-namespace drivers {
+namespace drivers::timer {
 
 class ITimerDriverFactory
 {

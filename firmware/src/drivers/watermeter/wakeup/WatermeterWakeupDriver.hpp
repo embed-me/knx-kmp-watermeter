@@ -4,26 +4,37 @@
 #include "IWatermeterWakeupDriver.hpp"
 #include "src/drivers/motion/IMotionDriver.hpp"
 #include "src/drivers/motion/MotionConfig.hpp"
+#include "src/drivers/timer/ITimer.hpp"
 
 #include <memory>
+#include <functional>
 
 namespace drivers::watermeter::wakeup {
 
 class WatermeterWakeupDriver : public IWatermeterWakeupDriver {
 public:
     WatermeterWakeupDriver(std::shared_ptr<motion::IMotionDriver> motion,
-                           const motion::MotionConfig& cfg);
+                           const motion::MotionConfig& cfg,
+                           std::shared_ptr<drivers::timer::ITimer> settleTimer);
     ~WatermeterWakeupDriver() override = default;
 
-    void wakeup() override;
+    void wakeup(std::function<void()> onReady) override;
     void sleep() override;
-    bool isAwake() const override;
+    uint32_t getSettleDelayUs() const override;
 
 private:
+    void writeMotion(uint8_t angle);
+    void onSettleDone();
+
     std::shared_ptr<motion::IMotionDriver> motion_;
-    bool isAwake_ = false;
     uint8_t wakeupAngle_;
     uint8_t sleepAngle_;
+    uint32_t settleDelayUs_;
+
+    std::shared_ptr<drivers::timer::ITimer> settleTimer_;
+    std::function<void()> onReady_;
+    bool settling_ = false;
+    bool awake_ = false;
 };
 
 }

@@ -27,18 +27,22 @@ public:
     void init(
         std::shared_ptr<drivers::uart::IUartDriver> uart,
         const drivers::uart::UartConfig& uartConfig,
-        drivers::knx::KnxConfig& knxConfig
+        drivers::knx::KnxConfig& knxConfig,
+        const drivers::watermeter::kamstrup::transport::CommandQueueConfig& queueConfig,
+        std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver,
+        std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory
     ) override;
     void process() override;
-
-    void setWakeupDriver(std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> driver);
 
 private:
     void initTransport(std::shared_ptr<drivers::uart::IUartDriver> uart);
     void initKeepAliveCommand();
     void initRegisterCommands();
-    void initQueue();
-    void initTimers();
+    void initQueue(std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory);
+    void initTimers(std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory);
+    void enqueuePendingCommands();
+    void onQueueEmpty();
+    uint32_t compensatedInterval(uint32_t intervalSec) const;
 
     std::shared_ptr<drivers::watermeter::kamstrup::transport::IPhysicalLayer> kmpPhysical_;
     std::shared_ptr<drivers::watermeter::kamstrup::transport::IDataLinkLayer> kmpDataLink_;
@@ -53,8 +57,11 @@ private:
 
     std::shared_ptr<drivers::uart::IUartDriver> kmpUart_;
     drivers::knx::KnxConfig* knxConfig_ = nullptr;
+    drivers::watermeter::kamstrup::transport::CommandQueueConfig queueConfig_;
 
     std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver_;
+    bool dataPending_ = false;
+    bool keepAlivePending_ = false;
 };
 
 }

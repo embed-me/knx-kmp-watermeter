@@ -12,8 +12,7 @@
 
 namespace drivers {
 
-class IDriverFactory : public ITimerDriverFactory,
-                       public IGpioDriverFactory,
+class IDriverFactory : public IGpioDriverFactory,
                        public IKnxDriverFactory,
                        public IMotionDriverFactory,
                        public IWatermeterWakeupDriverFactory
@@ -24,6 +23,7 @@ public:
     virtual std::shared_ptr<logger::ILogger> getLoggerDriver() = 0;
     virtual std::shared_ptr<watchdog::IWatchdogDriver> getWatchdogDriver() = 0;
     virtual std::shared_ptr<uart::IUartDriver> getUartDriver() = 0;
+    virtual std::shared_ptr<timer::ITimerDriverFactory> getTimerDriverFactory() = 0;
 };
 
 }

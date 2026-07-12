@@ -4,9 +4,8 @@
 #include "../commands/ICommand.hpp"
 #include "../transport/layers/IApplicationLayer.hpp"
 #include "CommandQueueConfig.hpp"
-#include "src/drivers/timer/TimerFactory.hpp"
 #include "src/drivers/timer/ITimer.hpp"
-#include "src/drivers/watermeter/wakeup/IWatermeterWakeupDriver.hpp"
+#include "src/drivers/ITimerDriverFactory.hpp"
 
 #include <queue>
 #include <memory>
@@ -23,17 +22,18 @@ enum class ExecuteResult : uint8_t {
 class CommandQueue {
 public:
     CommandQueue(std::shared_ptr<IApplicationLayer> appLayer,
-                 const CommandQueueConfig& cfg = CommandQueueConfig{});
+                 const CommandQueueConfig& cfg,
+                 std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory);
     ~CommandQueue() = default;
 
     void enqueue(std::shared_ptr<ICommand> cmd);
-    void setWakeupDriver(std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> driver);
+    void setOnEmpty(std::function<void()> onEmpty);
 
 private:
     void sendNext();
     void onCommandDone();
     void onTimeout();
-    void onSettled();
+    void finishCommand();
 
     std::shared_ptr<IApplicationLayer> appLayer_;
     std::queue<std::shared_ptr<ICommand>> queue_;
@@ -43,11 +43,10 @@ private:
     uint32_t currentSeq_ = 0;
     uint32_t timeoutSeq_ = 0;
     std::shared_ptr<drivers::timer::ITimer> timeoutTimer_;
-    std::shared_ptr<drivers::timer::ITimer> settleTimer_;
-    std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver_;
+    std::function<void()> onEmpty_;
     CommandQueueConfig config_;
 };
 
 }
 
-#endif // _COMMAND_QUEUE_HPP_
+#endif //_COMMAND_QUEUE_HPP_

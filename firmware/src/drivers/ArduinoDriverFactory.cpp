@@ -18,11 +18,11 @@ ArduinoDriverFactory::ArduinoDriverFactory()
 {
 }
 
-std::shared_ptr<timer::ITimer> ArduinoDriverFactory::getTimer()
+std::shared_ptr<timer::ITimerDriverFactory> ArduinoDriverFactory::getTimerDriverFactory()
 {
-    logTrace("creating new Timer");
-    auto timer = std::make_shared<timer::ArduinoTimer>();
-    return timer;
+    logTrace("creating new Timer Factory");
+    auto timerFactory = std::make_shared<timer::TimerFactory>();
+    return timerFactory;
 }
 
 std::shared_ptr<gpio::IGpioDriver> ArduinoDriverFactory::getGpioDriver()
@@ -71,6 +71,7 @@ std::shared_ptr<watermeter::wakeup::IWatermeterWakeupDriver> ArduinoDriverFactor
     const motion::MotionConfig& cfg)
 {
     logTrace("creating new WatermeterWakeup Driver");
-    auto wakeup = std::make_shared<watermeter::wakeup::WatermeterWakeupDriver>(motion, cfg);
+    auto settleTimer = getTimer();
+    auto wakeup = std::make_shared<watermeter::wakeup::WatermeterWakeupDriver>(motion, cfg, settleTimer);
     return wakeup;
 }

@@ -7,25 +7,16 @@ using namespace drivers::logger;
 namespace drivers::watermeter::kamstrup::transport {
 
 CommandQueue::CommandQueue(std::shared_ptr<IApplicationLayer> appLayer,
-                           const CommandQueueConfig& cfg)
+                           const CommandQueueConfig& cfg,
+                           std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory)
     : appLayer_(appLayer)
     , config_(cfg)
 {
-    auto timerFactory = std::make_shared<drivers::timer::TimerFactory>();
-
     timeoutTimer_ = timerFactory->getTimer();
     timeoutTimer_->setupInterruptHandler([](void* arg) {
         auto* self = static_cast<CommandQueue*>(arg);
         utils::Scheduler::schedule([self](void*) {
             self->onTimeout();
-        });
-    }, this);
-
-    settleTimer_ = timerFactory->getTimer();
-    settleTimer_->setupInterruptHandler([](void* arg) {
-        auto* self = static_cast<CommandQueue*>(arg);
-        utils::Scheduler::schedule([self](void*) {
-            self->onSettled();
         });
     }, this);
 }
@@ -37,12 +28,7 @@ void CommandQueue::enqueue(std::shared_ptr<ICommand> cmd)
     }
     queue_.push(cmd);
     if (!busy_) {
-        if (wakeupDriver_ && !wakeupDriver_->isAwake()) {
-            wakeupDriver_->wakeup();
-            settleTimer_->start(config_.settleDelayUs, drivers::timer::TimerMode::SINGLE_SHOT);
-        } else {
-            sendNext();
-        }
+        sendNext();
     }
 }
 
@@ -51,6 +37,7 @@ void CommandQueue::sendNext()
     if (queue_.empty() || busy_) {
         return;
     }
+
     busy_ = true;
     currentCmd_ = queue_.front();
     currentSeq_ = ++seq_;
@@ -76,18 +63,7 @@ void CommandQueue::onCommandDone()
         return;
     }
     timeoutTimer_->stop();
-    if (!queue_.empty()) {
-        queue_.pop();
-    }
-    currentCmd_.reset();
-    busy_ = false;
-    if (!queue_.empty()) {
-        sendNext();
-    } else {
-        if (wakeupDriver_ && wakeupDriver_->isAwake()) {
-            wakeupDriver_->sleep();
-        }
-    }
+    finishCommand();
 }
 
 void CommandQueue::onTimeout()
@@ -99,36 +75,31 @@ void CommandQueue::onTimeout()
         return;
     }
     timeoutTimer_->stop();
-
     ++currentSeq_;
 
     if (currentCmd_) {
         currentCmd_->onExecuteResult(ExecuteResult::TIMEOUT, {});
     }
+    finishCommand();
+}
 
+void CommandQueue::finishCommand()
+{
     if (!queue_.empty()) {
         queue_.pop();
     }
     currentCmd_.reset();
     busy_ = false;
-
     if (!queue_.empty()) {
         sendNext();
-    } else {
-        if (wakeupDriver_ && wakeupDriver_->isAwake()) {
-            wakeupDriver_->sleep();
-        }
+    } else if (onEmpty_) {
+        onEmpty_();
     }
 }
 
-void CommandQueue::setWakeupDriver(std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> driver)
+void CommandQueue::setOnEmpty(std::function<void()> onEmpty)
 {
-    wakeupDriver_ = driver;
+    onEmpty_ = onEmpty;
 }
 
-void CommandQueue::onSettled()
-{
-    sendNext();
 }
-
-} // namespace drivers::watermeter::kamstrup::transport

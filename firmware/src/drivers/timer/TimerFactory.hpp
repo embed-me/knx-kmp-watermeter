@@ -2,19 +2,20 @@
 #define _I_TIMER_FACTORY_HPP_
 
 #include "ITimer.hpp"
+#include "../ITimerDriverFactory.hpp"
 #include "src/drivers/logger/ILogger.hpp"
 
 #include <memory>
 
 namespace drivers::timer {
 
-class TimerFactory
+class TimerFactory : public ITimerDriverFactory
 {
 public:
     TimerFactory();
-    ~TimerFactory() = default;
+    virtual ~TimerFactory() = default;
 
-    std::shared_ptr<ITimer> getTimer();
+    virtual std::shared_ptr<ITimer> getTimer() override;
 private:
 };
 

@@ -17,9 +17,14 @@ WatermeterApp::WatermeterApp()
 void WatermeterApp::init(
     std::shared_ptr<drivers::uart::IUartDriver> uart,
     const drivers::uart::UartConfig& uartConfig,
-    drivers::knx::KnxConfig& knxConfig)
+    drivers::knx::KnxConfig& knxConfig,
+    const kmp::CommandQueueConfig& queueConfig,
+    std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver,
+    std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory)
 {
     knxConfig_ = &knxConfig;
+    queueConfig_ = queueConfig;
+    wakeupDriver_ = wakeupDriver;
     kmpUart_ = uart;
     if (!kmpUart_) {
         logWarning("KMP UART driver not available");
@@ -35,8 +40,8 @@ void WatermeterApp::init(
     if (kmpApplication_) {
         initKeepAliveCommand();
         initRegisterCommands();
-        initQueue();
-        initTimers();
+        initQueue(timerFactory);
+        initTimers(timerFactory);
     }
 }
 
@@ -93,51 +98,84 @@ void WatermeterApp::initRegisterCommands()
     }
 }
 
-void WatermeterApp::initQueue()
+void WatermeterApp::initQueue(std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory)
 {
-    kmp::CommandQueueConfig cfg;
-    commandQueue_ = std::make_shared<kmp::CommandQueue>(kmpApplication_, cfg);
+    commandQueue_ = std::make_shared<kmp::CommandQueue>(
+        kmpApplication_, queueConfig_, timerFactory);
+
+    commandQueue_->setOnEmpty([this]() {
+        onQueueEmpty();
+    });
 }
 
-void WatermeterApp::initTimers()
+void WatermeterApp::initTimers(std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory)
 {
     auto knxWaterCfg = knxConfig_->getWatermeterConfig();
-
-    auto timerFactory = std::make_shared<drivers::timer::TimerFactory>();
 
     if (knxWaterCfg.keepAliveIntervalSec) {
         keepAliveTimer_ = timerFactory->getTimer();
         keepAliveTimer_->setupInterruptHandler([](void* arg){
             auto* self = static_cast<WatermeterApp*>(arg);
             utils::Scheduler::schedule([self](void*) {
-                if (self->keepAliveCmd_ && self->commandQueue_) {
-                    self->commandQueue_->enqueue(self->keepAliveCmd_);
-                }
+                self->keepAlivePending_ = true;
+                self->wakeupDriver_->wakeup([self]() {
+                    self->enqueuePendingCommands();
+                });
             });
         }, this);
-        keepAliveTimer_->start(knxWaterCfg.keepAliveIntervalSec * USEC_PER_SEC, drivers::timer::TimerMode::RECURRING);
+
+        keepAliveTimer_->start(
+            compensatedInterval(knxWaterCfg.keepAliveIntervalSec),
+            drivers::timer::TimerMode::RECURRING);
     }
 
     dataTimer_ = timerFactory->getTimer();
     dataTimer_->setupInterruptHandler([](void* arg){
         auto* self = static_cast<WatermeterApp*>(arg);
         utils::Scheduler::schedule([self](void*) {
-            for (auto& cmd : self->registerCmds_) {
-                if (cmd && self->commandQueue_) {
-                    self->commandQueue_->enqueue(cmd);
-                }
-            }
+            self->dataPending_ = true;
+            self->wakeupDriver_->wakeup([self]() {
+                self->enqueuePendingCommands();
+            });
         });
     }, this);
-    dataTimer_->start(knxWaterCfg.dataIntervalSec * USEC_PER_SEC, drivers::timer::TimerMode::RECURRING);
+
+    dataTimer_->start(
+        compensatedInterval(knxWaterCfg.dataIntervalSec),
+        drivers::timer::TimerMode::RECURRING);
 }
 
-void WatermeterApp::setWakeupDriver(std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> driver)
+uint32_t WatermeterApp::compensatedInterval(uint32_t intervalSec) const
 {
-    wakeupDriver_ = driver;
-    if (commandQueue_) {
-        commandQueue_->setWakeupDriver(driver);
+    uint32_t interval = intervalSec * USEC_PER_SEC;
+    uint32_t settleUs = wakeupDriver_->getSettleDelayUs();
+    return interval > settleUs ? interval - settleUs : interval;
+}
+
+void WatermeterApp::enqueuePendingCommands()
+{
+    if (keepAlivePending_) {
+        keepAlivePending_ = false;
+        if (keepAliveCmd_ && commandQueue_) {
+            commandQueue_->enqueue(keepAliveCmd_);
+        }
     }
+
+    if (dataPending_) {
+        dataPending_ = false;
+        if (commandQueue_) {
+            for (auto& cmd : registerCmds_) {
+                if (cmd) {
+                    commandQueue_->enqueue(cmd);
+                }
+            }
+        }
+    }
+}
+
+void WatermeterApp::onQueueEmpty()
+{
+    wakeupDriver_->sleep();
 }
 
 } // namespace application

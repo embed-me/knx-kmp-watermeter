@@ -14,6 +14,8 @@
 
 #include "drivers/uart/IUartDriver.hpp"
 
+#include "drivers/watermeter/kamstrup/utils/CommandQueueConfig.hpp"
+
 #include "utils/scheduler/Scheduler.hpp"
 #include "utils/scheduler/strategy/ISchedulerStrategy.hpp"
 #include "utils/scheduler/strategy/simple/SimpleScheduler.hpp"
@@ -49,7 +51,12 @@ drivers::motion::MotionConfig wakeupMotionCfg = {
     .minPulseWidth = 500,
     .maxPulseWidth = 2500,
     .wakeupAngle = 90, 
-    .sleepAngle = 50
+    .sleepAngle = 50,
+    .settleDelayUs = 5000000
+};
+
+drivers::watermeter::kamstrup::transport::CommandQueueConfig kmpQueueCfg = {
+    .commandTimeoutUs = 1600000
 };
 
 std::shared_ptr<drivers::IDriverFactory> driverFactory =
@@ -63,6 +70,7 @@ std::shared_ptr<drivers::gpio::IGpioDriver> gpio = driverFactory->getGpioDriver(
 std::shared_ptr<drivers::knx::IKnxDriver> knx = driverFactory->getKnxDriver();
 std::shared_ptr<drivers::watchdog::IWatchdogDriver> watchdog = driverFactory->getWatchdogDriver();
 std::shared_ptr<drivers::uart::IUartDriver> kmpUart = driverFactory->getUartDriver();
+std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory = driverFactory->getTimerDriverFactory();
 
 /* Utilities */
 std::shared_ptr<utils::ISchedulerStrategy> schedulerStrategy = std::make_shared<utils::SimpleScheduler>();
@@ -124,13 +132,12 @@ void setup() {
 
         auto& knxConfig = knx->getKnxConfig();
         watermeterApp = std::make_shared<application::WatermeterApp>();
-        watermeterApp->init(kmpUart, kmpUartCfg, knxConfig);
 
         auto motion = driverFactory->getMotionDriver();
         motion->setConfig(wakeupMotionCfg);
-        
         auto wakeupDriver = driverFactory->getWatermeterWakeupDriver(motion, wakeupMotionCfg);
-        watermeterApp->setWakeupDriver(wakeupDriver);
+
+        watermeterApp->init(kmpUart, kmpUartCfg, knxConfig, kmpQueueCfg, wakeupDriver, timerFactory);
     } else {
         logWarning("KNX Stack initialization failed");
     }

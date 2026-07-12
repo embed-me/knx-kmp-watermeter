@@ -2,7 +2,10 @@
 #define _I_APPLICATION_HPP_
 
 #include "../drivers/uart/IUartDriver.hpp"
+#include "../drivers/timer/TimerFactory.hpp"
 #include "../drivers/knx/data/KnxConfig.hpp"
+#include "../drivers/watermeter/kamstrup/utils/CommandQueueConfig.hpp"
+#include "../drivers/watermeter/wakeup/IWatermeterWakeupDriver.hpp"
 
 #include <memory>
 
@@ -15,7 +18,10 @@ public:
     virtual void init(
         std::shared_ptr<drivers::uart::IUartDriver> uart,
         const drivers::uart::UartConfig& uartConfig,
-        drivers::knx::KnxConfig& knxConfig
+        drivers::knx::KnxConfig& knxConfig,
+        const drivers::watermeter::kamstrup::transport::CommandQueueConfig& queueConfig,
+        std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver,
+        std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory
     ) = 0;
     virtual void process() = 0;
 };

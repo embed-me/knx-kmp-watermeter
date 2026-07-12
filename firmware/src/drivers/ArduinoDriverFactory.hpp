@@ -3,7 +3,7 @@
 
 #include "IDriverFactory.hpp"
 
-#include "timer/ITimer.hpp"
+#include "timer/TimerFactory.hpp"
 #include "gpio/IGpioDriver.hpp"
 #include "watchdog/IWatchdogDriver.hpp"
 #include "uart/IUartDriver.hpp"
@@ -21,7 +21,7 @@ public:
     ArduinoDriverFactory();
     ~ArduinoDriverFactory() = default;
 
-    virtual std::shared_ptr<timer::ITimer> getTimer() override;
+    virtual std::shared_ptr<timer::ITimerDriverFactory> getTimerDriverFactory() override;
     virtual std::shared_ptr<gpio::IGpioDriver> getGpioDriver() override;
     virtual std::shared_ptr<logger::ILogger> getLoggerDriver() override;
     virtual std::shared_ptr<knx::IKnxDriver> getKnxDriver() override;

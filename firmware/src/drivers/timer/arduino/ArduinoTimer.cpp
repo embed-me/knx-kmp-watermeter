@@ -28,7 +28,11 @@ int64_t ArduinoTimer::interruptHandler(alarm_id_t id, void *user_data)
         instance->handler(instance->handlerArg);
     }
 
-    return instance->convertMode(instance->mode);
+    int64_t result = instance->convertMode(instance->mode);
+    if (instance->mode == TimerMode::SINGLE_SHOT) {
+        instance->alarm_id = 0;
+    }
+    return result;
 }
 
 int ArduinoTimer::convertMode(const enum TimerMode &mode)
