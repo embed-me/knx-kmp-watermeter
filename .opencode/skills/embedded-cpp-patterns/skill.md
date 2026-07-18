@@ -12,6 +12,15 @@ Guidelines for embedded firmware design applied in this repo.
 | **I**nterface Segregation | `IDriverFactory` is composed of small segregated interfaces (`IGpioDriverFactory`, `IKnxDriverFactory`, etc.) |
 | **D**ependency Inversion | High-level code (`WatermeterApp`) depends on abstractions (`IApplicationLayer`, `ITimer`), not concretions |
 
+## OOP Principles
+
+| Principle | Application |
+|---|---|
+| **Encapsulation** | Each driver interface (`IGpioDriver`, `ITimer`) hides platform internals behind a clean API. State and config are private; only the interface is exposed. |
+| **Polymorphism** | Interfaces enable multiple implementations — `ArduinoTimer` (real hardware) and `MockTimer` (test) both implement `ITimer`. |
+| **Inheritance** | Class hierarchies follow interface contracts. `ArduinoGpioDriver : IGpioDriver`, `ArduinoLogger : ILogger`. Interfaces are pure virtual with `= 0`. |
+| **Composition > Inheritance** | `WatermeterApp` *has-a* `CommandQueue`, *has-a* `ITimer`, *has-a* `IApplicationLayer`. Favor composing small interfaces over deep class hierarchies. |
+
 ## DRY — Don't Repeat Yourself
 
 - Factor hardware platform code behind interfaces in `firmware/src/drivers/`

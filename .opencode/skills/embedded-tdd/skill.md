@@ -32,9 +32,9 @@ TEST(FooTest, DoesThing) {
 - Run: `pio test -e test`
 
 ### 3. REFACTOR — Clean up while keeping green
-- Apply SOLID principles, remove duplication, rename for clarity
+- Apply SOLID and OOP principles, remove duplication, rename for clarity
 - Do NOT change behavior
-- Re-run tests to confirm: `pio test -e test`
+- Re-run tests to confirm
 
 ## Test infrastructure conventions
 
@@ -61,11 +61,4 @@ struct MockFoo : public IFoo {
 };
 ```
 
-## Build commands
-
-```bash
-cd firmware
-pio test -e test          # run all tests
-pio test -e test --verbose  # verbose output
-pio run -e release        # build firmware (verify no regressions)
-```
+Build commands are in [firmware/Readme.md](../../../firmware/Readme.md).
