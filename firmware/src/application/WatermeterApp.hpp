@@ -31,7 +31,7 @@ public:
         const drivers::watermeter::kamstrup::transport::CommandQueueConfig& queueConfig,
         std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver,
         std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory
-    ) override;
+    );
     void process() override;
 
 private:

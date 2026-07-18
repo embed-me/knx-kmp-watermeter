@@ -15,14 +15,6 @@ class IApplication {
 public:
     virtual ~IApplication() = default;
 
-    virtual void init(
-        std::shared_ptr<drivers::uart::IUartDriver> uart,
-        const drivers::uart::UartConfig& uartConfig,
-        drivers::knx::KnxConfig& knxConfig,
-        const drivers::watermeter::kamstrup::transport::CommandQueueConfig& queueConfig,
-        std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver,
-        std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory
-    ) = 0;
     virtual void process() = 0;
 };
 
