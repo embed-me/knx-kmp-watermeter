@@ -8,7 +8,7 @@ struct MockWakeupDriver : public drivers::watermeter::wakeup::IWatermeterWakeupD
     int wakeupCount = 0;
     int sleepCount = 0;
     std::function<void()> lastOnReady;
-    uint32_t settleDelayUs = 5000000;
+    uint32_t settleDelayUs = 3000000;
 
     void wakeup(std::function<void()> onReady) override {
         awake = true;
