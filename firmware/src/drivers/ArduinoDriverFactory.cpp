@@ -21,7 +21,7 @@ ArduinoDriverFactory::ArduinoDriverFactory()
 std::shared_ptr<timer::ITimerDriverFactory> ArduinoDriverFactory::getTimerDriverFactory()
 {
     logTrace("creating new Timer Factory");
-    auto timerFactory = std::make_shared<timer::TimerFactory>();
+    auto timerFactory = std::make_shared<timer::ArduinoTimerFactory>();
     return timerFactory;
 }
 
@@ -71,7 +71,7 @@ std::shared_ptr<watermeter::wakeup::IWatermeterWakeupDriver> ArduinoDriverFactor
     const motion::MotionConfig& cfg)
 {
     logTrace("creating new WatermeterWakeup Driver");
-    auto settleTimer = getTimer();
+    auto settleTimer = getTimerDriverFactory()->getTimer();
     auto wakeup = std::make_shared<watermeter::wakeup::WatermeterWakeupDriver>(motion, cfg, settleTimer);
     return wakeup;
 }

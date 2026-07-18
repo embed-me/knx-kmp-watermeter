@@ -2,7 +2,7 @@
 #define _I_APPLICATION_HPP_
 
 #include "../drivers/uart/IUartDriver.hpp"
-#include "../drivers/timer/TimerFactory.hpp"
+#include "../drivers/timer/ArduinoTimerFactory.hpp"
 #include "../drivers/knx/data/KnxConfig.hpp"
 #include "../drivers/watermeter/kamstrup/utils/CommandQueueConfig.hpp"
 #include "../drivers/watermeter/wakeup/IWatermeterWakeupDriver.hpp"

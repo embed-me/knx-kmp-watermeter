@@ -3,7 +3,7 @@
 
 #include "IDriverFactory.hpp"
 
-#include "timer/TimerFactory.hpp"
+#include "timer/ArduinoTimerFactory.hpp"
 #include "gpio/IGpioDriver.hpp"
 #include "watchdog/IWatchdogDriver.hpp"
 #include "uart/IUartDriver.hpp"

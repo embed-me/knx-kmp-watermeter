@@ -5,7 +5,7 @@
 #include "src/drivers/watermeter/kamstrup/utils/CommandQueueConfig.hpp"
 
 #include "src/drivers/watermeter/kamstrup/utils/CommandQueue.cpp"
-#include "src/drivers/timer/TimerFactory.cpp"
+#include "src/drivers/timer/ArduinoTimerFactory.cpp"
 #include "src/drivers/timer/arduino/ArduinoTimer.cpp"
 #include "src/drivers/logger/Logger.cpp"
 #include "src/utils/scheduler/Scheduler.cpp"
@@ -14,7 +14,7 @@
 #include "../mocks/mock_application_layer.hpp"
 #include "../mocks/mock_command.hpp"
 
-#include "src/drivers/timer/TimerFactory.hpp"
+#include "src/drivers/timer/ArduinoTimerFactory.hpp"
 
 #include <memory>
 
@@ -27,7 +27,7 @@ struct ImmediateSchedulerStrategy : public utils::ISchedulerStrategy {
     }
 };
 
-struct MockTimerFactory : public drivers::timer::TimerFactory {
+struct MockTimerFactory : public drivers::timer::ArduinoTimerFactory {
     std::shared_ptr<MockTimer> mockTimeoutTimer = std::make_shared<MockTimer>();
     std::shared_ptr<drivers::timer::ITimer> getTimer() override {
         return mockTimeoutTimer;

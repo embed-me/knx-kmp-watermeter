@@ -10,7 +10,7 @@
 #include "../drivers/watermeter/kamstrup/utils/CommandQueue.hpp"
 #include "../drivers/watermeter/wakeup/IWatermeterWakeupDriver.hpp"
 
-#include "../drivers/timer/TimerFactory.hpp"
+#include "../drivers/timer/ArduinoTimerFactory.hpp"
 #include "../drivers/timer/ITimer.hpp"
 
 #include <memory>
