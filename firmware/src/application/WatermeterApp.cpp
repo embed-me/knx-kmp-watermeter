@@ -5,12 +5,14 @@
 using namespace drivers::logger;
 
 constexpr uint32_t USEC_PER_SEC = 1000000;
+constexpr uint32_t CRON_TICK_INTERVAL_US = 60 * USEC_PER_SEC;
 
 namespace kmp = drivers::watermeter::kamstrup::transport;
 
 namespace application {
 
 WatermeterApp::WatermeterApp()
+    : queueConfig_{}
 {
 }
 
@@ -20,11 +22,13 @@ void WatermeterApp::init(
     drivers::knx::KnxConfig& knxConfig,
     const kmp::CommandQueueConfig& queueConfig,
     std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver,
-    std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory)
+    std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory,
+    std::shared_ptr<drivers::rtc::IRtcDriver> rtcDriver)
 {
     knxConfig_ = &knxConfig;
     queueConfig_ = queueConfig;
     wakeupDriver_ = wakeupDriver;
+    rtcDriver_ = rtcDriver;
     kmpUart_ = uart;
     if (!kmpUart_) {
         logWarning("KMP UART driver not available");
@@ -42,6 +46,7 @@ void WatermeterApp::init(
         initRegisterCommands();
         initQueue(timerFactory);
         initTimers(timerFactory);
+        initRtcCron();
     }
 }
 
@@ -129,20 +134,31 @@ void WatermeterApp::initTimers(std::shared_ptr<drivers::timer::ITimerDriverFacto
             drivers::timer::TimerMode::RECURRING);
     }
 
-    dataTimer_ = timerFactory->getTimer();
-    dataTimer_->setupInterruptHandler([](void* arg){
+    cronTickTimer_ = timerFactory->getTimer();
+    cronTickTimer_->setupInterruptHandler([](void* arg){
         auto* self = static_cast<WatermeterApp*>(arg);
         utils::Scheduler::schedule([self](void*) {
-            self->dataPending_ = true;
-            self->wakeupDriver_->wakeup([self]() {
-                self->enqueuePendingCommands();
-            });
+            self->onCronTick();
         });
     }, this);
 
-    dataTimer_->start(
-        compensatedInterval(knxWaterCfg.dataIntervalSec),
-        drivers::timer::TimerMode::RECURRING);
+    cronTickTimer_->start(CRON_TICK_INTERVAL_US, drivers::timer::TimerMode::RECURRING);
+}
+
+void WatermeterApp::initRtcCron()
+{
+    auto& dateTimeGo = knxConfig_->getDateTimeGroupObject();
+    dateTimeGo.callback([this](GroupObject& go) {
+        auto dt = parseKnxDateTime(go);
+        if (rtcDriver_) {
+            rtcDriver_->setDateTime(dt);
+            logInfo("RTC updated from KNX: %04d-%02d-%02d %02d:%02d:%02d",
+                    dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+        }
+        updateCronMatcher();
+    });
+
+    updateCronMatcher();
 }
 
 uint32_t WatermeterApp::compensatedInterval(uint32_t intervalSec) const
@@ -176,6 +192,71 @@ void WatermeterApp::enqueuePendingCommands()
 void WatermeterApp::onQueueEmpty()
 {
     wakeupDriver_->sleep();
+}
+
+void WatermeterApp::onCronTick()
+{
+    updateCronMatcher();
+
+    if (!cronMatcher_ || !rtcDriver_) {
+        return;
+    }
+
+    auto now = rtcDriver_->getDateTime();
+
+    if (cronMatcher_->matches(now)) {
+        int currentMinute = now.hour * 60 + now.minute;
+        if (currentMinute != lastPollMinute_) {
+            lastPollMinute_ = currentMinute;
+            triggerDataRead();
+        }
+    }
+}
+
+void WatermeterApp::updateCronMatcher()
+{
+    if (!knxConfig_) return;
+
+    auto cronExpr = knxConfig_->getPollingCronExpression();
+    if (cronExpr == lastCronExpression_) {
+        return;
+    }
+
+    lastCronExpression_ = cronExpr;
+    if (cronExpr.empty()) {
+        cronMatcher_.reset();
+        logWarning("Cron expression is empty, data polling disabled");
+        return;
+    }
+
+    cronMatcher_ = std::make_unique<utils::cron::CronMatcher>(cronExpr);
+    logInfo("Cron expression updated: %s", cronExpr.c_str());
+}
+
+void WatermeterApp::triggerDataRead()
+{
+    dataPending_ = true;
+    wakeupDriver_->wakeup([this]() {
+        enqueuePendingCommands();
+    });
+}
+
+drivers::rtc::DateTime WatermeterApp::parseKnxDateTime(GroupObject& go) const
+{
+    drivers::rtc::DateTime dt = {};
+    const uint8_t* data = go.dataRef();
+    if (!data || go.dataLength() < 7) {
+        return dt;
+    }
+
+    dt.year   = 2000 + (data[0] & 0x7F);
+    dt.month  = data[1] & 0x0F;
+    dt.day    = data[2] & 0x1F;
+    dt.hour   = data[4] & 0x1F;
+    dt.minute = data[5] & 0x3F;
+    dt.second = data[6] & 0x3F;
+
+    return dt;
 }
 
 } // namespace application

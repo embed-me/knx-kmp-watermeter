@@ -9,6 +9,8 @@
 #include <list>
 #include <unordered_map>
 #include <array>
+#include <string>
+#include <cstring>
 
 
 using namespace drivers::logger;
@@ -68,6 +70,22 @@ public:
     KnxCommunicationObject getKeepAliveLinkedState()
     {
         return {&KoAPP_Linked, DPT_State};
+    }
+
+    std::string getPollingCronExpression()
+    {
+        constexpr size_t CRON_SIZE = 16;
+        char buf[CRON_SIZE + 1] = {};
+        for (size_t i = 0; i < CRON_SIZE; i++) {
+            buf[i] = static_cast<char>(knx.paramData(APP_Polling_Interval_(cron_schedule_expression))[i]);
+        }
+        buf[CRON_SIZE] = '\0';
+        return std::string(buf);
+    }
+
+    GroupObject& getDateTimeGroupObject()
+    {
+        return KoAPP_DateTime;
     }
 
     struct KnxApplicationVersion getApplicationVersion()
