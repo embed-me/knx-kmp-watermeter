@@ -32,7 +32,7 @@ protected:
             std::make_shared<ImmediateSchedulerStrategy>());
 
         mockMotion = std::make_shared<MockMotionDriver>();
-        cfg = MotionConfig{.pin = 13, .wakeupAngle = 180, .sleepAngle = 0, .settleDelayUs = 5000000};
+        cfg = MotionConfig{.pin = 13, .wakeupAngle = 180, .sleepAngle = 0, .settleDelayUs = 3000000};
         mockMotion->setConfig(cfg);
         settleTimer = std::make_shared<MockTimer>();
         driver = std::make_shared<WatermeterWakeupDriver>(mockMotion, cfg, settleTimer);
@@ -57,7 +57,7 @@ TEST_F(WatermeterWakeupDriverTest, WakeupWritesAngleAndStartsSettle) {
 
     EXPECT_EQ(mockMotion->lastAngle, 180);
     EXPECT_TRUE(settleTimer->started);
-    EXPECT_EQ(settleTimer->lastTimeoutUs, 5000000u);
+    EXPECT_EQ(settleTimer->lastTimeoutUs, 3000000u);
     EXPECT_FALSE(readyCalled);
 }
 
