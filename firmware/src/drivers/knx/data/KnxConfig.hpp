@@ -27,7 +27,6 @@ struct KnxApplicationVersion {
 struct KnxWatermeterConfig {
     uint8_t destinationAddress = 0x3F;
     uint32_t keepAliveIntervalSec = 10;
-    uint32_t dataIntervalSec = 20;
 };
 
 struct WatermeterRegisterConfig {
@@ -53,7 +52,6 @@ public:
     {
         KnxWatermeterConfig config;
         config.keepAliveIntervalSec = ParamAPP_Keep_Alive_Interval;
-        config.dataIntervalSec = ParamAPP_Polling_Interval;
         return config;
     }
 

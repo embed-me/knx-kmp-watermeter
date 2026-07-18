@@ -73,7 +73,8 @@ std::shared_ptr<watermeter::wakeup::IWatermeterWakeupDriver> ArduinoDriverFactor
     const motion::MotionConfig& cfg)
 {
     logTrace("creating new WatermeterWakeup Driver");
-    auto settleTimer = getTimerDriverFactory()->getTimer();
+    auto timerFactory = getTimerDriverFactory();
+    auto settleTimer = timerFactory->getTimer();
     auto wakeup = std::make_shared<watermeter::wakeup::WatermeterWakeupDriver>(motion, cfg, settleTimer);
     return wakeup;
 }

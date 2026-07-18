@@ -244,8 +244,8 @@ void WatermeterApp::triggerDataRead()
 drivers::rtc::DateTime WatermeterApp::parseKnxDateTime(GroupObject& go) const
 {
     drivers::rtc::DateTime dt = {};
-    const uint8_t* data = go.dataRef();
-    if (!data || go.dataLength() < 7) {
+    const uint8_t* data = go.valueRef();
+    if (!data || go.valueSize() < 7) {
         return dt;
     }
 
