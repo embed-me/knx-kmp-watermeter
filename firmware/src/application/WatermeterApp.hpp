@@ -35,7 +35,7 @@ public:
         std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver,
         std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory,
         std::shared_ptr<drivers::rtc::IRtcDriver> rtcDriver
-    ) override;
+    );
     void process() override;
 
 private:
