@@ -2,6 +2,13 @@
 
 namespace utils::knx {
 
+constexpr uint8_t kDaysInMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+constexpr bool isLeapYear(uint16_t year)
+{
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
 KnxTime parseKnxTime(const uint8_t* data, size_t size)
 {
     KnxTime result;
@@ -41,10 +48,20 @@ KnxDate parseKnxDate(const uint8_t* data, size_t size)
         return result;
     }
 
+    uint16_t year = yearField >= 90 ? 1900 + yearField : 2000 + yearField;
+
+    uint8_t maxDay = kDaysInMonth[month - 1];
+    if (month == 2 && isLeapYear(year)) {
+        maxDay = 29;
+    }
+    if (day > maxDay) {
+        return result;
+    }
+
     result.valid = true;
     result.day = day;
     result.month = month;
-    result.year = yearField >= 90 ? 1900 + yearField : 2000 + yearField;
+    result.year = year;
     return result;
 }
 

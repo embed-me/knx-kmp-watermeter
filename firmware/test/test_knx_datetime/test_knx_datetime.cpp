@@ -56,7 +56,7 @@ TEST_F(KnxTimeParserTest, NullDataWithValidSize) {
 }
 
 TEST_F(KnxTimeParserTest, EmptyPayload) {
-    const uint8_t data[] = {};
+    const uint8_t data[] = {0x0A};
     KnxTime t = parseKnxTime(data, 0);
     EXPECT_FALSE(t.valid);
 }
@@ -65,6 +65,33 @@ TEST_F(KnxTimeParserTest, RejectsDpt19SizedTelegram) {
     const uint8_t data[] = {0x0A, 0x1E, 0x2D, 0x00, 0x00, 0x00, 0x00, 0x00};
     KnxTime t = parseKnxTime(data, sizeof(data));
     EXPECT_FALSE(t.valid);
+}
+
+TEST_F(KnxTimeParserTest, MinuteSecondHighBitsMasked) {
+    const uint8_t data[] = {0x0A, 0x5E, 0x6D};
+    KnxTime t = parseKnxTime(data, sizeof(data));
+    EXPECT_TRUE(t.valid);
+    EXPECT_EQ(10, t.hour);
+    EXPECT_EQ(30, t.minute);
+    EXPECT_EQ(45, t.second);
+}
+
+TEST_F(KnxTimeParserTest, MidnightTime) {
+    const uint8_t data[] = {0x00, 0x00, 0x00};
+    KnxTime t = parseKnxTime(data, sizeof(data));
+    EXPECT_TRUE(t.valid);
+    EXPECT_EQ(0, t.hour);
+    EXPECT_EQ(0, t.minute);
+    EXPECT_EQ(0, t.second);
+}
+
+TEST_F(KnxTimeParserTest, InvalidInputZeroesTimeFields) {
+    const uint8_t data[] = {0x0A, 0x3C, 0x00};
+    KnxTime t = parseKnxTime(data, sizeof(data));
+    EXPECT_FALSE(t.valid);
+    EXPECT_EQ(0, t.hour);
+    EXPECT_EQ(0, t.minute);
+    EXPECT_EQ(0, t.second);
 }
 
 TEST_F(KnxDateParserTest, ValidDate) {
@@ -77,7 +104,7 @@ TEST_F(KnxDateParserTest, ValidDate) {
 }
 
 TEST_F(KnxDateParserTest, DayHighNibbleBitsMasked) {
-    const uint8_t data[] = {0x5F, 0x06, 0x18};
+    const uint8_t data[] = {0x5F, 0x07, 0x18};
     KnxDate d = parseKnxDate(data, sizeof(data));
     EXPECT_TRUE(d.valid);
     EXPECT_EQ(31, d.day);
@@ -143,4 +170,79 @@ TEST_F(KnxDateParserTest, RejectsDpt19SizedTelegram) {
     const uint8_t data[] = {0x0F, 0x06, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00};
     KnxDate d = parseKnxDate(data, sizeof(data));
     EXPECT_FALSE(d.valid);
+}
+
+TEST_F(KnxDateParserTest, YearByteHighBitMasked) {
+    const uint8_t data[] = {0x0F, 0x06, 0x98};
+    KnxDate d = parseKnxDate(data, sizeof(data));
+    EXPECT_TRUE(d.valid);
+    EXPECT_EQ(2024, d.year);
+}
+
+TEST_F(KnxDateParserTest, YearField0MapsTo2000) {
+    const uint8_t data[] = {0x0F, 0x06, 0x00};
+    KnxDate d = parseKnxDate(data, sizeof(data));
+    EXPECT_TRUE(d.valid);
+    EXPECT_EQ(2000, d.year);
+}
+
+TEST_F(KnxDateParserTest, YearField99MapsTo1999) {
+    const uint8_t data[] = {0x0F, 0x06, 0x63};
+    KnxDate d = parseKnxDate(data, sizeof(data));
+    EXPECT_TRUE(d.valid);
+    EXPECT_EQ(1999, d.year);
+}
+
+TEST_F(KnxDateParserTest, February29LeapYearValid) {
+    const uint8_t data[] = {0x1D, 0x02, 0x18};
+    KnxDate d = parseKnxDate(data, sizeof(data));
+    EXPECT_TRUE(d.valid);
+    EXPECT_EQ(2024, d.year);
+    EXPECT_EQ(2, d.month);
+    EXPECT_EQ(29, d.day);
+}
+
+TEST_F(KnxDateParserTest, February29NonLeapYearInvalid) {
+    const uint8_t data[] = {0x1D, 0x02, 0x17};
+    KnxDate d = parseKnxDate(data, sizeof(data));
+    EXPECT_FALSE(d.valid);
+}
+
+TEST_F(KnxDateParserTest, February31Invalid) {
+    const uint8_t data[] = {0x1F, 0x02, 0x18};
+    KnxDate d = parseKnxDate(data, sizeof(data));
+    EXPECT_FALSE(d.valid);
+}
+
+TEST_F(KnxDateParserTest, April31Invalid) {
+    const uint8_t data[] = {0x1F, 0x04, 0x18};
+    KnxDate d = parseKnxDate(data, sizeof(data));
+    EXPECT_FALSE(d.valid);
+}
+
+TEST_F(KnxDateParserTest, April30Valid) {
+    const uint8_t data[] = {0x1E, 0x04, 0x18};
+    KnxDate d = parseKnxDate(data, sizeof(data));
+    EXPECT_TRUE(d.valid);
+    EXPECT_EQ(2024, d.year);
+    EXPECT_EQ(4, d.month);
+    EXPECT_EQ(30, d.day);
+}
+
+TEST_F(KnxDateParserTest, December31Valid) {
+    const uint8_t data[] = {0x1F, 0x0C, 0x18};
+    KnxDate d = parseKnxDate(data, sizeof(data));
+    EXPECT_TRUE(d.valid);
+    EXPECT_EQ(2024, d.year);
+    EXPECT_EQ(12, d.month);
+    EXPECT_EQ(31, d.day);
+}
+
+TEST_F(KnxDateParserTest, InvalidInputZeroesDateFields) {
+    const uint8_t data[] = {0x0F, 0x0D, 0x18};
+    KnxDate d = parseKnxDate(data, sizeof(data));
+    EXPECT_FALSE(d.valid);
+    EXPECT_EQ(0, d.year);
+    EXPECT_EQ(0, d.month);
+    EXPECT_EQ(0, d.day);
 }
