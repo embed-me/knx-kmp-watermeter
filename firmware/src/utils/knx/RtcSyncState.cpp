@@ -4,6 +4,10 @@ namespace utils::knx {
 
 bool RtcSyncState::updateTime(const KnxTime& t)
 {
+    if (!t.valid) {
+        return ready();
+    }
+
     dt_.hour = t.hour;
     dt_.minute = t.minute;
     dt_.second = t.second;
@@ -13,6 +17,10 @@ bool RtcSyncState::updateTime(const KnxTime& t)
 
 bool RtcSyncState::updateDate(const KnxDate& d)
 {
+    if (!d.valid) {
+        return ready();
+    }
+
     dt_.year = d.year;
     dt_.month = d.month;
     dt_.day = d.day;

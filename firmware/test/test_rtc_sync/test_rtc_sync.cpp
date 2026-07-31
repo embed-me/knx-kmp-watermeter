@@ -167,3 +167,69 @@ TEST_F(RtcSyncStateTest, YearEndpointDateMapsYearFieldZeroTo2000) {
     EXPECT_EQ(30, dt.minute);
     EXPECT_EQ(45, dt.second);
 }
+
+TEST_F(RtcSyncStateTest, InvalidTimeDoesNotClobberStoredTime) {
+    RtcSyncState state;
+    KnxTime t = parseKnxTime(kTime1045, sizeof(kTime1045));
+    KnxDate d = parseKnxDate(kDate2024_06_15, sizeof(kDate2024_06_15));
+
+    state.updateTime(t);
+    EXPECT_TRUE(state.updateDate(d));
+
+    // The parser zeroes invalid structs; a corrupt telegram that reaches the
+    // state machine must be ignored, not stored.
+    KnxTime invalid{};  // valid = false, all fields zeroed
+    EXPECT_FALSE(invalid.valid);
+    EXPECT_TRUE(state.updateTime(invalid));
+
+    const DateTime& dt = state.dateTime();
+    EXPECT_EQ(10, dt.hour);
+    EXPECT_EQ(30, dt.minute);
+    EXPECT_EQ(45, dt.second);
+    EXPECT_EQ(2024, dt.year);
+    EXPECT_EQ(6, dt.month);
+    EXPECT_EQ(15, dt.day);
+}
+
+TEST_F(RtcSyncStateTest, InvalidTimeBeforeAnyValidDoesNotSetSeenFlag) {
+    RtcSyncState state;
+    KnxTime invalid{};  // valid = false, all fields zeroed
+    KnxDate d = parseKnxDate(kDate2024_06_15, sizeof(kDate2024_06_15));
+    KnxTime t = parseKnxTime(kTime1045, sizeof(kTime1045));
+
+    // Invalid input must not set the seen-flag...
+    EXPECT_FALSE(state.updateTime(invalid));
+    // ...so a valid date alone is still not "both seen".
+    EXPECT_FALSE(state.updateDate(d));
+    // Only a valid time completes the pair.
+    EXPECT_TRUE(state.updateTime(t));
+
+    const DateTime& dt = state.dateTime();
+    EXPECT_EQ(10, dt.hour);
+    EXPECT_EQ(30, dt.minute);
+    EXPECT_EQ(45, dt.second);
+    EXPECT_EQ(2024, dt.year);
+    EXPECT_EQ(6, dt.month);
+    EXPECT_EQ(15, dt.day);
+}
+
+TEST_F(RtcSyncStateTest, InvalidDateDoesNotClobberStoredDate) {
+    RtcSyncState state;
+    KnxDate d = parseKnxDate(kDate2024_06_15, sizeof(kDate2024_06_15));
+    KnxTime t = parseKnxTime(kTime1045, sizeof(kTime1045));
+
+    state.updateDate(d);
+    EXPECT_TRUE(state.updateTime(t));
+
+    KnxDate invalid{};  // valid = false, all fields zeroed
+    EXPECT_FALSE(invalid.valid);
+    EXPECT_TRUE(state.updateDate(invalid));
+
+    const DateTime& dt = state.dateTime();
+    EXPECT_EQ(2024, dt.year);
+    EXPECT_EQ(6, dt.month);
+    EXPECT_EQ(15, dt.day);
+    EXPECT_EQ(10, dt.hour);
+    EXPECT_EQ(30, dt.minute);
+    EXPECT_EQ(45, dt.second);
+}

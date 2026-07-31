@@ -10,14 +10,21 @@ namespace utils::knx {
 // drivers::rtc::DateTime. The RTC may only be written once BOTH components
 // have been seen; every subsequent valid telegram re-syncs the RTC with the
 // merged value, keeping the last-known component of the other kind.
+// Structs with valid==false are ignored entirely: nothing is stored and the
+// seen-flag is not set, so a corrupt telegram can never clobber good data or
+// advance the state machine.
 class RtcSyncState {
 public:
-    // Stores hour/minute/second from t (caller must pass a valid==true struct)
-    // and returns true once both time and date have been seen.
+    // Stores hour/minute/second from t and returns true once both time and
+    // date have been seen. If t.valid is false nothing is stored and the
+    // seen-flag is not set; the return value still reports whether both were
+    // already seen.
     bool updateTime(const KnxTime& t);
 
-    // Stores year/month/day from d (caller must pass a valid==true struct)
-    // and returns true once both time and date have been seen.
+    // Stores year/month/day from d and returns true once both time and date
+    // have been seen. If d.valid is false nothing is stored and the seen-flag
+    // is not set; the return value still reports whether both were already
+    // seen.
     bool updateDate(const KnxDate& d);
 
     // The merged date/time accumulated so far.
