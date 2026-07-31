@@ -14,6 +14,7 @@
 #include "../drivers/timer/ArduinoTimerFactory.hpp"
 #include "../drivers/timer/ITimer.hpp"
 #include "../utils/cron/CronMatcher.hpp"
+#include "../utils/knx/RtcSyncState.hpp"
 
 #include <memory>
 #include <cstdint>
@@ -76,9 +77,7 @@ private:
     std::unique_ptr<utils::cron::CronMatcher> cronMatcher_;
     std::string lastCronExpression_;
     int lastPollMinute_ = -1;
-    drivers::rtc::DateTime pendingDateTime_ = {};
-    bool haveTime_ = false;
-    bool haveDate_ = false;
+    utils::knx::RtcSyncState rtcSync_;
 };
 
 }

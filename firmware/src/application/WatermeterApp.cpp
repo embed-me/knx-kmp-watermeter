@@ -2,6 +2,7 @@
 #include "../drivers/logger/Logger.hpp"
 #include "../utils/scheduler/Scheduler.hpp"
 #include "../utils/knx/KnxDateTimeParser.hpp"
+#include "../utils/knx/RtcSyncState.hpp"
 
 using namespace drivers::logger;
 
@@ -155,16 +156,13 @@ void WatermeterApp::initRtcCron()
             logWarning("Invalid KNX time telegram ignored");
             return;
         }
-        pendingDateTime_.hour = t.hour;
-        pendingDateTime_.minute = t.minute;
-        pendingDateTime_.second = t.second;
-        haveTime_ = true;
 
-        if (haveTime_ && haveDate_ && rtcDriver_) {
-            rtcDriver_->setDateTime(pendingDateTime_);
+        if (rtcSync_.updateTime(t) && rtcDriver_) {
+            const auto& dt = rtcSync_.dateTime();
+            rtcDriver_->setDateTime(dt);
             logInfo("RTC updated from KNX: %04d-%02d-%02d %02d:%02d:%02d",
-                    pendingDateTime_.year, pendingDateTime_.month, pendingDateTime_.day,
-                    pendingDateTime_.hour, pendingDateTime_.minute, pendingDateTime_.second);
+                    dt.year, dt.month, dt.day,
+                    dt.hour, dt.minute, dt.second);
         }
     });
 
@@ -175,16 +173,13 @@ void WatermeterApp::initRtcCron()
             logWarning("Invalid KNX date telegram ignored");
             return;
         }
-        pendingDateTime_.year = d.year;
-        pendingDateTime_.month = d.month;
-        pendingDateTime_.day = d.day;
-        haveDate_ = true;
 
-        if (haveTime_ && haveDate_ && rtcDriver_) {
-            rtcDriver_->setDateTime(pendingDateTime_);
+        if (rtcSync_.updateDate(d) && rtcDriver_) {
+            const auto& dt = rtcSync_.dateTime();
+            rtcDriver_->setDateTime(dt);
             logInfo("RTC updated from KNX: %04d-%02d-%02d %02d:%02d:%02d",
-                    pendingDateTime_.year, pendingDateTime_.month, pendingDateTime_.day,
-                    pendingDateTime_.hour, pendingDateTime_.minute, pendingDateTime_.second);
+                    dt.year, dt.month, dt.day,
+                    dt.hour, dt.minute, dt.second);
         }
     });
 
