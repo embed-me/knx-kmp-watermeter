@@ -75,15 +75,20 @@ public:
         constexpr size_t CRON_SIZE = 16;
         char buf[CRON_SIZE + 1] = {};
         for (size_t i = 0; i < CRON_SIZE; i++) {
-            buf[i] = static_cast<char>(knx.paramData(APP_Polling_Interval_(cron_schedule_expression))[i]);
+            buf[i] = static_cast<char>(ParamAPP_Polling_Interval[i]);
         }
         buf[CRON_SIZE] = '\0';
         return std::string(buf);
     }
 
-    GroupObject& getDateTimeGroupObject()
+    GroupObject& getTimeGroupObject()
     {
-        return KoAPP_DateTime;
+        return KoAPP_Time;
+    }
+
+    GroupObject& getDateGroupObject()
+    {
+        return KoAPP_Date;
     }
 
     struct KnxApplicationVersion getApplicationVersion()

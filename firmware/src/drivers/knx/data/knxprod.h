@@ -9,18 +9,18 @@
 //--------------------Allgemein---------------------------
 #define MAIN_OpenKnxId 0xAF
 #define MAIN_ApplicationNumber 0x00
-#define MAIN_ApplicationVersion 0x0B
+#define MAIN_ApplicationVersion 0x0E
 #define MAIN_OrderNumber "TA-00002.1"
 #define MAIN_ParameterSize 19
-#define MAIN_MaxKoNumber 6
+#define MAIN_MaxKoNumber 7
 
 
 #define APP_Keep_Alive_Interval		0x0000
 // Offset: 0, Size: 16 Bit (2 Byte), Text: Keep-Alive Interval
 #define ParamAPP_Keep_Alive_Interval ((uint)((knx.paramWord(APP_Keep_Alive_Interval))))
-#define APP_Polling_Interval_(cron_schedule_expression)		0x0002
+#define APP_Polling_Interval		0x0002
 // Offset: 2, Size: 128 Bit (16 Byte), Text: Abfrageintervall
-#define ParamAPP_Polling_Interval_(cron_schedule_expression) knx.paramData(APP_Polling_Interval_(cron_schedule_expression))
+#define ParamAPP_Polling_Interval knx.paramData(APP_Polling_Interval)
 #define APP_Volume		0x0012
 // Offset: 18, Size: 1 Bit, Text: Volumen
 #define ParamAPP_Volume knx.paramBit(APP_Volume, 0)
@@ -48,7 +48,10 @@
 //!< Number: 5, Text: Verbleibende Batterielaufzeit, Function: Verbleibende Batterielaufzeit
 #define APP_KoBattery_Life 5
 #define KoAPP_Battery_Life knx.getGroupObject(APP_KoBattery_Life)
-//!< Number: 6, Text: DatumUhrzeit, Function: DatumUhrzeit
-#define APP_KoDateTime 6
-#define KoAPP_DateTime knx.getGroupObject(APP_KoDateTime)
+//!< Number: 6, Text: Uhrzeit, Function: Uhrzeit
+#define APP_KoTime 6
+#define KoAPP_Time knx.getGroupObject(APP_KoTime)
+//!< Number: 7, Text: Datum, Function: Datum
+#define APP_KoDate 7
+#define KoAPP_Date knx.getGroupObject(APP_KoDate)
 
