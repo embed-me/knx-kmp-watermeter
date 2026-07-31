@@ -52,7 +52,6 @@ private:
     void onCronTick();
     void updateCronMatcher();
     void triggerDataRead();
-    drivers::rtc::DateTime parseKnxDateTime(GroupObject& go) const;
 
     std::shared_ptr<drivers::watermeter::kamstrup::transport::IPhysicalLayer> kmpPhysical_;
     std::shared_ptr<drivers::watermeter::kamstrup::transport::IDataLinkLayer> kmpDataLink_;
@@ -77,6 +76,9 @@ private:
     std::unique_ptr<utils::cron::CronMatcher> cronMatcher_;
     std::string lastCronExpression_;
     int lastPollMinute_ = -1;
+    drivers::rtc::DateTime pendingDateTime_ = {};
+    bool haveTime_ = false;
+    bool haveDate_ = false;
 };
 
 }

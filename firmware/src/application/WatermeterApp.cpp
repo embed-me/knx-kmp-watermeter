@@ -1,6 +1,7 @@
 #include "WatermeterApp.hpp"
 #include "../drivers/logger/Logger.hpp"
 #include "../utils/scheduler/Scheduler.hpp"
+#include "../utils/knx/KnxDateTimeParser.hpp"
 
 using namespace drivers::logger;
 
@@ -147,15 +148,44 @@ void WatermeterApp::initTimers(std::shared_ptr<drivers::timer::ITimerDriverFacto
 
 void WatermeterApp::initRtcCron()
 {
-    auto& dateTimeGo = knxConfig_->getDateTimeGroupObject();
-    dateTimeGo.callback([this](GroupObject& go) {
-        auto dt = parseKnxDateTime(go);
-        if (rtcDriver_) {
-            rtcDriver_->setDateTime(dt);
-            logInfo("RTC updated from KNX: %04d-%02d-%02d %02d:%02d:%02d",
-                    dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+    auto& timeGo = knxConfig_->getTimeGroupObject();
+    timeGo.callback([this](GroupObject& go) {
+        auto t = utils::knx::parseKnxTime(go.valueRef(), go.valueSize());
+        if (!t.valid) {
+            logWarning("Invalid KNX time telegram ignored");
+            return;
         }
-        updateCronMatcher();
+        pendingDateTime_.hour = t.hour;
+        pendingDateTime_.minute = t.minute;
+        pendingDateTime_.second = t.second;
+        haveTime_ = true;
+
+        if (haveTime_ && haveDate_ && rtcDriver_) {
+            rtcDriver_->setDateTime(pendingDateTime_);
+            logInfo("RTC updated from KNX: %04d-%02d-%02d %02d:%02d:%02d",
+                    pendingDateTime_.year, pendingDateTime_.month, pendingDateTime_.day,
+                    pendingDateTime_.hour, pendingDateTime_.minute, pendingDateTime_.second);
+        }
+    });
+
+    auto& dateGo = knxConfig_->getDateGroupObject();
+    dateGo.callback([this](GroupObject& go) {
+        auto d = utils::knx::parseKnxDate(go.valueRef(), go.valueSize());
+        if (!d.valid) {
+            logWarning("Invalid KNX date telegram ignored");
+            return;
+        }
+        pendingDateTime_.year = d.year;
+        pendingDateTime_.month = d.month;
+        pendingDateTime_.day = d.day;
+        haveDate_ = true;
+
+        if (haveTime_ && haveDate_ && rtcDriver_) {
+            rtcDriver_->setDateTime(pendingDateTime_);
+            logInfo("RTC updated from KNX: %04d-%02d-%02d %02d:%02d:%02d",
+                    pendingDateTime_.year, pendingDateTime_.month, pendingDateTime_.day,
+                    pendingDateTime_.hour, pendingDateTime_.minute, pendingDateTime_.second);
+        }
     });
 
     updateCronMatcher();
@@ -239,24 +269,6 @@ void WatermeterApp::triggerDataRead()
     wakeupDriver_->wakeup([this]() {
         enqueuePendingCommands();
     });
-}
-
-drivers::rtc::DateTime WatermeterApp::parseKnxDateTime(GroupObject& go) const
-{
-    drivers::rtc::DateTime dt = {};
-    const uint8_t* data = go.valueRef();
-    if (!data || go.valueSize() < 7) {
-        return dt;
-    }
-
-    dt.year   = 2000 + (data[0] & 0x7F);
-    dt.month  = data[1] & 0x0F;
-    dt.day    = data[2] & 0x1F;
-    dt.hour   = data[4] & 0x1F;
-    dt.minute = data[5] & 0x3F;
-    dt.second = data[6] & 0x3F;
-
-    return dt;
 }
 
 } // namespace application
