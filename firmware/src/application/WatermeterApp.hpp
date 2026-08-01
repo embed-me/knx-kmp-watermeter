@@ -10,12 +10,16 @@
 #include "../drivers/watermeter/kamstrup/utils/CommandQueue.hpp"
 #include "../drivers/watermeter/wakeup/IWatermeterWakeupDriver.hpp"
 
+#include "../drivers/rtc/IRtcDriver.hpp"
 #include "../drivers/timer/ArduinoTimerFactory.hpp"
 #include "../drivers/timer/ITimer.hpp"
+#include "../utils/cron/CronMatcher.hpp"
+#include "../utils/knx/RtcSyncState.hpp"
 
 #include <memory>
 #include <cstdint>
 #include <vector>
+#include <string>
 
 namespace application {
 
@@ -30,7 +34,8 @@ public:
         drivers::knx::KnxConfig& knxConfig,
         const drivers::watermeter::kamstrup::transport::CommandQueueConfig& queueConfig,
         std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver,
-        std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory
+        std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory,
+        std::shared_ptr<drivers::rtc::IRtcDriver> rtcDriver
     );
     void process() override;
 
@@ -40,9 +45,14 @@ private:
     void initRegisterCommands();
     void initQueue(std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory);
     void initTimers(std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory);
+    void initRtcCron();
     void enqueuePendingCommands();
     void onQueueEmpty();
     uint32_t compensatedInterval(uint32_t intervalSec) const;
+
+    void onCronTick();
+    void updateCronMatcher();
+    void triggerDataRead();
 
     std::shared_ptr<drivers::watermeter::kamstrup::transport::IPhysicalLayer> kmpPhysical_;
     std::shared_ptr<drivers::watermeter::kamstrup::transport::IDataLinkLayer> kmpDataLink_;
@@ -53,7 +63,7 @@ private:
 
     std::shared_ptr<drivers::watermeter::kamstrup::transport::CommandQueue> commandQueue_;
     std::shared_ptr<drivers::timer::ITimer> keepAliveTimer_;
-    std::shared_ptr<drivers::timer::ITimer> dataTimer_;
+    std::shared_ptr<drivers::timer::ITimer> cronTickTimer_;
 
     std::shared_ptr<drivers::uart::IUartDriver> kmpUart_;
     drivers::knx::KnxConfig* knxConfig_ = nullptr;
@@ -62,6 +72,12 @@ private:
     std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver_;
     bool dataPending_ = false;
     bool keepAlivePending_ = false;
+
+    std::shared_ptr<drivers::rtc::IRtcDriver> rtcDriver_;
+    std::unique_ptr<utils::cron::CronMatcher> cronMatcher_;
+    std::string lastCronExpression_;
+    int lastPollMinute_ = -1;
+    utils::knx::RtcSyncState rtcSync_;
 };
 
 }

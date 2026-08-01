@@ -136,8 +136,9 @@ void setup() {
         auto motion = driverFactory->getMotionDriver();
         motion->setConfig(wakeupMotionCfg);
         auto wakeupDriver = driverFactory->getWatermeterWakeupDriver(motion, wakeupMotionCfg);
+        auto rtcDriver = driverFactory->getRtcDriver();
 
-        watermeterApp->init(kmpUart, kmpUartCfg, knxConfig, kmpQueueCfg, wakeupDriver, timerFactory);
+        watermeterApp->init(kmpUart, kmpUartCfg, knxConfig, kmpQueueCfg, wakeupDriver, timerFactory, rtcDriver);
     } else {
         logWarning("KNX Stack initialization failed");
     }

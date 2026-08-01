@@ -31,6 +31,7 @@ public:
     virtual std::shared_ptr<watermeter::wakeup::IWatermeterWakeupDriver> getWatermeterWakeupDriver(
         std::shared_ptr<motion::IMotionDriver> motion,
         const motion::MotionConfig& cfg) override;
+    virtual std::shared_ptr<rtc::IRtcDriver> getRtcDriver() override;
 private:
 };
 

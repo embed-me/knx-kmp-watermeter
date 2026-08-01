@@ -9,6 +9,8 @@
 #include <list>
 #include <unordered_map>
 #include <array>
+#include <string>
+#include <cstring>
 
 
 using namespace drivers::logger;
@@ -25,7 +27,6 @@ struct KnxApplicationVersion {
 struct KnxWatermeterConfig {
     uint8_t destinationAddress = 0x3F;
     uint32_t keepAliveIntervalSec = 10;
-    uint32_t dataIntervalSec = 20;
 };
 
 struct WatermeterRegisterConfig {
@@ -51,7 +52,6 @@ public:
     {
         KnxWatermeterConfig config;
         config.keepAliveIntervalSec = ParamAPP_Keep_Alive_Interval;
-        config.dataIntervalSec = ParamAPP_Polling_Interval;
         return config;
     }
 
@@ -68,6 +68,27 @@ public:
     KnxCommunicationObject getKeepAliveLinkedState()
     {
         return {&KoAPP_Linked, DPT_State};
+    }
+
+    std::string getPollingCronExpression()
+    {
+        constexpr size_t CRON_SIZE = 16;
+        char buf[CRON_SIZE + 1] = {};
+        for (size_t i = 0; i < CRON_SIZE; i++) {
+            buf[i] = static_cast<char>(ParamAPP_Polling_Interval[i]);
+        }
+        buf[CRON_SIZE] = '\0';
+        return std::string(buf);
+    }
+
+    GroupObject& getTimeGroupObject()
+    {
+        return KoAPP_Time;
+    }
+
+    GroupObject& getDateGroupObject()
+    {
+        return KoAPP_Date;
     }
 
     struct KnxApplicationVersion getApplicationVersion()

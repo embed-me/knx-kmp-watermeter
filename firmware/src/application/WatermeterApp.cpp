@@ -1,16 +1,20 @@
 #include "WatermeterApp.hpp"
 #include "../drivers/logger/Logger.hpp"
 #include "../utils/scheduler/Scheduler.hpp"
+#include "../utils/knx/KnxDateTimeParser.hpp"
+#include "../utils/knx/RtcSyncState.hpp"
 
 using namespace drivers::logger;
 
 constexpr uint32_t USEC_PER_SEC = 1000000;
+constexpr uint32_t CRON_TICK_INTERVAL_US = 60 * USEC_PER_SEC;
 
 namespace kmp = drivers::watermeter::kamstrup::transport;
 
 namespace application {
 
 WatermeterApp::WatermeterApp()
+    : queueConfig_{}
 {
 }
 
@@ -20,11 +24,13 @@ void WatermeterApp::init(
     drivers::knx::KnxConfig& knxConfig,
     const kmp::CommandQueueConfig& queueConfig,
     std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver,
-    std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory)
+    std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory,
+    std::shared_ptr<drivers::rtc::IRtcDriver> rtcDriver)
 {
     knxConfig_ = &knxConfig;
     queueConfig_ = queueConfig;
     wakeupDriver_ = wakeupDriver;
+    rtcDriver_ = rtcDriver;
     kmpUart_ = uart;
     if (!kmpUart_) {
         logWarning("KMP UART driver not available");
@@ -42,6 +48,7 @@ void WatermeterApp::init(
         initRegisterCommands();
         initQueue(timerFactory);
         initTimers(timerFactory);
+        initRtcCron();
     }
 }
 
@@ -129,20 +136,54 @@ void WatermeterApp::initTimers(std::shared_ptr<drivers::timer::ITimerDriverFacto
             drivers::timer::TimerMode::RECURRING);
     }
 
-    dataTimer_ = timerFactory->getTimer();
-    dataTimer_->setupInterruptHandler([](void* arg){
+    cronTickTimer_ = timerFactory->getTimer();
+    cronTickTimer_->setupInterruptHandler([](void* arg){
         auto* self = static_cast<WatermeterApp*>(arg);
         utils::Scheduler::schedule([self](void*) {
-            self->dataPending_ = true;
-            self->wakeupDriver_->wakeup([self]() {
-                self->enqueuePendingCommands();
-            });
+            self->onCronTick();
         });
     }, this);
 
-    dataTimer_->start(
-        compensatedInterval(knxWaterCfg.dataIntervalSec),
-        drivers::timer::TimerMode::RECURRING);
+    cronTickTimer_->start(CRON_TICK_INTERVAL_US, drivers::timer::TimerMode::RECURRING);
+}
+
+void WatermeterApp::initRtcCron()
+{
+    auto& timeGo = knxConfig_->getTimeGroupObject();
+    timeGo.callback([this](GroupObject& go) {
+        auto t = utils::knx::parseKnxTime(go.valueRef(), go.valueSize());
+        if (!t.valid) {
+            logWarning("Invalid KNX time telegram ignored");
+            return;
+        }
+
+        if (rtcSync_.updateTime(t) && rtcDriver_) {
+            const auto& dt = rtcSync_.dateTime();
+            rtcDriver_->setDateTime(dt);
+            logInfo("RTC updated from KNX: %04d-%02d-%02d %02d:%02d:%02d",
+                    dt.year, dt.month, dt.day,
+                    dt.hour, dt.minute, dt.second);
+        }
+    });
+
+    auto& dateGo = knxConfig_->getDateGroupObject();
+    dateGo.callback([this](GroupObject& go) {
+        auto d = utils::knx::parseKnxDate(go.valueRef(), go.valueSize());
+        if (!d.valid) {
+            logWarning("Invalid KNX date telegram ignored");
+            return;
+        }
+
+        if (rtcSync_.updateDate(d) && rtcDriver_) {
+            const auto& dt = rtcSync_.dateTime();
+            rtcDriver_->setDateTime(dt);
+            logInfo("RTC updated from KNX: %04d-%02d-%02d %02d:%02d:%02d",
+                    dt.year, dt.month, dt.day,
+                    dt.hour, dt.minute, dt.second);
+        }
+    });
+
+    updateCronMatcher();
 }
 
 uint32_t WatermeterApp::compensatedInterval(uint32_t intervalSec) const
@@ -176,6 +217,53 @@ void WatermeterApp::enqueuePendingCommands()
 void WatermeterApp::onQueueEmpty()
 {
     wakeupDriver_->sleep();
+}
+
+void WatermeterApp::onCronTick()
+{
+    updateCronMatcher();
+
+    if (!cronMatcher_ || !rtcDriver_) {
+        return;
+    }
+
+    auto now = rtcDriver_->getDateTime();
+
+    if (cronMatcher_->matches(now)) {
+        int currentMinute = now.hour * 60 + now.minute;
+        if (currentMinute != lastPollMinute_) {
+            lastPollMinute_ = currentMinute;
+            triggerDataRead();
+        }
+    }
+}
+
+void WatermeterApp::updateCronMatcher()
+{
+    if (!knxConfig_) return;
+
+    auto cronExpr = knxConfig_->getPollingCronExpression();
+    if (cronExpr == lastCronExpression_) {
+        return;
+    }
+
+    lastCronExpression_ = cronExpr;
+    if (cronExpr.empty()) {
+        cronMatcher_.reset();
+        logWarning("Cron expression is empty, data polling disabled");
+        return;
+    }
+
+    cronMatcher_ = std::make_unique<utils::cron::CronMatcher>(cronExpr);
+    logInfo("Cron expression updated: %s", cronExpr.c_str());
+}
+
+void WatermeterApp::triggerDataRead()
+{
+    dataPending_ = true;
+    wakeupDriver_->wakeup([this]() {
+        enqueuePendingCommands();
+    });
 }
 
 } // namespace application

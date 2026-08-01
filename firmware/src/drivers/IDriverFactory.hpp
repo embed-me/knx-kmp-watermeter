@@ -6,6 +6,7 @@
 #include "IKnxDriverFactory.hpp"
 #include "IMotionDriverFactory.hpp"
 #include "IWatermeterWakeupDriverFactory.hpp"
+#include "rtc/IRtcDriver.hpp"
 #include "logger/ILogger.hpp"
 #include "watchdog/IWatchdogDriver.hpp"
 #include "uart/IUartDriver.hpp"
@@ -24,6 +25,7 @@ public:
     virtual std::shared_ptr<watchdog::IWatchdogDriver> getWatchdogDriver() = 0;
     virtual std::shared_ptr<uart::IUartDriver> getUartDriver() = 0;
     virtual std::shared_ptr<timer::ITimerDriverFactory> getTimerDriverFactory() = 0;
+    virtual std::shared_ptr<rtc::IRtcDriver> getRtcDriver() = 0;
 };
 
 }

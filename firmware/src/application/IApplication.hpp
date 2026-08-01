@@ -4,6 +4,7 @@
 #include "../drivers/uart/IUartDriver.hpp"
 #include "../drivers/timer/ArduinoTimerFactory.hpp"
 #include "../drivers/knx/data/KnxConfig.hpp"
+#include "../drivers/rtc/IRtcDriver.hpp"
 #include "../drivers/watermeter/kamstrup/utils/CommandQueueConfig.hpp"
 #include "../drivers/watermeter/wakeup/IWatermeterWakeupDriver.hpp"
 

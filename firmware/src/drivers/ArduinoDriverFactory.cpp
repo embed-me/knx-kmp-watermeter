@@ -9,6 +9,8 @@
 #include "motion/arduino/ArduinoMotionDriver.hpp"
 #include "watermeter/wakeup/WatermeterWakeupDriver.hpp"
 
+#include "rtc/arduino/ArduinoRtcDriver.hpp"
+
 #include "logger/Logger.hpp"
 
 using namespace drivers;
@@ -71,7 +73,15 @@ std::shared_ptr<watermeter::wakeup::IWatermeterWakeupDriver> ArduinoDriverFactor
     const motion::MotionConfig& cfg)
 {
     logTrace("creating new WatermeterWakeup Driver");
-    auto settleTimer = getTimerDriverFactory()->getTimer();
+    auto timerFactory = getTimerDriverFactory();
+    auto settleTimer = timerFactory->getTimer();
     auto wakeup = std::make_shared<watermeter::wakeup::WatermeterWakeupDriver>(motion, cfg, settleTimer);
     return wakeup;
+}
+
+std::shared_ptr<rtc::IRtcDriver> ArduinoDriverFactory::getRtcDriver()
+{
+    logTrace("creating new RTC Driver");
+    auto rtc = std::make_shared<rtc::ArduinoRtcDriver>();
+    return rtc;
 }
