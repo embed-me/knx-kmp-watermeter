@@ -52,7 +52,7 @@ drivers::motion::MotionConfig wakeupMotionCfg = {
     .maxPulseWidth = 2500,
     .wakeupAngle = 90, 
     .sleepAngle = 50,
-    .settleDelayUs = 3000000
+    .settleDelayUs = 5000000
 };
 
 drivers::watermeter::kamstrup::transport::CommandQueueConfig kmpQueueCfg = {
