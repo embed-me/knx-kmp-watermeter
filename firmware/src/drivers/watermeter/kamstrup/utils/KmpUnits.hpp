@@ -13,7 +13,7 @@ enum class KmpUnit : uint8_t {
     L_PER_H = 0x29,
     H = 0x2E,
     CLOCK = 0x2F,
-    M3 = 0x3E,
+    M3 = 0x28,
     UNKNOWN = 0xFF
 };
 
