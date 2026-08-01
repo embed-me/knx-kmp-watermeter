@@ -65,13 +65,14 @@ TEST_F(GetRegisterCommandTest, DecodeVolume_CorrectPath) {
     auto cmd = std::make_shared<GetRegisterCommand>(mockApp, 0x0044);
     CommandResult received;
     cmd->registerListener([&](const CommandResult& r) { received = r; });
-    std::vector<uint8_t> payload = {0x00, 0x44, 0x3E, 0x04, 0x43, 0x00, 0x00, 0x15, 0xC0};
+    std::vector<uint8_t> payload = {0x00, 0x44, 0x28, 0x04, 0x43, 0x00, 0x00, 0x15, 0xC0};
     cmd->onExecuteResult(ExecuteResult::SUCCESS, payload);
 
     EXPECT_EQ(received.result, CommandResult::Result::OK);
     EXPECT_EQ(received.register_id, 0x0044);
     EXPECT_NEAR(received.value, 5.568, 0.001);
     EXPECT_EQ(received.unit, KmpUnit::M3);
+    EXPECT_EQ(unitToString(received.unit), "m3");
 }
 
 TEST_F(GetRegisterCommandTest, DecodeFlow) {
@@ -100,29 +101,30 @@ TEST_F(GetRegisterCommandTest, DecodeTemperature) {
     EXPECT_EQ(received.unit, KmpUnit::C);
 }
 
-TEST_F(GetRegisterCommandTest, DecodeBatteryLife_WrongUnitBug) {
+TEST_F(GetRegisterCommandTest, DecodeBatteryLife) {
     auto cmd = std::make_shared<GetRegisterCommand>(mockApp, 0x0246);
     CommandResult received;
     cmd->registerListener([&](const CommandResult& r) { received = r; });
-    std::vector<uint8_t> payload = {0x02, 0x46, 0x3E, 0x02, 0x43, 0x00, 0x17};
+    std::vector<uint8_t> payload = {0x02, 0x46, 0x28, 0x02, 0x43, 0x00, 0x17};
     cmd->onExecuteResult(ExecuteResult::SUCCESS, payload);
 
     EXPECT_EQ(received.result, CommandResult::Result::OK);
     EXPECT_EQ(received.register_id, 0x0246);
     EXPECT_NEAR(received.value, 0.023, 0.001);
     EXPECT_EQ(received.unit, KmpUnit::M3);
+    EXPECT_EQ(unitToString(received.unit), "m3");
 }
 
 TEST_F(GetRegisterCommandTest, UnknownUnit) {
     auto cmd = std::make_shared<GetRegisterCommand>(mockApp, 0x0044);
     CommandResult received;
     cmd->registerListener([&](const CommandResult& r) { received = r; });
-    std::vector<uint8_t> payload = {0x00, 0x44, 0x28, 0x04, 0x43, 0x00, 0x00, 0x15, 0xC0};
+    std::vector<uint8_t> payload = {0x00, 0x44, 0x30, 0x04, 0x43, 0x00, 0x00, 0x15, 0xC0};
     cmd->onExecuteResult(ExecuteResult::SUCCESS, payload);
 
     EXPECT_EQ(received.result, CommandResult::Result::OK);
     EXPECT_NEAR(received.value, 5.568, 0.001);
-    EXPECT_EQ(received.unit, static_cast<KmpUnit>(0x28));
+    EXPECT_EQ(received.unit, static_cast<KmpUnit>(0x30));
     EXPECT_EQ(unitToString(received.unit), "UNKNOWN");
 }
 
