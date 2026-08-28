@@ -13,6 +13,8 @@ struct UartConfig
     uint8_t stopBits;
     int8_t txPin = -1;  // -1 = use default pins for the selected UART
     int8_t rxPin = -1;  // -1 = use default pins for the selected UART
+    bool invertTx = false;
+    bool invertRx = false;
 };
 
 }

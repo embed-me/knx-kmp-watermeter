@@ -43,7 +43,9 @@ struct drivers::uart::UartConfig kmpUartCfg = {
     .parity = 0,
     .stopBits = 2,
     .txPin = 20,
-    .rxPin = 21
+    .rxPin = 21,
+    .invertTx = true,
+    .invertRx = false
 };
 
 drivers::motion::MotionConfig wakeupMotionCfg = { 
