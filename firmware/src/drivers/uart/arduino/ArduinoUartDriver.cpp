@@ -33,13 +33,9 @@ bool ArduinoUartDriver::init(const UartConfig &config)
     // Serial1 (UART0) is already used by the KNX stack (KNX_SERIAL).
     if (config.txPin >= 0) {
         Serial2.setTX(config.txPin);
-        gpio_set_outover(config.txPin,
-                         config.invertTx ? GPIO_OVERRIDE_INVERT : GPIO_OVERRIDE_NORMAL);
     }
     if (config.rxPin >= 0) {
         Serial2.setRX(config.rxPin);
-        gpio_set_inover(config.rxPin,
-                        config.invertRx ? GPIO_OVERRIDE_INVERT : GPIO_OVERRIDE_NORMAL);
     }
 
     int serialConfig = SERIAL_8N1;
@@ -58,6 +54,14 @@ bool ArduinoUartDriver::init(const UartConfig &config)
     }
 
     Serial2.begin(config.baud, serialConfig);
+    if (config.txPin >= 0) {
+        gpio_set_outover(config.txPin,
+                         config.invertTx ? GPIO_OVERRIDE_INVERT : GPIO_OVERRIDE_NORMAL);
+    }
+    if (config.rxPin >= 0) {
+        gpio_set_inover(config.rxPin,
+                        config.invertRx ? GPIO_OVERRIDE_INVERT : GPIO_OVERRIDE_NORMAL);
+    }
     logInfo("ArduinoUartDriver: initialized at %d baud (%d data bits, %d stop bits, tx=%d rx=%d)", config.baud, config.dataBits, config.stopBits, config.txPin, config.rxPin);
     return true;
 }
