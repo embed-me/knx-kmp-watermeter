@@ -8,7 +8,7 @@ KNX TP1 interface for Kamstrup water/heat meters via the KMP (Kamstrup Meter Pro
 
 ## Overview
 
-The device is built around an RP2040 (Raspberry Pi Pico) coupled to the KNX bus via an NCN5130-based BCU. It polls the meter over its optical interface using the KMP protocol and publishes the readings as KNX group objects:
+The device is built around an RP2040 (Raspberry Pi Pico) coupled to the KNX bus via an NCN5130-based BCU. It polls the meter over its optical interface using the KMP protocol and publishes the readings as KNX group objects: 
 
 - **Volume** (m³)
 - **Flow** (l/h)
