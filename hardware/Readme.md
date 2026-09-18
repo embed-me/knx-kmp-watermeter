@@ -1,8 +1,10 @@
 # Hardware — KMP Watermeter PCB
 
-PCB combining an RP2040 MCU (Raspberry Pi Pico) with an NCN5130 BCU (NanoBCU-based) for KNX TP1 bus coupling. It uses a servo driver for water meter wake-up.
+PCB combining an RP2040 MCU (Raspberry Pi Pico) with an NCN5130 BCU (NanoBCU-based) for KNX TP1 bus coupling. It uses a servo driver for water meter wake-up, driving a NEEBRC 2g Micro Servo.
 
 The board is designed as a 2-layer PCB in Altium Designer.
+
+The NanoBCU and the UP board are available from [muster.ing-dom.de](https://muster.ing-dom.de/).
 
 ## Project Structure
 

@@ -1,7 +1,5 @@
 # KNX KMP Watermeter — Firmware
 
-![Pipeline](https://github.com/embed-me/knx-kmp-watermeter/actions/workflows/pipeline.yml/badge.svg)
-
 RP2040 firmware implementing the Kamstrup Meter Protocol (KMP) over UART to read data from Kamstrup Multical 601/801 water/heat meters and publish it on the KNX TP1 bus.
 
 ## Setup

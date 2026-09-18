@@ -21,6 +21,8 @@ The housing is modeled in SOLIDWORKS and consists of four parts:
 
 The part files are available in the [parts](parts/) directory. The complete assembly combining all parts and PCBs is available in the [assembly](assembly/) directory.
 
+The Servo Arm is designed for the [NEEBRC 2g Micro Servo](https://de.aliexpress.com/item/1005010177333036.html), which actuates the water meter wake-up mechanism.
+
 ## Exported STL Files for Printing
 
 If you'd like to print the housing as-is, the ready-to-use STL files are available in the [print_package](print_package/) directory.

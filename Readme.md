@@ -17,8 +17,6 @@ The device is built around an RP2040 (Raspberry Pi Pico) coupled to the KNX bus 
 
 Registers can be enabled/disabled individually and polled on a configurable crontab-style schedule.
 
-<img src="housing/img/animation.gif" alt="Housing assembly animation" width="50%" height="auto">
-
 ## Project Structure
 
 | Directory | Description | Documentation |
