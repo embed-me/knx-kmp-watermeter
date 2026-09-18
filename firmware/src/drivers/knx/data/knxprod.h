@@ -9,29 +9,26 @@
 //--------------------Allgemein---------------------------
 #define MAIN_OpenKnxId 0xAF
 #define MAIN_ApplicationNumber 0x00
-#define MAIN_ApplicationVersion 0x0F
+#define MAIN_ApplicationVersion 0x10
 #define MAIN_OrderNumber "TA-00002.1"
-#define MAIN_ParameterSize 19
+#define MAIN_ParameterSize 17
 #define MAIN_MaxKoNumber 7
 
 
-#define APP_Keep_Alive_Interval		0x0000
-// Offset: 0, Size: 16 Bit (2 Byte), Text: Keep-Alive Intervall (0 = deaktiviert)
-#define ParamAPP_Keep_Alive_Interval ((uint)((knx.paramWord(APP_Keep_Alive_Interval))))
-#define APP_Polling_Interval		0x0002
-// Offset: 2, Size: 128 Bit (16 Byte), Text: Abfrageintervall
+#define APP_Polling_Interval		0x0000
+// Offset: 0, Size: 128 Bit (16 Byte), Text: Abfrageintervall
 #define ParamAPP_Polling_Interval knx.paramData(APP_Polling_Interval)
-#define APP_Volume		0x0012
-// Offset: 18, Size: 1 Bit, Text: Volumen
+#define APP_Volume		0x0010
+// Offset: 16, Size: 1 Bit, Text: Volumen
 #define ParamAPP_Volume knx.paramBit(APP_Volume, 0)
-#define APP_Flow		0x0012
-// Offset: 18, BitOffset: 1, Size: 1 Bit, Text: Durchfluss
+#define APP_Flow		0x0010
+// Offset: 16, BitOffset: 1, Size: 1 Bit, Text: Durchfluss
 #define ParamAPP_Flow knx.paramBit(APP_Flow, 1)
-#define APP_Temperature		0x0012
-// Offset: 18, BitOffset: 2, Size: 1 Bit, Text: Temperatur
+#define APP_Temperature		0x0010
+// Offset: 16, BitOffset: 2, Size: 1 Bit, Text: Temperatur
 #define ParamAPP_Temperature knx.paramBit(APP_Temperature, 2)
-#define APP_Battery_Life		0x0012
-// Offset: 18, BitOffset: 3, Size: 1 Bit, Text: Batterielebensdauer
+#define APP_Battery_Life		0x0010
+// Offset: 16, BitOffset: 3, Size: 1 Bit, Text: Batterielebensdauer
 #define ParamAPP_Battery_Life knx.paramBit(APP_Battery_Life, 3)
 //!< Number: 1, Text: Verbunden, Function: Verbunden
 #define APP_KoLinked 1

@@ -26,7 +26,6 @@ struct KnxApplicationVersion {
 
 struct KnxWatermeterConfig {
     uint8_t destinationAddress = 0x3F;
-    uint32_t keepAliveIntervalSec = 10;
 };
 
 struct WatermeterRegisterConfig {
@@ -51,7 +50,6 @@ public:
     KnxWatermeterConfig getWatermeterConfig()
     {
         KnxWatermeterConfig config;
-        config.keepAliveIntervalSec = ParamAPP_Keep_Alive_Interval;
         return config;
     }
 
@@ -65,7 +63,7 @@ public:
         }};
     }
 
-    KnxCommunicationObject getKeepAliveLinkedState()
+    KnxCommunicationObject getLinkedState()
     {
         return {&KoAPP_Linked, DPT_State};
     }

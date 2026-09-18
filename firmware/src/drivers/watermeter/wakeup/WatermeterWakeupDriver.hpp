@@ -20,7 +20,6 @@ public:
 
     void wakeup(std::function<void()> onReady) override;
     void sleep() override;
-    uint32_t getSettleDelayUs() const override;
 
 private:
     void writeMotion(uint8_t angle);

@@ -5,7 +5,6 @@
 #include "../drivers/watermeter/kamstrup/transport/layers/physical/PhysicalLayer.hpp"
 #include "../drivers/watermeter/kamstrup/transport/layers/data_link/DataLinkLayer.hpp"
 #include "../drivers/watermeter/kamstrup/transport/layers/application/ApplicationLayer.hpp"
-#include "../drivers/watermeter/kamstrup/commands/GetSerialNumberCommand.hpp"
 #include "../drivers/watermeter/kamstrup/commands/GetRegisterCommand.hpp"
 #include "../drivers/watermeter/kamstrup/utils/CommandQueue.hpp"
 #include "../drivers/watermeter/wakeup/IWatermeterWakeupDriver.hpp"
@@ -41,14 +40,12 @@ public:
 
 private:
     void initTransport(std::shared_ptr<drivers::uart::IUartDriver> uart);
-    void initKeepAliveCommand();
     void initRegisterCommands();
     void initQueue(std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory);
     void initTimers(std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory);
     void initRtcCron();
     void enqueuePendingCommands();
     void onQueueEmpty();
-    uint32_t compensatedInterval(uint32_t intervalSec) const;
 
     void onCronTick();
     void updateCronMatcher();
@@ -58,11 +55,9 @@ private:
     std::shared_ptr<drivers::watermeter::kamstrup::transport::IDataLinkLayer> kmpDataLink_;
     std::shared_ptr<drivers::watermeter::kamstrup::transport::IApplicationLayer> kmpApplication_;
 
-    std::shared_ptr<drivers::watermeter::kamstrup::transport::GetSerialNumberCommand> keepAliveCmd_;
     std::vector<std::shared_ptr<drivers::watermeter::kamstrup::transport::GetRegisterCommand>> registerCmds_;
 
     std::shared_ptr<drivers::watermeter::kamstrup::transport::CommandQueue> commandQueue_;
-    std::shared_ptr<drivers::timer::ITimer> keepAliveTimer_;
     std::shared_ptr<drivers::timer::ITimer> cronTickTimer_;
 
     std::shared_ptr<drivers::uart::IUartDriver> kmpUart_;
@@ -70,8 +65,6 @@ private:
     drivers::watermeter::kamstrup::transport::CommandQueueConfig queueConfig_;
 
     std::shared_ptr<drivers::watermeter::wakeup::IWatermeterWakeupDriver> wakeupDriver_;
-    bool dataPending_ = false;
-    bool keepAlivePending_ = false;
 
     std::shared_ptr<drivers::rtc::IRtcDriver> rtcDriver_;
     std::unique_ptr<utils::cron::CronMatcher> cronMatcher_;

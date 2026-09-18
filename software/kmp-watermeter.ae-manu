@@ -148,8 +148,8 @@
               "Text": "Deutsch",
               "CultureCode": "de-DE"
             },
-            "Text": "Keep-Alive Interval",
-            "Preview": "Keep-Alive Interval"
+            "Text": "Keep-Alive Intervall (0 = deaktiviert)",
+            "Preview": "Keep-Alive Intervall (0 = deaktiviert)"
           },
           {
             "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
@@ -158,8 +158,8 @@
               "Text": "Englisch",
               "CultureCode": "en-US"
             },
-            "Text": "Keep-Alive Interval",
-            "Preview": "Keep-Alive Interval"
+            "Text": "Keep-Alive Interval (0 = disabled)",
+            "Preview": "Keep-Alive Interval (0 = disabled)"
           }
         ],
         "Suffix": [
@@ -185,7 +185,7 @@
           }
         ],
         "TranslationText": false,
-        "TranslationSuffix": true,
+        "TranslationSuffix": false,
         "Access": 2
       },
       {
@@ -458,8 +458,8 @@
               "Text": "Deutsch",
               "CultureCode": "de-DE"
             },
-            "Text": "Battery Life",
-            "Preview": "Battery Life"
+            "Text": "Batterielebensdauer",
+            "Preview": "Batterielebensdauer"
           },
           {
             "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
@@ -2880,7 +2880,7 @@
         "OverwriteFW": false,
         "FlagTrans": false,
         "OverwriteFT": false,
-        "FlagComm": true,
+        "FlagComm": false,
         "OverwriteFC": false,
         "FlagUpdate": false,
         "OverwriteFU": false,
@@ -2958,7 +2958,7 @@
         "OverwriteFW": false,
         "FlagTrans": false,
         "OverwriteFT": false,
-        "FlagComm": true,
+        "FlagComm": false,
         "OverwriteFC": false,
         "FlagUpdate": false,
         "OverwriteFU": false,
@@ -3266,7 +3266,7 @@
     "Name": "KMP-Watermeter",
     "ReplacesVersions": "",
     "Script": "",
-    "NameText": "V 0.14 KMP-Watermeter",
+    "NameText": "V 0.15 KMP-Watermeter",
     "Text": [
       {
         "$type": "Kaenx.Creator.Models.Translation, Kaenx.Creator.Share",
@@ -3289,7 +3289,7 @@
         "Preview": "KMP Watermeter Reader Application"
       }
     ],
-    "Number": 14,
+    "Number": 15,
     "AddressTableMaxCount": 65535,
     "AddressTableOffset": 0,
     "AddressMemoryId": -1,

@@ -12,7 +12,6 @@ public:
 
     virtual void wakeup(std::function<void()> onReady) = 0;
     virtual void sleep() = 0;
-    virtual uint32_t getSettleDelayUs() const = 0;
 };
 
 }

@@ -66,9 +66,4 @@ void WatermeterWakeupDriver::onSettleDone()
     }
 }
 
-uint32_t WatermeterWakeupDriver::getSettleDelayUs() const
-{
-    return settleDelayUs_;
-}
-
 }

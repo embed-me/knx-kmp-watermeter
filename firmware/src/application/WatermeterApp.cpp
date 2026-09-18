@@ -44,7 +44,6 @@ void WatermeterApp::init(
 
     initTransport(kmpUart_);
     if (kmpApplication_) {
-        initKeepAliveCommand();
         initRegisterCommands();
         initQueue(timerFactory);
         initTimers(timerFactory);
@@ -68,24 +67,10 @@ void WatermeterApp::initTransport(std::shared_ptr<drivers::uart::IUartDriver> ua
     logInfo("KMP transport stack initialized");
 }
 
-void WatermeterApp::initKeepAliveCommand()
-{
-    auto linked = knxConfig_->getKeepAliveLinkedState();
-
-    keepAliveCmd_ = std::make_shared<kmp::GetSerialNumberCommand>(kmpApplication_);
-    keepAliveCmd_->registerListener([go = linked.groupObject, dpt = linked.dpt](const kmp::CommandResult& res){
-        bool isOk = res.result == kmp::CommandResult::Result::OK;
-        if (go) {
-            go->valueCompare(KNXValue(isOk), dpt);
-        }
-        logInfo("KeepAlive: %s", isOk ? "OK" : "FAILED");
-    });
-}
-
 void WatermeterApp::initRegisterCommands()
 {
     auto regCfgs = knxConfig_->getWatermeterRegisterConfigs();
-    auto linked = knxConfig_->getKeepAliveLinkedState();
+    auto linked = knxConfig_->getLinkedState();
 
     for (auto& reg : regCfgs) {
         if (!reg.enabled) {
@@ -123,25 +108,6 @@ void WatermeterApp::initQueue(std::shared_ptr<drivers::timer::ITimerDriverFactor
 
 void WatermeterApp::initTimers(std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory)
 {
-    auto knxWaterCfg = knxConfig_->getWatermeterConfig();
-
-    if (knxWaterCfg.keepAliveIntervalSec) {
-        keepAliveTimer_ = timerFactory->getTimer();
-        keepAliveTimer_->setupInterruptHandler([](void* arg){
-            auto* self = static_cast<WatermeterApp*>(arg);
-            utils::Scheduler::schedule([self](void*) {
-                self->keepAlivePending_ = true;
-                self->wakeupDriver_->wakeup([self]() {
-                    self->enqueuePendingCommands();
-                });
-            });
-        }, this);
-
-        keepAliveTimer_->start(
-            compensatedInterval(knxWaterCfg.keepAliveIntervalSec),
-            drivers::timer::TimerMode::RECURRING);
-    }
-
     cronTickTimer_ = timerFactory->getTimer();
     cronTickTimer_->setupInterruptHandler([](void* arg){
         auto* self = static_cast<WatermeterApp*>(arg);
@@ -192,29 +158,12 @@ void WatermeterApp::initRtcCron()
     updateCronMatcher();
 }
 
-uint32_t WatermeterApp::compensatedInterval(uint32_t intervalSec) const
-{
-    uint32_t interval = intervalSec * USEC_PER_SEC;
-    uint32_t settleUs = wakeupDriver_->getSettleDelayUs();
-    return interval > settleUs ? interval - settleUs : interval;
-}
-
 void WatermeterApp::enqueuePendingCommands()
 {
-    if (keepAlivePending_) {
-        keepAlivePending_ = false;
-        if (keepAliveCmd_ && commandQueue_) {
-            commandQueue_->enqueue(keepAliveCmd_);
-        }
-    }
-
-    if (dataPending_) {
-        dataPending_ = false;
-        if (commandQueue_) {
-            for (auto& cmd : registerCmds_) {
-                if (cmd) {
-                    commandQueue_->enqueue(cmd);
-                }
+    if (commandQueue_) {
+        for (auto& cmd : registerCmds_) {
+            if (cmd) {
+                commandQueue_->enqueue(cmd);
             }
         }
     }
@@ -266,7 +215,6 @@ void WatermeterApp::updateCronMatcher()
 
 void WatermeterApp::triggerDataRead()
 {
-    dataPending_ = true;
     wakeupDriver_->wakeup([this]() {
         enqueuePendingCommands();
     });
