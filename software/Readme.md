@@ -10,22 +10,33 @@ If you do not need to modify the product database, simply load the [existing pro
 
 | No. | Name | Function | DPT |
 |-----|------|----------|-----|
-| 1 | Verbunden (Linked) | Keep-alive connection state | DPT_State |
-| 2 | Durchfluss (Flow) | Current water flow | DPT_Value_Volume_Flow |
-| 3 | Volumen (Volume) | Total volume | DPT_Value_Volume |
-| 4 | Temperatur (Temperature) | Water temperature | DPT_Value_Temp |
-| 5 | Verbleibende Batterielaufzeit (Battery Life) | Remaining battery life in days | DPT_Value_2_Ucount |
+| 1 | Linked | Connection state to the meter, updated on every poll | DPT_State |
+| 2 | Flow | Current water flow | DPT_Value_Volume_Flow |
+| 3 | Volume | Total volume | DPT_Value_Volume |
+| 4 | Temperature | Water temperature | DPT_Value_Temp |
+| 5 | Battery Life | Remaining battery life in days | DPT_Value_2_Ucount |
+| 6 | Time | Device RTC time sync input | DPT_Time (10.001) |
+| 7 | Date | Device RTC date sync input | DPT_Date (11.001) |
 
 ## ETS Parameters
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| Keep-Alive Interval | 16-bit | Interval in seconds for keep-alive communication (default: 10) |
-| Polling Interval | 16-bit | Interval in seconds between data register reads (default: 20) |
+| Polling Interval | Text (16 chars) | Crontab-style schedule for register polling (see below) |
 | Volume | 1-bit | Enable/disable volume register read |
 | Flow | 1-bit | Enable/disable flow register read |
 | Temperature | 1-bit | Enable/disable temperature register read |
 | Battery Life | 1-bit | Enable/disable battery life register read |
+
+### Polling Interval Format
+
+Standard crontab syntax with five fields: minute (0–59), hour (0–23), day of month (1–31), month (1–12), day of week (1–7, Sunday = 7). Each field supports `*`, step values (`*/15`), ranges (`9-17`), and comma-separated lists (`5,10,15`).
+
+Examples:
+- `*/15 * * * *` — every 15 minutes
+- `0 9-17 * * 1-5` — hourly between 9:00 and 17:00 on weekdays
+
+The schedule is evaluated against the device RTC, which is synchronized via the Time (6) and Date (7) group objects.
 
 ## KMP Registers Polled
 
@@ -58,5 +69,3 @@ To modify or recreate the product database:
 Generated outputs include:
 
 - **`knxprod.h`** — Move this file to `firmware/src/drivers/knx/data/`.
-
-> **Note**: During re-deployment the program may become temporarily unresponsive. Allow it time to complete.
