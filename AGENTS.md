@@ -12,7 +12,7 @@ Compact guidance for AI sessions working in this repo.
 - `firmware/` — PlatformIO C++ application for RP2040 (Raspberry Pi Pico). This is where almost all code changes happen.
 - `hardware/` — Altium Designer PCB project and production package (Gerbers).
 - `housing/` — 3D-printable STL files and CAD models.
-- `software/` — KNX ETS product database source (`up-buzzer.ae-manu`) and generated `knxprod.h`.
+- `software/` — KNX ETS product database source (`kmp-watermeter.ae-manu`) and generated `knxprod.h`.
 
 Build, flash, and test instructions live in [firmware/Readme.md](firmware/Readme.md).
 
@@ -24,8 +24,8 @@ Build, flash, and test instructions live in [firmware/Readme.md](firmware/Readme
 
 ## Generated code: `knxprod.h`
 
-- `firmware/src/drivers/knx/data/knxprod.h` is **generated** by Kaenx-Creator from `software/up-buzzer.ae-manu`. **Do not hand-edit.**
-- To regenerate: open `software/up-buzzer.ae-manu` in Kaenx-Creator (v1.8.4), edit, bump version, re-deploy. Copy resulting `knxprod.h` to `firmware/src/drivers/knx/data/`.
+- `firmware/src/drivers/knx/data/knxprod.h` is **generated** by Kaenx-Creator from `software/kmp-watermeter.ae-manu`. **Do not hand-edit.**
+- To regenerate: open `software/kmp-watermeter.ae-manu` in Kaenx-Creator (v1.8.4), edit, bump version, re-deploy. Copy resulting `knxprod.h` to `firmware/src/drivers/knx/data/`.
 
 ## Important constraints
 
