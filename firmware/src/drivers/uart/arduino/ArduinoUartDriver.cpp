@@ -2,7 +2,6 @@
 #include "src/drivers/logger/Logger.hpp"
 #include <Arduino.h>
 #include <HardwareSerial.h>
-#include <hardware/gpio.h>
 
 using namespace drivers::logger;
 
@@ -33,13 +32,9 @@ bool ArduinoUartDriver::init(const UartConfig &config)
     // Serial1 (UART0) is already used by the KNX stack (KNX_SERIAL).
     if (config.txPin >= 0) {
         Serial2.setTX(config.txPin);
-        gpio_set_outover(config.txPin,
-                         config.invertTx ? GPIO_OVERRIDE_INVERT : GPIO_OVERRIDE_NORMAL);
     }
     if (config.rxPin >= 0) {
         Serial2.setRX(config.rxPin);
-        gpio_set_inover(config.rxPin,
-                        config.invertRx ? GPIO_OVERRIDE_INVERT : GPIO_OVERRIDE_NORMAL);
     }
 
     int serialConfig = SERIAL_8N1;
