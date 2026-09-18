@@ -85,6 +85,7 @@ void WatermeterApp::initKeepAliveCommand()
 void WatermeterApp::initRegisterCommands()
 {
     auto regCfgs = knxConfig_->getWatermeterRegisterConfigs();
+    auto linked = knxConfig_->getKeepAliveLinkedState();
 
     for (auto& reg : regCfgs) {
         if (!reg.enabled) {
@@ -92,8 +93,13 @@ void WatermeterApp::initRegisterCommands()
         }
 
         auto cmd = std::make_shared<kmp::GetRegisterCommand>(kmpApplication_, reg.registerId);
-        cmd->registerListener([name = reg.name, go = reg.groupObject, dpt = reg.dpt](const kmp::CommandResult& res){
-            if (go && (res.result == kmp::CommandResult::Result::OK)) {
+        cmd->registerListener([name = reg.name, go = reg.groupObject, dpt = reg.dpt,
+                               linkGo = linked.groupObject, linkDpt = linked.dpt](const kmp::CommandResult& res){
+            bool isOk = res.result == kmp::CommandResult::Result::OK;
+            if (linkGo) {
+                linkGo->valueCompare(KNXValue(isOk), linkDpt);
+            }
+            if (go && isOk) {
                 go->value(KNXValue(res.value), dpt);
                 logInfo("%s: %g %s", name, res.value,
                         kmp::unitToString(res.unit).c_str());
