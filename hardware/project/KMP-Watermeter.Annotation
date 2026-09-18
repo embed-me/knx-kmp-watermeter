@@ -1,0 +1,16 @@
+[DesignatorManager]
+
+[SheetNumberManager]
+SheetNumberOrder=Display Order
+SheetNumberMethod=Increasing
+DocumentName0=KMP-Watermeter-Schematic.SchDoc
+UniqueIDPath0=
+SheetNumber0=1
+DocumentName1=Receiver.SchDoc
+UniqueIDPath1=
+SheetNumber1=2
+DocumentName2=Transmitter.SchDoc
+UniqueIDPath2=
+SheetNumber2=3
+
+

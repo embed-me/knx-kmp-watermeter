@@ -1,0 +1,52 @@
+#ifndef _COMMAND_QUEUE_HPP_
+#define _COMMAND_QUEUE_HPP_
+
+#include "../commands/ICommand.hpp"
+#include "../transport/layers/IApplicationLayer.hpp"
+#include "CommandQueueConfig.hpp"
+#include "src/drivers/timer/ITimer.hpp"
+#include "src/drivers/ITimerDriverFactory.hpp"
+
+#include <queue>
+#include <memory>
+#include <functional>
+#include <cstdint>
+
+namespace drivers::watermeter::kamstrup::transport {
+
+enum class ExecuteResult : uint8_t {
+    SUCCESS = 0,
+    TIMEOUT = 1
+};
+
+class CommandQueue {
+public:
+    CommandQueue(std::shared_ptr<IApplicationLayer> appLayer,
+                 const CommandQueueConfig& cfg,
+                 std::shared_ptr<drivers::timer::ITimerDriverFactory> timerFactory);
+    ~CommandQueue() = default;
+
+    void enqueue(std::shared_ptr<ICommand> cmd);
+    void setOnEmpty(std::function<void()> onEmpty);
+
+private:
+    void sendNext();
+    void onCommandDone();
+    void onTimeout();
+    void finishCommand();
+
+    std::shared_ptr<IApplicationLayer> appLayer_;
+    std::queue<std::shared_ptr<ICommand>> queue_;
+    std::shared_ptr<ICommand> currentCmd_;
+    bool busy_ = false;
+    uint32_t seq_ = 0;
+    uint32_t currentSeq_ = 0;
+    uint32_t timeoutSeq_ = 0;
+    std::shared_ptr<drivers::timer::ITimer> timeoutTimer_;
+    std::function<void()> onEmpty_;
+    CommandQueueConfig config_;
+};
+
+}
+
+#endif //_COMMAND_QUEUE_HPP_

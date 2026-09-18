@@ -1,0 +1,17 @@
+----------------------------------------------------------------------------------------------------------------------------------
+NCDrill File Report For: KMP-Watermeter-PCB.PcbDoc   8/7/2026  4:28:30 PM
+----------------------------------------------------------------------------------------------------------------------------------
+
+Layer Pair : Top Layer to Bottom Layer
+ASCII Plated RoundHoles File : KMP-Watermeter-PCB-Plated.TXT
+
+Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
+----------------------------------------------------------------------------------------------------------------------------------
+T1      12mil (0.305mm)                                           Round             2         PTH        0.71inch (17.96mm)
+T2      28mil (0.711mm)                                           Round             3         PTH        0.55inch (13.91mm)
+T3      30mil (0.762mm)                                           Round             24        PTH        1.69inch (42.80mm)
+T4      45mil (1.143mm)                                           Round             3         PTH        0.20inch (5.08mm)
+----------------------------------------------------------------------------------------------------------------------------------
+Totals                                                                              32
+
+Total Processing Time (hh:mm:ss) : 00:00:00
