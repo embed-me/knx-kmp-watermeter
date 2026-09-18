@@ -1,13 +1,12 @@
 Output: NC Drill Files
 Type  : NC Drill
-From  : Project [UP-Buzzer.PrjPcb]
-   Generated File[UP-Buzzer-PCB.TXT]
-   Generated File[UP-Buzzer-PCB.DRL]
-   Generated File[UP-Buzzer-PCB.LDP]
-   Generated File[UP-Buzzer-PCB.DRR]
+From  : Project [KMP-Watermeter.PrjPcb]
+   Generated File[KMP-Watermeter-PCB-Plated.TXT]
+   Generated File[KMP-Watermeter-PCB.LDP]
+   Generated File[KMP-Watermeter-PCB.DRR]
 
 
-Files Generated   : 4
+Files Generated   : 3
 Documents Printed : 0
 
-Finished Output Generation At 7:43:39 AM On 9/28/2024
+Finished Output Generation At 4:28:30 PM On 8/7/2026
