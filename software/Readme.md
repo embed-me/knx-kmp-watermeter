@@ -18,6 +18,8 @@ If you do not need to modify the product database, simply load the [existing pro
 | 6 | Time | Device RTC time sync input | DPT_Time (10.001) |
 | 7 | Date | Device RTC date sync input | DPT_Date (11.001) |
 
+<img src="img/knx-go.png" alt="Group objects in ETS" width="60%" height="auto">
+
 ## ETS Parameters
 
 | Parameter | Type | Description |
@@ -27,6 +29,8 @@ If you do not need to modify the product database, simply load the [existing pro
 | Flow | 1-bit | Enable/disable flow register read |
 | Temperature | 1-bit | Enable/disable temperature register read |
 | Battery Life | 1-bit | Enable/disable battery life register read |
+
+<img src="img/knx-cfg.png" alt="ETS parameters" width="60%" height="auto">
 
 ### Polling Interval Format
 
