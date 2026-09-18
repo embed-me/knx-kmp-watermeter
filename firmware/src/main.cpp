@@ -52,8 +52,8 @@ drivers::motion::MotionConfig wakeupMotionCfg = {
     .pin = 13,
     .minPulseWidth = 500,
     .maxPulseWidth = 2500,
-    .wakeupAngle = 90, 
-    .sleepAngle = 50,
+    .wakeupAngle = 114,
+    .sleepAngle = 90,
     .settleDelayUs = 5000000
 };
 
